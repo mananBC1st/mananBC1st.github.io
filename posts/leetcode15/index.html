@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <title>Leetcode15 | 📝manan&#39;s blog</title>
+
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">    
+<meta name="viewport" content="width=device-width,minimum-scale=1">
+<meta name="description" content="题目描述 🔗给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a &#43; b &#43; c = 0 ？请你找出所有和为 0 且不重复的三元组 注意">
+<meta name="generator" content="Hugo 0.89.0-DEV" />
+
+
+  <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+ 
+    
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+  </head>
+
+  <body>
+    <nav class="navigation">
+	
+		<a href="/"> <span class="arrow">←</span>首页</a>
+	
+	<a href="/posts">归档</a>
+	<a href="/tags">标签</a>
+	<a href="/about">关于</a>
+
+	
+
+	
+	  <a class="button" href="/index.xml">订阅</a>
+	
+</nav>
+
+
+    <main class="main">
+      
+
+<section id="single">
+    <h1 class="title">Leetcode15</h1>
+
+    <div class="tip">
+        <time datetime="2021-09-06 19:47:21 &#43;0800 CST">2021年09月06日</time>
+        <span class="split">
+          ·
+        </span>
+        <span>
+          816字
+        </span>
+        <span class="split">
+          ·
+        </span>
+        <span>
+          2分钟
+        </span>
+    </div>
+
+    
+    
+        
+  
+    <aside class="toc">
+      <details>
+          <summary>Table of Contents
+          </summary>
+          <div>
+              <nav id="TableOfContents">
+  <ul>
+    <li><a href="#题目描述">题目描述</a></li>
+    <li><a href="#思路阐述">思路阐述</a></li>
+    <li><a href="#java-ac代码">Java AC代码</a></li>
+  </ul>
+</nav>
+          </div>
+      </details>
+    </aside>
+  
+
+
+    
+
+
+    <div class="content">
+      <h2 id="题目描述">题目描述 <a href="#%e9%a2%98%e7%9b%ae%e6%8f%8f%e8%bf%b0" class="anchor">🔗</a></h2><p>给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有和为 0 且不重复的三元组</p>
+<p>注意：<strong>答案中不可以包含重复的三元组</strong></p>
+<p>题目链接：<a href="https://leetcode-cn.com/problems/3sum/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/3sum/</a></p>
+<h2 id="思路阐述">思路阐述 <a href="#%e6%80%9d%e8%b7%af%e9%98%90%e8%bf%b0" class="anchor">🔗</a></h2><p>显然此题可以通过暴力求解的方式，使用三个循环依次遍历数组求解。</p>
+<p>暴力的方式不是最优的方式，更为简单直观的方式是：排序 + 三指针。</p>
+<p>题目给出的数组是无序的，无序数组的可操作性比较低，因为元素的随机排列使得算法求解失去目的性。在求解之前需要对无序的数组进行排序，然后采用固定一个指针，剩下的两个指针需要根据当前的结果选择贪心的策略进行移动。</p>
+<p>首先最外层循环变量<code>front</code>是我们需要固定下来的指针。一旦<code>front</code>固定下来，只需考虑<code>front</code>之后的子序列。</p>
+<p>在子序列中，一个指针定义为<code>mid</code>位于子序列的最开头，另一个指针定义为<code>rear</code>位于子序列的最末尾。<code>mid</code>指针需要位于<code>rear</code>指针的左侧。因为整个序列有序，所以子序列也有序（假设序列递增）</p>
+<p>所以由当前三个指针<code>front</code>, <code>mid</code>和<code>rear</code>便可以确定序列中的三个数的组合。</p>
+<ol>
+<li>$ nums[front] + nums[mid] + nums[rear] == 0 $</li>
+<li>$ nums[front] + nums[mid] + nums[rear] &lt; 0 $</li>
+<li>$ nums[front] + nums[mid] + nums[rear] &gt; 0 $</li>
+</ol>
+<p>case 1: 符合题目要求的情况
+case 2: 需要将mid指针向后移动（序列递增）找到一个更大的数。
+case 3: 需要将rear指针向前移（序列递增）找一个更小的数。</p>
+<p><strong>题目要求，不可以出现重复的元组组合</strong>，所以需要进行去重操作。</p>
+<p>去重的思想就是，任意一个指针移动到下一个位置的时候，如果和上一位置的元素相等，那么直接跳过这个位置。</p>
+<h2 id="java-ac代码">Java AC代码 <a href="#java-ac%e4%bb%a3%e7%a0%81" class="anchor">🔗</a></h2><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">var res <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> ArrayList<span style="color:#666">&lt;</span>List<span style="color:#666">&lt;</span>Integer<span style="color:#666">&gt;&gt;();</span>
+<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>nums<span style="color:#666">.</span><span style="color:#b44">length</span> <span style="color:#666">&lt;</span> 3<span style="color:#666">)</span> <span style="color:#a2f;font-weight:bold">return</span> res<span style="color:#666">;</span>
+<span style="color:#080;font-style:italic">// 对数组进行排序
+</span><span style="color:#080;font-style:italic"></span>Arrays<span style="color:#666">.</span><span style="color:#b44">sort</span><span style="color:#666">(</span>nums<span style="color:#666">);</span>
+<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>nums<span style="color:#666">[</span>0<span style="color:#666">]</span> <span style="color:#666">&gt;</span> 0<span style="color:#666">)</span> <span style="color:#a2f;font-weight:bold">return</span> res<span style="color:#666">;</span>
+<span style="color:#0b0;font-weight:bold">boolean</span> b <span style="color:#666">=</span> Arrays<span style="color:#666">.</span><span style="color:#b44">stream</span><span style="color:#666">(</span>nums<span style="color:#666">).</span><span style="color:#b44">allMatch</span><span style="color:#666">(</span>it <span style="color:#666">-&gt;</span> it <span style="color:#666">==</span> 0<span style="color:#666">);</span>
+<span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>b<span style="color:#666">){</span>
+    res<span style="color:#666">.</span><span style="color:#b44">add</span><span style="color:#666">(</span>List<span style="color:#666">.</span><span style="color:#b44">of</span><span style="color:#666">(</span>0<span style="color:#666">,</span> 0<span style="color:#666">,</span> 0<span style="color:#666">));</span>
+    <span style="color:#a2f;font-weight:bold">return</span> res<span style="color:#666">;</span>
+<span style="color:#666">}</span>
+<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> front <span style="color:#666">=</span> 0<span style="color:#666">;</span> front <span style="color:#666">&lt;</span> nums<span style="color:#666">.</span><span style="color:#b44">length</span><span style="color:#666">;</span> <span style="color:#666">++</span>front<span style="color:#666">)</span> <span style="color:#666">{</span>
+    <span style="color:#080;font-style:italic">// 去重操作
+</span><span style="color:#080;font-style:italic"></span>    <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>front <span style="color:#666">&gt;</span> 0 <span style="color:#666">&amp;&amp;</span> nums<span style="color:#666">[</span>front<span style="color:#666">]</span> <span style="color:#666">==</span> nums<span style="color:#666">[</span>front <span style="color:#666">-</span> 1<span style="color:#666">])</span> <span style="color:#a2f;font-weight:bold">continue</span><span style="color:#666">;</span>
+    var mid <span style="color:#666">=</span> front <span style="color:#666">+</span> 1<span style="color:#666">;</span>
+    var rear <span style="color:#666">=</span> nums<span style="color:#666">.</span><span style="color:#b44">length</span> <span style="color:#666">-</span> 1<span style="color:#666">;</span>
+    <span style="color:#a2f;font-weight:bold">while</span> <span style="color:#666">(</span>mid <span style="color:#666">&lt;</span> rear<span style="color:#666">)</span> <span style="color:#666">{</span>
+        var sum <span style="color:#666">=</span> nums<span style="color:#666">[</span>front<span style="color:#666">]</span> <span style="color:#666">+</span> nums<span style="color:#666">[</span>rear<span style="color:#666">]</span> <span style="color:#666">+</span> nums<span style="color:#666">[</span>mid<span style="color:#666">];</span>
+        <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>sum <span style="color:#666">&gt;</span> 0<span style="color:#666">)</span>  <span style="color:#666">{</span>
+                rear <span style="color:#666">--;</span>
+        <span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>sum <span style="color:#666">&lt;</span> 0<span style="color:#666">)</span> <span style="color:#666">{</span>
+            mid<span style="color:#666">++;</span>
+        <span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#666">{</span>
+            res<span style="color:#666">.</span><span style="color:#b44">add</span><span style="color:#666">(</span>List<span style="color:#666">.</span><span style="color:#b44">of</span><span style="color:#666">(</span>nums<span style="color:#666">[</span>front<span style="color:#666">],</span> nums<span style="color:#666">[</span>mid<span style="color:#666">],</span> nums<span style="color:#666">[</span>rear<span style="color:#666">]));</span>
+            <span style="color:#a2f;font-weight:bold">while</span> <span style="color:#666">(</span>mid <span style="color:#666">&lt;</span> rear <span style="color:#666">&amp;&amp;</span> nums<span style="color:#666">[</span>mid<span style="color:#666">]</span> <span style="color:#666">==</span> nums<span style="color:#666">[</span>mid <span style="color:#666">+</span> 1<span style="color:#666">])</span> mid<span style="color:#666">++;</span> <span style="color:#080;font-style:italic">// 去重操作
+</span><span style="color:#080;font-style:italic"></span>            <span style="color:#a2f;font-weight:bold">while</span> <span style="color:#666">(</span>mid <span style="color:#666">&lt;</span> rear <span style="color:#666">&amp;&amp;</span> nums<span style="color:#666">[</span>rear<span style="color:#666">]</span> <span style="color:#666">==</span> nums<span style="color:#666">[</span>rear<span style="color:#666">-</span> 1<span style="color:#666">])</span> rear<span style="color:#666">--;</span> <span style="color:#080;font-style:italic">// 去重操作
+</span><span style="color:#080;font-style:italic"></span>            mid<span style="color:#666">++;</span> rear<span style="color:#666">--;</span>
+        <span style="color:#666">}</span>
+    <span style="color:#666">}</span>
+<span style="color:#666">}</span>
+</code></pre></div>
+    </div>
+
+    
+        <div class="tags">
+            
+                <a href="/tags/leetcode">leetcode</a>
+            
+                <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>
+            
+        </div>
+    
+    
+    
+  <div id="comment">
+    
+    
+  </div>
+
+
+</section>
+
+
+    </main>
+    
+    <footer id="footer">
+    
+
+    <div class="copyright">
+    
+        版权声明：署名-非商业使用-相同方式共享 3.0 国际(BY-NC-SA 3.0)
+    
+    </div>
+
+    
+      <div class="powerby">
+        Powered by <a href='http://www.gohugo.io/'>Hugo</a> Theme By <a href='https://github.com/nodejh/hugo-theme-cactus-plus'>nodejh</a>
+      </div>
+    
+</footer>
+
+
+
+  </body>
+</html>
