@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tags on 📝manan&#39;s blog</title>
+    <title>Tags on manan&#39;s blog 🍷</title>
     <link>/tags/</link>
-    <description>Recent content in Tags on 📝manan&#39;s blog</description>
+    <description>Recent content in Tags on manan&#39;s blog 🍷</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Mon, 06 Sep 2021 19:47:21 +0800</lastBuildDate><atom:link href="/tags/index.xml" rel="self" type="application/rss+xml" />
@@ -22,6 +22,15 @@
       <pubDate>Mon, 06 Sep 2021 19:47:21 +0800</pubDate>
       
       <guid>/tags/%E7%AE%97%E6%B3%95/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Java</title>
+      <link>/tags/java/</link>
+      <pubDate>Mon, 06 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/tags/java/</guid>
       <description></description>
     </item>
     

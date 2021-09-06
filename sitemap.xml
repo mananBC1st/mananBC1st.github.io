@@ -8,6 +8,9 @@
     <loc>/posts/leetcode15/</loc>
     <lastmod>2021-09-06T19:47:21+08:00</lastmod>
   </url><url>
+    <loc>/</loc>
+    <lastmod>2021-09-06T19:47:21+08:00</lastmod>
+  </url><url>
     <loc>/posts/</loc>
     <lastmod>2021-09-06T19:47:21+08:00</lastmod>
   </url><url>
@@ -17,8 +20,17 @@
     <loc>/tags/%E7%AE%97%E6%B3%95/</loc>
     <lastmod>2021-09-06T19:47:21+08:00</lastmod>
   </url><url>
-    <loc>/</loc>
-    <lastmod>2021-09-06T19:47:21+08:00</lastmod>
+    <loc>/tags/java/</loc>
+    <lastmod>2021-09-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/posts/java-volatile%E5%85%B3%E9%94%AE%E5%AD%97%E4%BD%9C%E7%94%A8/</loc>
+    <lastmod>2021-09-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/posts/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86/</loc>
+    <lastmod>2021-09-06T00:00:00+00:00</lastmod>
+  </url><url>
+    <loc>/posts/leetcode12/</loc>
+    <lastmod>2021-09-06T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/categories/</loc>
   </url>

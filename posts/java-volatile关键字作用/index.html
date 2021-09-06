@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <title>Java volatile关键字作用 | manan&#39;s blog 🍷</title>
+
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">    
+<meta name="viewport" content="width=device-width,minimum-scale=1">
+<meta name="description" content="概述 🔗volatile是java中的一个关键字，用于修饰变量。被此关键修饰的变量可以禁止对此变量操作的指令进行重排，还有保持内存的可见性。 简">
+<meta name="generator" content="Hugo 0.89.0-DEV" />
+
+
+  <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+ 
+    
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+  </head>
+
+  <body>
+    <nav class="navigation">
+	
+		<a href="/"> <span class="arrow">←</span>首页</a>
+	
+	<a href="/posts">归档</a>
+	<a href="/tags">标签</a>
+	<a href="/about">关于</a>
+
+	
+		<a href="https://www.zhihu.com/people/manan333">知乎</a>
+	
+		<a href="https://space.bilibili.com/199622112">B站</a>
+	
+
+	
+	  <a class="button" href="/index.xml">订阅</a>
+	
+</nav>
+
+
+    <main class="main">
+      
+
+<section id="single">
+    <h1 class="title">Java volatile关键字作用</h1>
+
+    <div class="tip">
+        <time datetime="2021-09-06 00:00:00 &#43;0000 UTC">2021年09月06日</time>
+        <span class="split">
+          ·
+        </span>
+        <span>
+          938字
+        </span>
+        <span class="split">
+          ·
+        </span>
+        <span>
+          2分钟
+        </span>
+    </div>
+
+    
+    
+        
+  
+    <aside class="toc">
+      <details>
+          <summary>Table of Contents
+          </summary>
+          <div>
+              <nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#禁止指令重排">禁止指令重排</a></li>
+    <li><a href="#保持内存的可见性">保持内存的可见性</a></li>
+  </ul>
+</nav>
+          </div>
+      </details>
+    </aside>
+  
+
+
+    
+
+
+    <div class="content">
+      <h2 id="概述">概述 <a href="#%e6%a6%82%e8%bf%b0" class="anchor">🔗</a></h2><p>volatile是java中的一个关键字，用于修饰变量。被此关键修饰的变量可以禁止对此变量操作的指令进行重排，还有保持内存的可见性。
+简言之它的作用就是：</p>
+<ol>
+<li>
+<p>禁止指令重排</p>
+</li>
+<li>
+<p>保持内存的可见性</p>
+</li>
+</ol>
+<h2 id="禁止指令重排">禁止指令重排 <a href="#%e7%a6%81%e6%ad%a2%e6%8c%87%e4%bb%a4%e9%87%8d%e6%8e%92" class="anchor">🔗</a></h2><p>CPU在执行代码时，为了提高执行效率，有时会将代码乱序执行。但是乱序也不是随随便便的乱序，而是在一定规则下，对指令进行重排然后执行。指令重排在单线程下没有什么问题，但是在多线程环境下容易造成并发安全问题。</p>
+<h2 id="保持内存的可见性">保持内存的可见性 <a href="#%e4%bf%9d%e6%8c%81%e5%86%85%e5%ad%98%e7%9a%84%e5%8f%af%e8%a7%81%e6%80%a7" class="anchor">🔗</a></h2><p>何谓之内存的可见性，其实笔者在<a href="https://www.cnblogs.com/Huobn/p/14514332.html" target="_blank" rel="noopener">Java线程安全问题</a>一文中对此问题进行过阐述。线程是一种资源，线程在执行代码时有自己的工作内存（线程执行的堆栈）。一般来说，一些共享变量存在于<strong>堆内存</strong>中，线程对于共享变量的操作实际上对自己工作内存中<strong>共享变量的副本</strong>进行操作，线程并不会直接操作堆内存的中的共享变量。</p>
+<p><p class="markdown-image">
+  <img src="https://cdn.jsdelivr.net/gh/huobingnan/my_image_hosting@master/JMM.12sj47r5qvfk.png" alt="JMM"  />
+</p></p>
+<p>这里我们可以通过字节码进行验证，首先我们的java源代码是对变量<code>a</code>进行一个自增操作 =&gt; <code>a++</code>，而其对应的字节码为：</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-fallback" data-lang="fallback">getstatic #2 
+iconst_1
+iadd
+putstatic #2
+return
+</code></pre></div><p>从字节码层面可以体现出工作内存与主存。但是，Java内存可见性的控制并不是在字节码层面，而是在JVM层面。即使你对变量<code>a</code>使用<code>volatile</code>修饰，那么编译之后的字节码也没有变化。</p>
+<p>JVM定义了对于内存的8种操作：</p>
+<p><p class="markdown-image">
+  <img src="https://cdn.jsdelivr.net/gh/huobingnan/my_image_hosting@master/JVM8%e7%a7%8d%e5%86%85%e5%ad%98%e6%93%8d%e4%bd%9c.midhrakt0gg.png" alt="JVM8种内存操作"  />
+</p></p>
+<p>这些操作是JVM层面的操作，在Java源代码中并不能感受到。线程在所操作的共享变量，其实是存在于自己线程栈中的变量副本。在多线程并发的情况下，如果有其他线程修改了主存中的值，那么其他线程无法感知这种修改。因为线程在通过READ-LOAD操作拷贝完副本之后，之后线程对于数据的操作都是对于副本进行的。这也就是内存可见性的问题的来源，简言之就是线程之间无法感知对于主存共享变量的修改。</p>
+<p><code>volatile</code>关键字就是解决了这样的问题，使得线程对于主存具有一定的可见性。其解决方案是对于volatile标注的变量，每次在使用之前都要重新从主存中加载，同时每次对于变量完成修改后，要及时的将变量写回主存。</p>
+<p><p class="markdown-image">
+  <img src="https://cdn.jsdelivr.net/gh/huobingnan/my_image_hosting@master/JVM%e5%86%85%e5%ad%98%e6%93%8d%e4%bd%9c.6pyc72z8a2w0.png" alt="JVM内存操作"  />
+</p></p>
+<p>通过这样的操作，每个线程就能感知到内存中变量的变化，并及时更新自己副本的值。不过需要注意的是，volatile关键字并不能保障并发的安全性。尽管每次在使用之前都会更新值，但是这并没有解决变量访问的有序性。所以在高并发场景下依然会出现问题。</p>
+
+    </div>
+
+    
+        <div class="tags">
+            
+                <a href="/tags/java">Java</a>
+            
+        </div>
+    
+    
+    
+  <div id="comment">
+    
+    
+  </div>
+
+
+</section>
+
+
+    </main>
+    
+    <footer id="footer">
+    
+
+    <div class="copyright">
+    
+        版权声明：署名-非商业使用-相同方式共享 3.0 国际(BY-NC-SA 3.0)
+    
+    </div>
+
+    
+      <div class="powerby">
+        Powered by <a href='http://www.gohugo.io/'>Hugo</a> Theme By <a href='https://github.com/nodejh/hugo-theme-cactus-plus'>nodejh</a>
+      </div>
+    
+</footer>
+
+
+
+  </body>
+</html>

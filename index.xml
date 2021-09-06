@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>📝manan&#39;s blog</title>
+    <title>manan&#39;s blog 🍷</title>
     <link>/</link>
-    <description>Recent content on 📝manan&#39;s blog</description>
+    <description>Recent content on manan&#39;s blog 🍷</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Mon, 06 Sep 2021 19:47:21 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
@@ -14,6 +14,33 @@
       
       <guid>/posts/leetcode15/</guid>
       <description>题目描述 🔗给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有和为 0 且不重复的三元组 注意</description>
+    </item>
+    
+    <item>
+      <title>Java volatile关键字作用</title>
+      <link>/posts/java-volatile%E5%85%B3%E9%94%AE%E5%AD%97%E4%BD%9C%E7%94%A8/</link>
+      <pubDate>Mon, 06 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/java-volatile%E5%85%B3%E9%94%AE%E5%AD%97%E4%BD%9C%E7%94%A8/</guid>
+      <description>概述 🔗volatile是java中的一个关键字，用于修饰变量。被此关键修饰的变量可以禁止对此变量操作的指令进行重排，还有保持内存的可见性。 简</description>
+    </item>
+    
+    <item>
+      <title>Java线程池内部原理</title>
+      <link>/posts/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86/</link>
+      <pubDate>Mon, 06 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86/</guid>
+      <description>概述 🔗ThreadPoolExecutor是Java语言对于线程池的实现。池化技术是一种复用资源，减少开销的技术。线程是操作系统的资源，线程</description>
+    </item>
+    
+    <item>
+      <title>leetcode12</title>
+      <link>/posts/leetcode12/</link>
+      <pubDate>Mon, 06 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/leetcode12/</guid>
+      <description>题目描述 🔗题目链接：https://leetcode-cn.com/problems/integer-to-roman/ 思路 🔗首先罗马数字是</description>
     </item>
     
   </channel>
