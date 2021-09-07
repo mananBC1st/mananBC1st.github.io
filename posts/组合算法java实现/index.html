@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <title>组合算法(Java实现) | manan&#39;s blog 🍷</title>
+
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">    
+<meta name="viewport" content="width=device-width,minimum-scale=1">
+<meta name="description" content="组合算法 🔗排列组合是一个重要的数学概念，组合通常用来枚举从一个集合中选择特定个数元素的所有结果。 实现与思路阐述 🔗实现方式：递归 &#43; 回溯法。 时间">
+<meta name="generator" content="Hugo 0.89.0-DEV" />
+
+
+  <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+ 
+    
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+  </head>
+
+  <body>
+    <nav class="navigation">
+	
+		<a href="/"> <span class="arrow">←</span>首页</a>
+	
+	<a href="/posts">归档</a>
+	<a href="/tags">标签</a>
+	<a href="/about">关于</a>
+
+	
+		<a href="https://www.zhihu.com/people/manan333">知乎</a>
+	
+		<a href="https://space.bilibili.com/199622112">B站</a>
+	
+
+	
+	  <a class="button" href="/index.xml">订阅</a>
+	
+</nav>
+
+
+    <main class="main">
+      
+
+<section id="single">
+    <h1 class="title">组合算法(Java实现)</h1>
+
+    <div class="tip">
+        <time datetime="2021-09-07 00:00:00 &#43;0000 UTC">2021年09月07日</time>
+        <span class="split">
+          ·
+        </span>
+        <span>
+          302字
+        </span>
+        <span class="split">
+          ·
+        </span>
+        <span>
+          1分钟
+        </span>
+    </div>
+
+    
+    
+        
+  
+    <aside class="toc">
+      <details>
+          <summary>Table of Contents
+          </summary>
+          <div>
+              <nav id="TableOfContents">
+  <ul>
+    <li><a href="#组合算法">组合算法</a></li>
+    <li><a href="#实现与思路阐述">实现与思路阐述</a>
+      <ul>
+        <li><a href="#select函数参数解释">select函数参数解释</a></li>
+        <li><a href="#doselect函数参数解释">doSelect函数参数解释</a></li>
+        <li><a href="#标准递归回溯代码模板">标准递归回溯代码模板</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+          </div>
+      </details>
+    </aside>
+  
+
+
+    
+
+
+    <div class="content">
+      <h2 id="组合算法">组合算法 <a href="#%e7%bb%84%e5%90%88%e7%ae%97%e6%b3%95" class="anchor">🔗</a></h2><p>排列组合是一个重要的数学概念，组合通常用来枚举从一个集合中选择特定个数元素的所有结果。</p>
+<h2 id="实现与思路阐述">实现与思路阐述 <a href="#%e5%ae%9e%e7%8e%b0%e4%b8%8e%e6%80%9d%e8%b7%af%e9%98%90%e8%bf%b0" class="anchor">🔗</a></h2><p>实现方式：递归 + 回溯法。</p>
+<p>时间复杂度: O(n ^ x)，其中<code>x</code>代表选择元素的个数。</p>
+<p><p class="markdown-image">
+  <img src="https://cdn.jsdelivr.net/gh/huobingnan/my_image_hosting@master/%e9%80%92%e5%bd%92%e5%9b%9e%e6%ba%af.3r8kh3h7ec20.png" alt="递归回溯"  />
+</p></p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">java.util.ArrayList</span><span style="color:#666">;</span>
+<span style="color:#a2f;font-weight:bold">import</span> <span style="color:#00f;font-weight:bold">java.util.List</span><span style="color:#666">;</span>
+
+<span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">final</span> <span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">CombinationAlgorithm</span><span style="color:#666">&lt;</span>ElementType<span style="color:#666">&gt;</span> <span style="color:#666">{</span>
+
+    <span style="color:#a2f;font-weight:bold">private</span> <span style="color:#a2f;font-weight:bold">final</span> List<span style="color:#666">&lt;</span>List<span style="color:#666">&lt;</span>ElementType<span style="color:#666">&gt;&gt;</span> res <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> ArrayList<span style="color:#666">&lt;&gt;();</span>
+
+    <span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">doSelect</span><span style="color:#666">(</span>List<span style="color:#666">&lt;</span>ElementType<span style="color:#666">&gt;</span> collection<span style="color:#666">,</span> <span style="color:#0b0;font-weight:bold">int</span> start<span style="color:#666">,</span> <span style="color:#0b0;font-weight:bold">int</span> selectionNumber<span style="color:#666">,</span> List<span style="color:#666">&lt;</span>ElementType<span style="color:#666">&gt;</span> container<span style="color:#666">)</span> <span style="color:#666">{</span>
+        <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>selectionNumber <span style="color:#666">==</span> 0<span style="color:#666">)</span> <span style="color:#666">{</span>
+            res<span style="color:#666">.</span><span style="color:#b44">add</span><span style="color:#666">(</span><span style="color:#a2f;font-weight:bold">new</span> ArrayList<span style="color:#666">&lt;&gt;(</span>container<span style="color:#666">));</span>
+            <span style="color:#a2f;font-weight:bold">return</span><span style="color:#666">;</span>
+        <span style="color:#666">}</span>
+
+        <span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> start<span style="color:#666">,</span> len <span style="color:#666">=</span> collection<span style="color:#666">.</span><span style="color:#b44">size</span><span style="color:#666">();</span> i <span style="color:#666">&lt;</span> len<span style="color:#666">;</span> <span style="color:#666">++</span>i<span style="color:#666">)</span> <span style="color:#666">{</span>
+            container<span style="color:#666">.</span><span style="color:#b44">add</span><span style="color:#666">(</span>collection<span style="color:#666">.</span><span style="color:#b44">get</span><span style="color:#666">(</span>i<span style="color:#666">));</span>
+            doSelect<span style="color:#666">(</span>collection<span style="color:#666">,</span> i <span style="color:#666">+</span> 1<span style="color:#666">,</span> selectionNumber <span style="color:#666">-</span> 1<span style="color:#666">,</span> container<span style="color:#666">);</span>
+            <span style="color:#080;font-style:italic">// 回溯
+</span><span style="color:#080;font-style:italic"></span>            container<span style="color:#666">.</span><span style="color:#b44">remove</span><span style="color:#666">(</span>container<span style="color:#666">.</span><span style="color:#b44">size</span><span style="color:#666">()</span> <span style="color:#666">-</span> 1<span style="color:#666">);</span>
+        <span style="color:#666">}</span>
+    <span style="color:#666">}</span>
+
+    <span style="color:#a2f;font-weight:bold">public</span> List<span style="color:#666">&lt;</span>List<span style="color:#666">&lt;</span>ElementType<span style="color:#666">&gt;&gt;</span> <span style="color:#00a000">select</span><span style="color:#666">(</span>List<span style="color:#666">&lt;</span>ElementType<span style="color:#666">&gt;</span> collection<span style="color:#666">,</span> <span style="color:#0b0;font-weight:bold">int</span> selectionNumber<span style="color:#666">)</span> <span style="color:#666">{</span>
+        <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>selectionNumber <span style="color:#666">&gt;</span> collection<span style="color:#666">.</span><span style="color:#b44">size</span><span style="color:#666">())</span>
+            <span style="color:#a2f;font-weight:bold">throw</span> <span style="color:#a2f;font-weight:bold">new</span> IllegalArgumentException<span style="color:#666">(</span><span style="color:#b44">&#34;selectionNumber can&#39;t greater than collection&#39;s length&#34;</span><span style="color:#666">);</span>
+        res<span style="color:#666">.</span><span style="color:#b44">clear</span><span style="color:#666">();</span>
+        doSelect<span style="color:#666">(</span>collection<span style="color:#666">,</span> 0<span style="color:#666">,</span> selectionNumber<span style="color:#666">,</span> <span style="color:#a2f;font-weight:bold">new</span> ArrayList<span style="color:#666">&lt;&gt;());</span>
+        <span style="color:#a2f;font-weight:bold">return</span> res<span style="color:#666">;</span>
+    <span style="color:#666">}</span>
+
+<span style="color:#666">}</span>
+</code></pre></div><h3 id="select函数参数解释">select函数参数解释 <a href="#select%e5%87%bd%e6%95%b0%e5%8f%82%e6%95%b0%e8%a7%a3%e9%87%8a" class="anchor">🔗</a></h3><ol>
+<li>
+<p>collection 数据集合</p>
+</li>
+<li>
+<p>selectionNumber 选择的数目</p>
+</li>
+</ol>
+<h3 id="doselect函数参数解释">doSelect函数参数解释 <a href="#doselect%e5%87%bd%e6%95%b0%e5%8f%82%e6%95%b0%e8%a7%a3%e9%87%8a" class="anchor">🔗</a></h3><ol>
+<li>
+<p>collection 数据集合</p>
+</li>
+<li>
+<p>start 数据集合开始的位置</p>
+</li>
+<li>
+<p>selectionNumber 选择的数目</p>
+</li>
+<li>
+<p>container 临时存放每次选择的结果</p>
+</li>
+</ol>
+<h3 id="标准递归回溯代码模板">标准递归回溯代码模板 <a href="#%e6%a0%87%e5%87%86%e9%80%92%e5%bd%92%e5%9b%9e%e6%ba%af%e4%bb%a3%e7%a0%81%e6%a8%a1%e6%9d%bf" class="anchor">🔗</a></h3><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>condition<span style="color:#666">)</span> <span style="color:#666">{</span>
+    <span style="color:#080;font-style:italic">// 收集结果
+</span><span style="color:#080;font-style:italic"></span>    <span style="color:#080;font-style:italic">// 返回
+</span><span style="color:#080;font-style:italic"></span><span style="color:#666">}</span>
+<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span>xxxxxxx<span style="color:#666">)</span> <span style="color:#666">{</span>
+    <span style="color:#080;font-style:italic">// 加入元素
+</span><span style="color:#080;font-style:italic"></span>    <span style="color:#080;font-style:italic">// 递归调用
+</span><span style="color:#080;font-style:italic"></span>    <span style="color:#080;font-style:italic">// 进行回溯
+</span><span style="color:#080;font-style:italic"></span><span style="color:#666">}</span>
+</code></pre></div>
+    </div>
+
+    
+        <div class="tags">
+            
+                <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>
+            
+        </div>
+    
+    
+    
+  <div id="comment">
+    
+    
+  </div>
+
+
+</section>
+
+
+    </main>
+    
+    <footer id="footer">
+    
+
+    <div class="copyright">
+    
+        版权声明：署名-非商业使用-相同方式共享 3.0 国际(BY-NC-SA 3.0)
+    
+    </div>
+
+    
+      <div class="powerby">
+        Powered by <a href='http://www.gohugo.io/'>Hugo</a> Theme By <a href='https://github.com/nodejh/hugo-theme-cactus-plus'>nodejh</a>
+      </div>
+    
+</footer>
+
+
+
+  </body>
+</html>

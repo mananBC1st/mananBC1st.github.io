@@ -6,7 +6,16 @@
     <description>Recent content in Posts on manan&#39;s blog 🍷</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Mon, 06 Sep 2021 19:47:21 +0800</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 07 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>组合算法(Java实现)</title>
+      <link>/posts/%E7%BB%84%E5%90%88%E7%AE%97%E6%B3%95java%E5%AE%9E%E7%8E%B0/</link>
+      <pubDate>Tue, 07 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/%E7%BB%84%E5%90%88%E7%AE%97%E6%B3%95java%E5%AE%9E%E7%8E%B0/</guid>
+      <description>组合算法 🔗排列组合是一个重要的数学概念，组合通常用来枚举从一个集合中选择特定个数元素的所有结果。 实现与思路阐述 🔗实现方式：递归 + 回溯法。 时间</description>
+    </item>
+    
     <item>
       <title>Leetcode15</title>
       <link>/posts/leetcode15/</link>
