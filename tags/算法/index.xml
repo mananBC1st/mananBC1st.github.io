@@ -6,7 +6,16 @@
     <description>Recent content in 算法 on manan&#39;s blog 🍷</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Tue, 07 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 10 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/%E7%AE%97%E6%B3%95/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Leetcode18及关于算法的一些思索</title>
+      <link>/posts/leetcode18%E5%8F%8A%E5%85%B3%E4%BA%8E%E7%AE%97%E6%B3%95%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E7%B4%A2/</link>
+      <pubDate>Fri, 10 Sep 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/leetcode18%E5%8F%8A%E5%85%B3%E4%BA%8E%E7%AE%97%E6%B3%95%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E7%B4%A2/</guid>
+      <description>题目描述 🔗给你一个由n个整数组成的数组nums，和一个目标值target。请你找出并返回满足下述全部条件且不重复的四元组[nums[a], nums[b],</description>
+    </item>
+    
     <item>
       <title>组合算法(Java实现)</title>
       <link>/posts/%E7%BB%84%E5%90%88%E7%AE%97%E6%B3%95java%E5%AE%9E%E7%8E%B0/</link>

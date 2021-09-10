@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <title>Leetcode18及关于算法的一些思索 | manan&#39;s blog 🍷</title>
+
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">    
+<meta name="viewport" content="width=device-width,minimum-scale=1">
+<meta name="description" content="题目描述 🔗给你一个由n个整数组成的数组nums，和一个目标值target。请你找出并返回满足下述全部条件且不重复的四元组[nums[a], nums[b],">
+<meta name="generator" content="Hugo 0.89.0-DEV" />
+
+
+  <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+ 
+    
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+  </head>
+
+  <body>
+    <nav class="navigation">
+	
+		<a href="/"> <span class="arrow">←</span>首页</a>
+	
+	<a href="/posts">归档</a>
+	<a href="/tags">标签</a>
+	<a href="/about">关于</a>
+
+	
+		<a href="https://www.zhihu.com/people/manan333">知乎</a>
+	
+		<a href="https://space.bilibili.com/199622112">B站</a>
+	
+
+	
+	  <a class="button" href="/index.xml">订阅</a>
+	
+</nav>
+
+
+    <main class="main">
+      
+
+<section id="single">
+    <h1 class="title">Leetcode18及关于算法的一些思索</h1>
+
+    <div class="tip">
+        <time datetime="2021-09-10 00:00:00 &#43;0000 UTC">2021年09月10日</time>
+        <span class="split">
+          ·
+        </span>
+        <span>
+          764字
+        </span>
+        <span class="split">
+          ·
+        </span>
+        <span>
+          2分钟
+        </span>
+    </div>
+
+    
+    
+        
+  
+    <aside class="toc">
+      <details>
+          <summary>Table of Contents
+          </summary>
+          <div>
+              <nav id="TableOfContents">
+  <ul>
+    <li><a href="#题目描述">题目描述</a></li>
+    <li><a href="#思路分析">思路分析</a></li>
+    <li><a href="#java-ac代码">Java AC代码</a></li>
+    <li><a href="#问题归约法">问题归约法</a></li>
+  </ul>
+</nav>
+          </div>
+      </details>
+    </aside>
+  
+
+
+    
+
+
+    <div class="content">
+      <h2 id="题目描述">题目描述 <a href="#%e9%a2%98%e7%9b%ae%e6%8f%8f%e8%bf%b0" class="anchor">🔗</a></h2><p>给你一个由<code>n</code>个整数组成的数组<code>nums</code>，和一个目标值<code>target</code>。请你找出并返回满足下述全部条件且不重复的四元组<code>[nums[a], nums[b], nums[c], nums[d]]</code>:</p>
+<ul>
+<li>
+<p><code>0 &lt;= a, b, c, d &lt;= n</code></p>
+</li>
+<li>
+<p><code>a, b, c, d</code>互不相同</p>
+</li>
+<li>
+<p><code>nums[a] + nums[b] + nums[c] + nums[d] == target</code></p>
+</li>
+</ul>
+<p>你可以按 任意顺序 返回答案。</p>
+<p><strong>题目链接</strong>：<a href="https://leetcode-cn.com/problems/4sum/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/4sum/</a></p>
+<h2 id="思路分析">思路分析 <a href="#%e6%80%9d%e8%b7%af%e5%88%86%e6%9e%90" class="anchor">🔗</a></h2><p>本题与leetcode15题<a href="https://leetcode-cn.com/problems/3sum/" target="_blank" rel="noopener">三数之和</a>十分相似，对于<code>三数之和</code>问题，我也在之前的文章中进行了叙述<a href="https://mananbc1st.github.io/posts/leetcode15/" target="_blank" rel="noopener">https://mananbc1st.github.io/posts/leetcode15/</a>，其主体算法思想为排序+贪心的策略（三指针求解）。</p>
+<p>那么对于<code>四数之和</code>可以看作是三数之和问题的推广，理解了其求解的方式，你可以写出<code>N数之和</code>的算法。</p>
+<p>如何从已知的三数之和问题为条件去求解四数之和乃至N数之和的问题呢？</p>
+<p>主要思想还是讲问题分解为可以求解的子问题，也就是<strong>问题归约法</strong></p>
+<p>具体的实现逻辑为：递归 + 回溯。</p>
+<h2 id="java-ac代码">Java AC代码 <a href="#java-ac%e4%bb%a3%e7%a0%81" class="anchor">🔗</a></h2><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a2f;font-weight:bold">private</span> <span style="color:#a2f;font-weight:bold">final</span> List<span style="color:#666">&lt;</span>List<span style="color:#666">&lt;</span>Integer<span style="color:#666">&gt;&gt;</span> res <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> ArrayList<span style="color:#666">&lt;&gt;();</span>
+
+<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#0b0;font-weight:bold">void</span> <span style="color:#00a000">doSearchOpt</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[]</span> nums<span style="color:#666">,</span> <span style="color:#0b0;font-weight:bold">int</span> start<span style="color:#666">,</span> <span style="color:#0b0;font-weight:bold">int</span> target<span style="color:#666">,</span> List<span style="color:#666">&lt;</span>Integer<span style="color:#666">&gt;</span> container<span style="color:#666">)</span> <span style="color:#666">{</span>
+
+    <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>container<span style="color:#666">.</span><span style="color:#b44">size</span><span style="color:#666">()</span> <span style="color:#666">==</span> 1<span style="color:#666">)</span> <span style="color:#666">{</span>
+        <span style="color:#080;font-style:italic">// 只要将问题递归至三数之和问题，就达到了算法的递归基
+</span><span style="color:#080;font-style:italic"></span>        <span style="color:#080;font-style:italic">// 因为三数之和问题有解
+</span><span style="color:#080;font-style:italic"></span>        <span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> start<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> nums<span style="color:#666">.</span><span style="color:#b44">length</span><span style="color:#666">;</span> <span style="color:#666">++</span>i<span style="color:#666">)</span> <span style="color:#666">{</span>
+            <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>i <span style="color:#666">&gt;</span> start <span style="color:#666">&amp;&amp;</span> nums<span style="color:#666">[</span>i<span style="color:#666">]</span> <span style="color:#666">==</span> nums<span style="color:#666">[</span>i <span style="color:#666">-</span> 1<span style="color:#666">])</span> <span style="color:#a2f;font-weight:bold">continue</span><span style="color:#666">;</span> <span style="color:#080;font-style:italic">// 去重
+</span><span style="color:#080;font-style:italic"></span>            <span style="color:#0b0;font-weight:bold">int</span> j <span style="color:#666">=</span> i <span style="color:#666">+</span> 1<span style="color:#666">,</span> k <span style="color:#666">=</span> nums<span style="color:#666">.</span><span style="color:#b44">length</span> <span style="color:#666">-</span> 1<span style="color:#666">;</span>
+            <span style="color:#a2f;font-weight:bold">while</span> <span style="color:#666">(</span>j <span style="color:#666">&lt;</span> k<span style="color:#666">)</span> <span style="color:#666">{</span>
+                <span style="color:#0b0;font-weight:bold">int</span> sum <span style="color:#666">=</span> nums<span style="color:#666">[</span>i<span style="color:#666">]</span> <span style="color:#666">+</span> nums<span style="color:#666">[</span>j<span style="color:#666">]</span> <span style="color:#666">+</span> nums<span style="color:#666">[</span>k<span style="color:#666">];</span>
+                <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>sum <span style="color:#666">&gt;</span> target<span style="color:#666">){</span>
+                    k<span style="color:#666">--;</span>
+                <span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>sum <span style="color:#666">&lt;</span> target<span style="color:#666">)</span> <span style="color:#666">{</span>
+                    j<span style="color:#666">++;</span>
+                <span style="color:#666">}</span><span style="color:#a2f;font-weight:bold">else</span> <span style="color:#666">{</span>
+                    res<span style="color:#666">.</span><span style="color:#b44">add</span><span style="color:#666">(</span>List<span style="color:#666">.</span><span style="color:#b44">of</span><span style="color:#666">(</span>container<span style="color:#666">.</span><span style="color:#b44">get</span><span style="color:#666">(</span>0<span style="color:#666">),</span> nums<span style="color:#666">[</span>i<span style="color:#666">],</span> nums<span style="color:#666">[</span>j<span style="color:#666">],</span> nums<span style="color:#666">[</span>k<span style="color:#666">]));</span>
+                    <span style="color:#080;font-style:italic">// 去重
+</span><span style="color:#080;font-style:italic"></span>                    <span style="color:#a2f;font-weight:bold">while</span> <span style="color:#666">(</span>j <span style="color:#666">&lt;</span> k <span style="color:#666">&amp;&amp;</span> nums<span style="color:#666">[</span>j<span style="color:#666">]</span> <span style="color:#666">==</span> nums<span style="color:#666">[</span>j <span style="color:#666">+</span> 1<span style="color:#666">])</span> j <span style="color:#666">++;</span>
+                    <span style="color:#a2f;font-weight:bold">while</span> <span style="color:#666">(</span>j <span style="color:#666">&lt;</span> k <span style="color:#666">&amp;&amp;</span> nums<span style="color:#666">[</span>k<span style="color:#666">]</span> <span style="color:#666">==</span> nums<span style="color:#666">[</span>k <span style="color:#666">-</span> 1<span style="color:#666">])</span> k <span style="color:#666">--;</span>
+                    j<span style="color:#666">++;</span> k<span style="color:#666">--;</span>
+                <span style="color:#666">}</span>
+            <span style="color:#666">}</span>
+
+        <span style="color:#666">}</span>
+        <span style="color:#a2f;font-weight:bold">return</span><span style="color:#666">;</span>
+    <span style="color:#666">}</span>
+
+    <span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> start<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> nums<span style="color:#666">.</span><span style="color:#b44">length</span><span style="color:#666">;</span> <span style="color:#666">++</span>i<span style="color:#666">)</span> <span style="color:#666">{</span>
+        container<span style="color:#666">.</span><span style="color:#b44">add</span><span style="color:#666">(</span>nums<span style="color:#666">[</span>i<span style="color:#666">]);</span>
+        doSearchOpt<span style="color:#666">(</span>nums<span style="color:#666">,</span> i <span style="color:#666">+</span> 1<span style="color:#666">,</span> target <span style="color:#666">-</span> nums<span style="color:#666">[</span>i<span style="color:#666">],</span> container<span style="color:#666">);</span>
+        container<span style="color:#666">.</span><span style="color:#b44">remove</span><span style="color:#666">(</span>container<span style="color:#666">.</span><span style="color:#b44">size</span><span style="color:#666">()</span> <span style="color:#666">-</span> 1<span style="color:#666">);</span> <span style="color:#080;font-style:italic">// 回溯
+</span><span style="color:#080;font-style:italic"></span>        <span style="color:#a2f;font-weight:bold">while</span> <span style="color:#666">(</span>i <span style="color:#666">&lt;</span> nums<span style="color:#666">.</span><span style="color:#b44">length</span> <span style="color:#666">-</span> 1 <span style="color:#666">&amp;&amp;</span> nums<span style="color:#666">[</span>i<span style="color:#666">]</span> <span style="color:#666">==</span> nums<span style="color:#666">[</span>i <span style="color:#666">+</span> 1<span style="color:#666">])</span> i<span style="color:#666">++;</span> <span style="color:#080;font-style:italic">// 去重
+</span><span style="color:#080;font-style:italic"></span>    <span style="color:#666">}</span>
+<span style="color:#666">}</span>
+
+
+<span style="color:#a2f;font-weight:bold">public</span> List<span style="color:#666">&lt;</span>List<span style="color:#666">&lt;</span>Integer<span style="color:#666">&gt;&gt;</span> <span style="color:#00a000">fourSum</span><span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span><span style="color:#666">[]</span> nums<span style="color:#666">,</span> <span style="color:#0b0;font-weight:bold">int</span> target<span style="color:#666">)</span> <span style="color:#666">{</span>
+    <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>nums<span style="color:#666">.</span><span style="color:#b44">length</span> <span style="color:#666">&lt;</span> 4<span style="color:#666">)</span> <span style="color:#a2f;font-weight:bold">return</span> res<span style="color:#666">;</span>
+    Arrays<span style="color:#666">.</span><span style="color:#b44">sort</span><span style="color:#666">(</span>nums<span style="color:#666">);</span>
+    doSearchOpt<span style="color:#666">(</span>nums<span style="color:#666">,</span> 0<span style="color:#666">,</span> target<span style="color:#666">,</span> <span style="color:#a2f;font-weight:bold">new</span> ArrayList<span style="color:#666">&lt;&gt;());</span>
+    <span style="color:#a2f;font-weight:bold">return</span> res<span style="color:#666">;</span>
+<span style="color:#666">}</span>
+</code></pre></div><h2 id="问题归约法">问题归约法 <a href="#%e9%97%ae%e9%a2%98%e5%bd%92%e7%ba%a6%e6%b3%95" class="anchor">🔗</a></h2><p>已知问题的描述，通过一系列变换把此问题最终变为一个<strong>子问题集合</strong>；这些子问题的解可以直接得到，从而解决了初始问题。</p>
+<p>问题归约法是从目标出发逆向推理，建立子问题以及子问题的子问题，直至最后把出事问题归约为一个<strong>平凡的本源问题集合</strong>，这就是问题归约的实质。</p>
+<p><p class="markdown-image">
+  <img src="https://cdn.jsdelivr.net/gh/huobingnan/my_image_hosting@master/%e9%97%ae%e9%a2%98%e8%a7%84%e7%ba%a6%e6%b3%95.2dsqehz6bta8.png" alt="问题规约法"  />
+</p></p>
+<p><p class="markdown-image">
+  <img src="https://cdn.jsdelivr.net/gh/huobingnan/my_image_hosting@master/%e4%b8%8d%e5%ae%9a%e7%a7%af%e5%88%86%e8%a7%84%e7%ba%a6%e5%9b%be%e8%a7%a3.1y8h1au4sbcw.png" alt="不定积分规约图解"  />
+</p></p>
+
+    </div>
+
+    
+        <div class="tags">
+            
+                <a href="/tags/leetcode">leetcode</a>
+            
+                <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>
+            
+        </div>
+    
+    
+    
+  <div id="comment">
+    
+    
+  </div>
+
+
+</section>
+
+
+    </main>
+    
+    <footer id="footer">
+    
+
+    <div class="copyright">
+    
+        版权声明：署名-非商业使用-相同方式共享 3.0 国际(BY-NC-SA 3.0)
+    
+    </div>
+
+    
+      <div class="powerby">
+        Powered by <a href='http://www.gohugo.io/'>Hugo</a> Theme By <a href='https://github.com/nodejh/hugo-theme-cactus-plus'>nodejh</a>
+      </div>
+    
+</footer>
+
+
+
+  </body>
+</html>
