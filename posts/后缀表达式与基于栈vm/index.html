@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <title>后缀表达式与基于栈VM | manan&#39;s blog 🍷</title>
+
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">    
+<meta name="viewport" content="width=device-width,minimum-scale=1">
+<meta name="description" content="后缀表达式 🔗算术运算表达式有三种形式，分别为“中缀表达式”，“后缀表达式”和“前缀表达式”。 中缀表达式是让数据结合在算符的两侧，例如a * (b &#43;">
+<meta name="generator" content="Hugo 0.89.0-DEV" />
+
+
+  <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+ 
+    
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+  </head>
+
+  <body>
+    <nav class="navigation">
+	
+		<a href="/"> <span class="arrow">←</span>首页</a>
+	
+	<a href="/posts">归档</a>
+	<a href="/tags">标签</a>
+	<a href="/about">关于</a>
+
+	
+		<a href="https://www.zhihu.com/people/manan333">知乎</a>
+	
+		<a href="https://space.bilibili.com/199622112">B站</a>
+	
+
+	
+	  <a class="button" href="/index.xml">订阅</a>
+	
+</nav>
+
+
+    <main class="main">
+      
+
+<section id="single">
+    <h1 class="title">后缀表达式与基于栈VM</h1>
+
+    <div class="tip">
+        <time datetime="2021-09-19 16:02:13 &#43;0800 CST">2021年09月19日</time>
+        <span class="split">
+          ·
+        </span>
+        <span>
+          1484字
+        </span>
+        <span class="split">
+          ·
+        </span>
+        <span>
+          3分钟
+        </span>
+    </div>
+
+    
+    
+        
+  
+    <aside class="toc">
+      <details>
+          <summary>Table of Contents
+          </summary>
+          <div>
+              <nav id="TableOfContents">
+  <ul>
+    <li><a href="#后缀表达式">后缀表达式</a></li>
+    <li><a href="#后缀表达式的计算">后缀表达式的计算</a></li>
+    <li><a href="#后缀表达式在jvm-bytecode中的体现">后缀表达式在JVM Bytecode中的体现</a></li>
+    <li><a href="#附录a中缀表达式转后缀表达式java">附录A：中缀表达式转后缀表达式（Java）</a></li>
+  </ul>
+</nav>
+          </div>
+      </details>
+    </aside>
+  
+
+
+    
+
+
+    <div class="content">
+      <h2 id="后缀表达式">后缀表达式 <a href="#%e5%90%8e%e7%bc%80%e8%a1%a8%e8%be%be%e5%bc%8f" class="anchor">🔗</a></h2><p>算术运算表达式有三种形式，分别为“中缀表达式”，“后缀表达式”和“前缀表达式”。</p>
+<p>中缀表达式是让数据结合在算符的两侧，例如<code>a * (b + c) - d</code>。这种表达式也是我们使用最多，最符合人类思考方式的算术运算表达形式。</p>
+<p>前缀表达式与后缀表达式类似，后缀表达式是将算符置于数据之后，例如<code>a b c + * d -</code>。前缀表达式是将运算符置于数据之前，例如<code>+ * a b c - d</code>。</p>
+<p>最常使用的中缀表达式可以通过一定的算法转换为后缀或者前缀表达式。</p>
+<p>通过观察不难发现，后缀表达式在计算时是<strong>有序的</strong>，所谓<strong>有序</strong>就是我们只需遍历整个表达式就能得到表达式的结果，无需考虑运算符之间的优先级顺序（中缀表达式显然需要考虑算符之间的优先级顺序，而后缀表达式是已经按照运算符顺序进行排好序的表达式序列）。</p>
+<h2 id="后缀表达式的计算">后缀表达式的计算 <a href="#%e5%90%8e%e7%bc%80%e8%a1%a8%e8%be%be%e5%bc%8f%e7%9a%84%e8%ae%a1%e7%ae%97" class="anchor">🔗</a></h2><ul>
+<li>算法准备</li>
+</ul>
+<ol>
+<li>
+<p>后缀表达式</p>
+</li>
+<li>
+<p>数据栈</p>
+</li>
+</ol>
+<ul>
+<li>算法阐述</li>
+</ul>
+<ol>
+<li>
+<p>遍历后缀表达式字符串</p>
+</li>
+<li>
+<p>如果字符串是数字，转换为数字并压入数据栈</p>
+</li>
+<li>
+<p>如果是支持的算符，根据算符的数据结合性（一元算符结合一个数据，二元算符结合两个数据，不考虑算符的左结合和右结合）从栈中弹出指定数量的数据</p>
+</li>
+<li>
+<p>将弹出的数据按照算符计算规则进行计算，并重新压入栈</p>
+</li>
+</ol>
+<ul>
+<li>Java代码实现</li>
+</ul>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">ArrayDeque<span style="color:#666">&lt;</span>Double<span style="color:#666">&gt;</span> operatorNumberStack <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> ArrayDeque<span style="color:#666">&lt;&gt;();</span>
+<span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span>String token <span style="color:#666">:</span> tokenStream<span style="color:#666">)</span> <span style="color:#666">{</span>
+    <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>isSupportedOperator<span style="color:#666">(</span>token<span style="color:#666">.</span><span style="color:#b44">charAt</span><span style="color:#666">(</span>0<span style="color:#666">)))</span> <span style="color:#666">{</span>
+        <span style="color:#0b0;font-weight:bold">double</span> a<span style="color:#666">,</span> b <span style="color:#666">=</span> 0<span style="color:#666">.</span><span style="color:#b44">0D</span><span style="color:#666">;</span>
+        <span style="color:#a2f;font-weight:bold">switch</span> <span style="color:#666">(</span>token<span style="color:#666">)</span> <span style="color:#666">{</span>
+            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#b44">&#34;+&#34;</span><span style="color:#666">:</span>
+                a <span style="color:#666">=</span> operatorNumberStack<span style="color:#666">.</span><span style="color:#b44">pop</span><span style="color:#666">();</span>
+                b <span style="color:#666">=</span> operatorNumberStack<span style="color:#666">.</span><span style="color:#b44">pop</span><span style="color:#666">();</span>
+                operatorNumberStack<span style="color:#666">.</span><span style="color:#b44">push</span><span style="color:#666">(</span>b <span style="color:#666">+</span> a<span style="color:#666">);</span>
+                <span style="color:#a2f;font-weight:bold">break</span><span style="color:#666">;</span>
+            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#b44">&#34;-&#34;</span><span style="color:#666">:</span>
+                a <span style="color:#666">=</span> operatorNumberStack<span style="color:#666">.</span><span style="color:#b44">pop</span><span style="color:#666">();</span>
+                b <span style="color:#666">=</span> operatorNumberStack<span style="color:#666">.</span><span style="color:#b44">pop</span><span style="color:#666">();</span>
+                operatorNumberStack<span style="color:#666">.</span><span style="color:#b44">push</span><span style="color:#666">(</span>b <span style="color:#666">-</span> a<span style="color:#666">);</span>
+                <span style="color:#a2f;font-weight:bold">break</span><span style="color:#666">;</span>
+            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#b44">&#34;*&#34;</span><span style="color:#666">:</span>
+                a <span style="color:#666">=</span> operatorNumberStack<span style="color:#666">.</span><span style="color:#b44">pop</span><span style="color:#666">();</span>
+                b <span style="color:#666">=</span> operatorNumberStack<span style="color:#666">.</span><span style="color:#b44">pop</span><span style="color:#666">();</span>
+                operatorNumberStack<span style="color:#666">.</span><span style="color:#b44">push</span><span style="color:#666">(</span>b <span style="color:#666">*</span> a<span style="color:#666">);</span>
+                <span style="color:#a2f;font-weight:bold">break</span><span style="color:#666">;</span>
+            <span style="color:#a2f;font-weight:bold">case</span> <span style="color:#b44">&#34;/&#34;</span><span style="color:#666">:</span>
+                a <span style="color:#666">=</span> operatorNumberStack<span style="color:#666">.</span><span style="color:#b44">pop</span><span style="color:#666">();</span>
+                b <span style="color:#666">=</span> operatorNumberStack<span style="color:#666">.</span><span style="color:#b44">pop</span><span style="color:#666">();</span>
+                operatorNumberStack<span style="color:#666">.</span><span style="color:#b44">push</span><span style="color:#666">(</span>b <span style="color:#666">/</span> a<span style="color:#666">);</span>
+                <span style="color:#a2f;font-weight:bold">break</span><span style="color:#666">;</span>
+            <span style="color:#a2f;font-weight:bold">default</span><span style="color:#666">:</span>
+                <span style="color:#a2f;font-weight:bold">break</span><span style="color:#666">;</span>
+        <span style="color:#666">}</span>
+    <span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#666">{</span>
+        operatorNumberStack<span style="color:#666">.</span><span style="color:#b44">push</span><span style="color:#666">(</span>Double<span style="color:#666">.</span><span style="color:#b44">valueOf</span><span style="color:#666">(</span>token<span style="color:#666">));</span>
+    <span style="color:#666">}</span>
+<span style="color:#666">}</span>
+<span style="color:#a2f;font-weight:bold">return</span> operatorNumberStack<span style="color:#666">.</span><span style="color:#b44">pop</span><span style="color:#666">();</span>
+</code></pre></div><h2 id="后缀表达式在jvm-bytecode中的体现">后缀表达式在JVM Bytecode中的体现 <a href="#%e5%90%8e%e7%bc%80%e8%a1%a8%e8%be%be%e5%bc%8f%e5%9c%a8jvm-bytecode%e4%b8%ad%e7%9a%84%e4%bd%93%e7%8e%b0" class="anchor">🔗</a></h2><p>在JVM抽象层面，JVM运行是与寄存器无关，因为JVM被设计为一种基于栈的虚拟机。</p>
+<p>JVM所有的数据运算都在栈中进行，在一个JVM Stack Frame中有操作数栈（存放数据的栈），本地变量表（存放参数，局部变量和临时变量）两种存放数据的结构。</p>
+<p>例如下面一段Java代码和编译为Bytecode之后的指令序列。</p>
+<hr>
+<p>Java Code</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#0b0;font-weight:bold">int</span> a <span style="color:#666">=</span> 1<span style="color:#666">;</span>
+<span style="color:#0b0;font-weight:bold">int</span> b <span style="color:#666">=</span> 2<span style="color:#666">;</span>
+<span style="color:#0b0;font-weight:bold">int</span> c <span style="color:#666">=</span> 3<span style="color:#666">;</span>
+<span style="color:#0b0;font-weight:bold">int</span> d <span style="color:#666">=</span> 4<span style="color:#666">;</span>
+<span style="color:#0b0;font-weight:bold">int</span> e <span style="color:#666">=</span> a <span style="color:#666">*</span> <span style="color:#666">(</span>b <span style="color:#666">+</span> c<span style="color:#666">)</span> <span style="color:#666">-</span>d<span style="color:#666">;</span>
+System<span style="color:#666">.</span><span style="color:#b44">out</span><span style="color:#666">.</span><span style="color:#b44">println</span><span style="color:#666">(</span>e<span style="color:#666">);</span>
+</code></pre></div><hr>
+<p>ByteCode</p>
+<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-plain" data-lang="plain">iconst_1 # 将整数1压入操作数栈
+istore_1 # 弹出栈顶数据并放入本地变量表索引为1的位置（变量a）
+iconst_2 # 将整数2压入操作数栈
+istore_2 # 弹出栈顶数据并放入本地变量表索引为2的位置（变量b）
+iconst_3 # 将整数3压入操作数栈 
+istore_3 # 弹出栈顶数据并放入本地变量表索引为3的位置（变量c）
+iconst_4 # 将整数4压入操作数栈
+istore 4 # 弹出栈顶数据并放入本地变量表索引为3的位置（变量d）
+iload_1  # 从本地变量表加载索引为1的数据至操作数栈 （变量a）
+iload_2  # 从本地变量表加载索引为1的数据至操作数栈 （变量b）
+iload_3  # 从本地变量表加载索引为1的数据至操作数栈 （变量c）
+iadd     # 从操作数栈弹出两个整数，相加，结果入栈
+imul     # 从操作数栈弹出两个整数，相乘，结果入栈
+iload 4  # 从本地变量表加载索引为1的数据至操作数栈 （变量d）
+isub     # 从操作数栈弹出两个整数，相减，结果入栈
+istore 5 # 从栈中弹出一个整数，存入本地变量表索引为5的位置
+</code></pre></div><p>从编译生成的字节码来看，上述Java代码的运算在字节码层面完全是按照后缀表达式的形式去计算，即<code>a b c + * d -</code>。</p>
+<p>这正是得益于后缀表达式的有序性与指令执行的有序性是完美契合的（代码执行通过PC程序计数器将排布在内存中的指令按照顺序执行）所以基于栈的虚拟机设计中在设计数据运算时也会参照这种形式进行。</p>
+<h2 id="附录a中缀表达式转后缀表达式java">附录A：中缀表达式转后缀表达式（Java） <a href="#%e9%99%84%e5%bd%95a%e4%b8%ad%e7%bc%80%e8%a1%a8%e8%be%be%e5%bc%8f%e8%bd%ac%e5%90%8e%e7%bc%80%e8%a1%a8%e8%be%be%e5%bc%8fjava" class="anchor">🔗</a></h2><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java"><span style="color:#a2f;font-weight:bold">public</span> <span style="color:#a2f;font-weight:bold">static</span> String <span style="color:#00a000">me2pe</span><span style="color:#666">(</span>String expr<span style="color:#666">)</span> <span style="color:#666">{</span>
+    expr <span style="color:#666">=</span> expr <span style="color:#666">+</span> <span style="color:#b44">&#39;)&#39;</span><span style="color:#666">;</span>
+    <span style="color:#a2f;font-weight:bold">final</span> ArrayDeque<span style="color:#666">&lt;</span>Character<span style="color:#666">&gt;</span> stack <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> ArrayDeque<span style="color:#666">&lt;&gt;();</span>
+    stack<span style="color:#666">.</span><span style="color:#b44">push</span><span style="color:#666">(</span><span style="color:#b44">&#39;(&#39;</span><span style="color:#666">);</span>
+    <span style="color:#a2f;font-weight:bold">final</span> StringBuilder buffer <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> StringBuilder<span style="color:#666">();</span>
+    <span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> 0<span style="color:#666">,</span> len <span style="color:#666">=</span> expr<span style="color:#666">.</span><span style="color:#b44">length</span><span style="color:#666">();</span> i <span style="color:#666">&lt;</span> len<span style="color:#666">;)</span> <span style="color:#666">{</span>
+        <span style="color:#a2f;font-weight:bold">final</span> <span style="color:#0b0;font-weight:bold">char</span> token <span style="color:#666">=</span> expr<span style="color:#666">.</span><span style="color:#b44">charAt</span><span style="color:#666">(</span>i<span style="color:#666">);</span>
+        <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>Character<span style="color:#666">.</span><span style="color:#b44">isDigit</span><span style="color:#666">(</span>token<span style="color:#666">))</span> <span style="color:#666">{</span>
+            NextIndexAndResult r <span style="color:#666">=</span> nextRealNumberString<span style="color:#666">(</span>expr<span style="color:#666">,</span> i<span style="color:#666">);</span>
+            i <span style="color:#666">=</span> r<span style="color:#666">.</span><span style="color:#b44">nextIndex</span><span style="color:#666">;</span>
+            buffer<span style="color:#666">.</span><span style="color:#b44">append</span><span style="color:#666">(</span>r<span style="color:#666">.</span><span style="color:#b44">result</span><span style="color:#666">);</span>
+            buffer<span style="color:#666">.</span><span style="color:#b44">append</span><span style="color:#666">(</span><span style="color:#b44">&#39; &#39;</span><span style="color:#666">);</span>
+        <span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>isSupportedOperator<span style="color:#666">(</span>token<span style="color:#666">))</span> <span style="color:#666">{</span>
+            <span style="color:#080;font-style:italic">// check operator priority
+</span><span style="color:#080;font-style:italic"></span>            <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>operatorPriorityTable<span style="color:#666">.</span><span style="color:#b44">get</span><span style="color:#666">(</span>token<span style="color:#666">)</span> <span style="color:#666">&gt;</span> operatorPriorityTable<span style="color:#666">.</span><span style="color:#b44">get</span><span style="color:#666">(</span>stack<span style="color:#666">.</span><span style="color:#b44">peek</span><span style="color:#666">()))</span> <span style="color:#666">{</span>
+                stack<span style="color:#666">.</span><span style="color:#b44">push</span><span style="color:#666">(</span>token<span style="color:#666">);</span>
+                i <span style="color:#666">++;</span>
+            <span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#666">{</span>
+                <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>token <span style="color:#666">==</span> <span style="color:#b44">&#39;)&#39;</span><span style="color:#666">)</span> <span style="color:#666">{</span>
+                    <span style="color:#080;font-style:italic">// pop until &#39;(&#39;
+</span><span style="color:#080;font-style:italic"></span>                    <span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(;;)</span> <span style="color:#666">{</span>
+                        <span style="color:#0b0;font-weight:bold">char</span> t <span style="color:#666">=</span> stack<span style="color:#666">.</span><span style="color:#b44">pop</span><span style="color:#666">();</span>
+                        <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>t <span style="color:#666">==</span> <span style="color:#b44">&#39;(&#39;</span><span style="color:#666">)</span> <span style="color:#a2f;font-weight:bold">break</span><span style="color:#666">;</span>
+                        buffer<span style="color:#666">.</span><span style="color:#b44">append</span><span style="color:#666">(</span>t<span style="color:#666">);</span>
+                        buffer<span style="color:#666">.</span><span style="color:#b44">append</span><span style="color:#666">(</span><span style="color:#b44">&#39; &#39;</span><span style="color:#666">);</span>
+                    <span style="color:#666">}</span>
+                    i<span style="color:#666">++;</span>
+                <span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>token <span style="color:#666">==</span> <span style="color:#b44">&#39;(&#39;</span><span style="color:#666">)</span> <span style="color:#666">{</span>
+                    stack<span style="color:#666">.</span><span style="color:#b44">push</span><span style="color:#666">(</span>token<span style="color:#666">);</span>
+                    i<span style="color:#666">++;</span>
+                <span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#666">{</span>
+                    buffer<span style="color:#666">.</span><span style="color:#b44">append</span><span style="color:#666">(</span>stack<span style="color:#666">.</span><span style="color:#b44">pop</span><span style="color:#666">());</span>
+                    buffer<span style="color:#666">.</span><span style="color:#b44">append</span><span style="color:#666">(</span><span style="color:#b44">&#39; &#39;</span><span style="color:#666">);</span>
+                <span style="color:#666">}</span>
+            <span style="color:#666">}</span>
+        <span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#666">{</span>
+            <span style="color:#080;font-style:italic">// other tokens
+</span><span style="color:#080;font-style:italic"></span>            i<span style="color:#666">++;</span>
+        <span style="color:#666">}</span>
+    <span style="color:#666">}</span>
+    <span style="color:#a2f;font-weight:bold">return</span> buffer<span style="color:#666">.</span><span style="color:#b44">toString</span><span style="color:#666">();</span>
+<span style="color:#666">}</span>
+</code></pre></div><p>获取完整代码请访问Github仓库：<a href="https://github.com/mananBC1st/JavaLeetcode" target="_blank" rel="noopener">https://github.com/mananBC1st/JavaLeetcode</a></p>
+
+    </div>
+
+    
+        <div class="tags">
+            
+                <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>
+            
+                <a href="/tags/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB">杂七杂八</a>
+            
+        </div>
+    
+    
+    
+  <div id="comment">
+    
+    
+  </div>
+
+
+</section>
+
+
+    </main>
+    
+    <footer id="footer">
+    
+
+    <div class="copyright">
+    
+        版权声明：署名-非商业使用-相同方式共享 3.0 国际(BY-NC-SA 3.0)
+    
+    </div>
+
+    
+      <div class="powerby">
+        Powered by <a href='http://www.gohugo.io/'>Hugo</a> Theme By <a href='https://github.com/nodejh/hugo-theme-cactus-plus'>nodejh</a>
+      </div>
+    
+</footer>
+
+
+
+  </body>
+</html>

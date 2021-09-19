@@ -6,7 +6,16 @@
     <description>Recent content on manan&#39;s blog 🍷</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 10 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 19 Sep 2021 16:02:13 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>后缀表达式与基于栈VM</title>
+      <link>/posts/%E5%90%8E%E7%BC%80%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E%E5%9F%BA%E4%BA%8E%E6%A0%88vm/</link>
+      <pubDate>Sun, 19 Sep 2021 16:02:13 +0800</pubDate>
+      
+      <guid>/posts/%E5%90%8E%E7%BC%80%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E%E5%9F%BA%E4%BA%8E%E6%A0%88vm/</guid>
+      <description>后缀表达式 🔗算术运算表达式有三种形式，分别为“中缀表达式”，“后缀表达式”和“前缀表达式”。 中缀表达式是让数据结合在算符的两侧，例如a * (b +</description>
+    </item>
+    
     <item>
       <title>Leetcode18及关于算法的一些思索</title>
       <link>/posts/leetcode18%E5%8F%8A%E5%85%B3%E4%BA%8E%E7%AE%97%E6%B3%95%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E7%B4%A2/</link>
