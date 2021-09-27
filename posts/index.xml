@@ -6,7 +6,16 @@
     <description>Recent content in Posts on manan&#39;s blog 🍷</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Sun, 19 Sep 2021 16:02:13 +0800</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 24 Sep 2021 17:07:35 +0800</lastBuildDate><atom:link href="/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>8086寻址方式</title>
+      <link>/posts/8086%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F/</link>
+      <pubDate>Fri, 24 Sep 2021 17:07:35 +0800</pubDate>
+      
+      <guid>/posts/8086%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F/</guid>
+      <description>概述 🔗一条汇编指令包含了操作码和操作数两部分，而操作数又分为目的操作数（DST）和源操作数（SRC）两种。汇编指令就是操作码与操作数的结合，</description>
+    </item>
+    
     <item>
       <title>后缀表达式与基于栈VM</title>
       <link>/posts/%E5%90%8E%E7%BC%80%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E%E5%9F%BA%E4%BA%8E%E6%A0%88vm/</link>
