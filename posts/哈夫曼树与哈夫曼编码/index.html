@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+  <head>
+    <title>哈夫曼树与哈夫曼编码 | manan&#39;s blog 🍷</title>
+
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">    
+<meta name="viewport" content="width=device-width,minimum-scale=1">
+<meta name="description" content="概述 🔗哈夫曼树(Huffman Tree)也是一种树，与其他树不同的是哈夫曼树的构造方式。在哈夫曼树的构造过程中有一个参考指标——带权路径长度">
+<meta name="generator" content="Hugo 0.89.0-DEV" />
+
+
+  <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+
+
+<link rel="stylesheet" href="/css/style.css">
+
+
+
+<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
+
+ 
+    
+
+
+
+  
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    onload="renderMathInElement(document.body);"></script>
+
+
+
+
+  </head>
+
+  <body>
+    <nav class="navigation">
+	
+		<a href="/"> <span class="arrow">←</span>首页</a>
+	
+	<a href="/posts">归档</a>
+	<a href="/tags">标签</a>
+	<a href="/about">关于</a>
+
+	
+		<a href="https://www.zhihu.com/people/manan333">知乎</a>
+	
+		<a href="https://space.bilibili.com/199622112">B站</a>
+	
+
+	
+	  <a class="button" href="/index.xml">订阅</a>
+	
+</nav>
+
+
+    <main class="main">
+      
+
+<section id="single">
+    <h1 class="title">哈夫曼树与哈夫曼编码</h1>
+
+    <div class="tip">
+        <time datetime="2021-10-31 00:00:00 &#43;0000 UTC">2021年10月31日</time>
+        <span class="split">
+          ·
+        </span>
+        <span>
+          1616字
+        </span>
+        <span class="split">
+          ·
+        </span>
+        <span>
+          4分钟
+        </span>
+    </div>
+
+    
+    
+        
+  
+    <aside class="toc">
+      <details>
+          <summary>Table of Contents
+          </summary>
+          <div>
+              <nav id="TableOfContents">
+  <ul>
+    <li><a href="#概述">概述</a></li>
+    <li><a href="#哈夫曼树的构造">哈夫曼树的构造</a></li>
+    <li><a href="#哈夫曼树的特点">哈夫曼树的特点</a></li>
+    <li><a href="#哈夫曼编码">哈夫曼编码</a></li>
+    <li><a href="#哈夫曼解码">哈夫曼解码</a></li>
+    <li><a href="#附录a哈夫曼节点定义">附录A——哈夫曼节点定义</a></li>
+    <li><a href="#附录b哈夫曼树构造">附录B——哈夫曼树构造</a></li>
+    <li><a href="#附录c哈夫曼编码">附录C——哈夫曼编码</a></li>
+    <li><a href="#附录d哈夫曼解码">附录D——哈夫曼解码</a></li>
+  </ul>
+</nav>
+          </div>
+      </details>
+    </aside>
+  
+
+
+    
+
+
+    <div class="content">
+      <h2 id="概述">概述 <a href="#%e6%a6%82%e8%bf%b0" class="anchor">🔗</a></h2><p>哈夫曼树(Huffman Tree)也是一种树，与其他树不同的是哈夫曼树的构造方式。在哈夫曼树的构造过程中有一个参考指标——<strong>带权路径长度</strong>。</p>
+<p><strong>路径</strong>是指从树中一个节点出发到另一个节点之间的分支，分支的数目称为<strong>路径长度</strong>。<strong>带权路径长度</strong>是考虑到节点之间的权重大小之后的一个指标参数，数值上它等于路径长度与该路径上所有节点的权重乘积。</p>
+<p>$$
+WPL = \sum_{i = 1}^{n} W_i \times L_i
+$$</p>
+<p>哈夫曼树是带权节点集合中构造出的WPL最小的二叉树。Huffman树本质上也是一种二叉树，同时由于其WPL最小，所以也称之为最优二叉树。</p>
+<p>哈夫曼编码是在哈夫曼树这种数据结构基础之上的一种编码方式。常见的编码方式主要分为两种——等长编码和变长编码。</p>
+<p>等长编码是指将待编码数据全部映射为长度大小一致的二进制序列，这样的编码编解码都很方便，也容易实现。但是缺点也很明显，这样的编码得到的字节序列会较大，在存储与传输过程中比较消耗资源。比较常见的ASCII码就是一种等长度编码的形式。</p>
+<p>变长编码是指将待编码数据由一定规则指定编码为长度不一致的二进制序列，变长编码的优势在于能够实现对数据的无损压缩（相较于等长度编码，变长编码后的体积更小而且不损伤数据的完整性），但是编解码比较困难。</p>
+<h2 id="哈夫曼树的构造">哈夫曼树的构造 <a href="#%e5%93%88%e5%a4%ab%e6%9b%bc%e6%a0%91%e7%9a%84%e6%9e%84%e9%80%a0" class="anchor">🔗</a></h2><p>哈夫曼树的构造算法需要所有带权节点构成森林（树节点的集合）作为输入，集合中每个树节点的左子树与右子树均为空。</p>
+<ol>
+<li>
+<p>从集合中选择一个权重最小的节点M0和权重次小的节点M1。</p>
+<p>构造一个新的节点N0，N0左子树为M0,右子树为M1。</p>
+<p>N0节点的权重大小为M0的权重加上M1的权重。</p>
+<p>将M0和M1从集合中删除，并将新构造的N0节点放入集合中。</p>
+</li>
+<li>
+<p>重复步骤1，直至集合中只剩下一个节点</p>
+</li>
+</ol>
+<h2 id="哈夫曼树的特点">哈夫曼树的特点 <a href="#%e5%93%88%e5%a4%ab%e6%9b%bc%e6%a0%91%e7%9a%84%e7%89%b9%e7%82%b9" class="anchor">🔗</a></h2><p>从哈夫曼树的构造中可以看出，哈夫曼树有以下特点：</p>
+<ol>
+<li>
+<p>叶子节点存储有效信息。</p>
+</li>
+<li>
+<p>哈夫曼树中不存在出度为1的节点，即每个节点要么没有左右子树，要么都有左右子树。</p>
+</li>
+<li>
+<p>若初始森林中树节点的个数为N，则哈夫曼树中的节点个数为2N - 1。</p>
+</li>
+</ol>
+<h2 id="哈夫曼编码">哈夫曼编码 <a href="#%e5%93%88%e5%a4%ab%e6%9b%bc%e7%bc%96%e7%a0%81" class="anchor">🔗</a></h2><p><p class="markdown-image">
+  <img src="https://cdn.jsdelivr.net/gh/huobingnan/my_image_hosting@master/HuffmanEncoding.ron3lfqo5t.png" alt="HuffmanEncoding"  />
+</p></p>
+<p>哈夫曼树构造完成之后，就已经确定了对特定数据的哈夫曼编码。</p>
+<p>数据的编码由该数据在哈夫曼树中的路径确定，具体形式为：从根节点出发，沿左子树行走为0，沿右子树行走为1。如图所示，节点A的路径为{left, left, left}，故其编码为000。节点B的路径为{left, left, right}，故其编码为001。</p>
+<p>从图中便可看出哈夫曼编码属于变长编码，数据的编码长度并不相同。</p>
+<h2 id="哈夫曼解码">哈夫曼解码 <a href="#%e5%93%88%e5%a4%ab%e6%9b%bc%e8%a7%a3%e7%a0%81" class="anchor">🔗</a></h2><p>数据经过编码之后可以得到一串由0，1组成的二进制序列。解码就是将这串二进制序列重新变为原始数据的过程。解码的过程中需要用到将数据编码的哈夫曼树，其具体的操作流程为：</p>
+<ol>
+<li>
+<p>遍历二进制序列，遇到0则沿哈夫曼树向左走，遇到1则沿哈夫曼树向右走。</p>
+</li>
+<li>
+<p>若哈夫曼树的当前节点为叶子节点，则完成了一个数据的解码。将解码数据保存，重新回到哈夫曼的的根节点。</p>
+</li>
+<li>
+<p>重复步骤1，2直到序列被遍历完。</p>
+</li>
+</ol>
+<h2 id="附录a哈夫曼节点定义">附录A——哈夫曼节点定义 <a href="#%e9%99%84%e5%bd%95a%e5%93%88%e5%a4%ab%e6%9b%bc%e8%8a%82%e7%82%b9%e5%ae%9a%e4%b9%89" class="anchor">🔗</a></h2><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#a2f;font-weight:bold">class</span> <span style="color:#00f">HuffmanNode</span>&lt;T&gt;(  
+	 <span style="color:#a2f;font-weight:bold">var</span> left: HuffmanNode&lt;T&gt;?,  <span style="color:#080;font-style:italic">// 左子树
+</span><span style="color:#080;font-style:italic"></span>	 <span style="color:#a2f;font-weight:bold">var</span> right: HuffmanNode&lt;T&gt;?, <span style="color:#080;font-style:italic">// 右子树
+</span><span style="color:#080;font-style:italic"></span>	 <span style="color:#a2f;font-weight:bold">var</span> weight: Int,            <span style="color:#080;font-style:italic">// 节点权重
+</span><span style="color:#080;font-style:italic"></span>	 <span style="color:#a2f;font-weight:bold">var</span> data: T?,               <span style="color:#080;font-style:italic">// 节点数据
+</span><span style="color:#080;font-style:italic"></span>	 <span style="color:#a2f;font-weight:bold">var</span> codeBuffer: StringBuilder?) {  <span style="color:#080;font-style:italic">// 使用字符串的形式来表述编码的二进制序列
+</span><span style="color:#080;font-style:italic"></span>
+	<span style="color:#a2f;font-weight:bold">private</span> <span style="color:#a2f;font-weight:bold">lateinit</span> <span style="color:#a2f;font-weight:bold">var</span> huffmanCode: String  
+
+	<span style="color:#a2f;font-weight:bold">constructor</span>(weight: Int, <span style="color:#a2f;font-weight:bold">data</span>: T?): <span style="color:#a2f;font-weight:bold">this</span>(<span style="color:#a2f;font-weight:bold">null</span>, <span style="color:#a2f;font-weight:bold">null</span>, weight, <span style="color:#a2f;font-weight:bold">data</span>, StringBuilder())  
+
+	<span style="color:#a2f;font-weight:bold">fun</span> <span style="color:#00a000">isLeafNode</span>(): Boolean { <span style="color:#a2f;font-weight:bold">return</span> left <span style="color:#666">==</span> <span style="color:#a2f;font-weight:bold">null</span> <span style="color:#666">&amp;&amp;</span> right <span style="color:#666">==</span> <span style="color:#a2f;font-weight:bold">null</span>}  
+
+	<span style="color:#a2f;font-weight:bold">fun</span> <span style="color:#00a000">code</span>(): String {  
+		<span style="color:#a2f;font-weight:bold">if</span> (!<span style="color:#a2f;font-weight:bold">this</span><span style="color:#666">::</span>huffmanCode.isInitialized) {  
+			huffmanCode = codeBuffer<span style="color:#666">?.</span>reverse().toString()  
+			codeBuffer = <span style="color:#a2f;font-weight:bold">null</span>  
+		}  
+		<span style="color:#a2f;font-weight:bold">return</span> huffmanCode  
+	}  
+}
+
+</code></pre></div><h2 id="附录b哈夫曼树构造">附录B——哈夫曼树构造 <a href="#%e9%99%84%e5%bd%95b%e5%93%88%e5%a4%ab%e6%9b%bc%e6%a0%91%e6%9e%84%e9%80%a0" class="anchor">🔗</a></h2><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#a2f;font-weight:bold">fun</span> &lt;<span style="color:#00f">T</span>&gt; <span style="color:#00a000">constructHuffmanTree</span>(forest: List&lt;HuffmanNode&lt;T&gt;&gt;): HuffmanNode&lt;T&gt; {  
+	<span style="color:#080;font-style:italic">// 构造小顶堆
+</span><span style="color:#080;font-style:italic"></span>	<span style="color:#a2f;font-weight:bold">val</span> comparator = { h1: HuffmanNode&lt;T&gt;, h2: HuffmanNode&lt;T&gt; <span style="color:#666">-&gt;</span>  
+		h1.weight - h2.weight  
+	}  
+	<span style="color:#080;font-style:italic">//  使用优先队列（小顶堆）构造哈夫曼树
+</span><span style="color:#080;font-style:italic"></span>	<span style="color:#a2f;font-weight:bold">val</span> priorityQueue = PriorityQueue(comparator)  
+	<span style="color:#a2f;font-weight:bold">for</span> (node <span style="color:#a2f;font-weight:bold">in</span> forest) {  
+		priorityQueue.add(node)  
+	}
+	<span style="color:#080;font-style:italic">// 更新哈夫曼节点的编码值
+</span><span style="color:#080;font-style:italic"></span>	<span style="color:#a2f;font-weight:bold">val</span> queue = ArrayDeque&lt;HuffmanNode&lt;T&gt;&gt;()  
+	<span style="color:#a2f;font-weight:bold">while</span> (priorityQueue.size <span style="color:#666">!=</span> <span style="color:#666">1</span>) {  
+		<span style="color:#a2f;font-weight:bold">val</span> m1 = priorityQueue.remove()  <span style="color:#080;font-style:italic">// 最小值
+</span><span style="color:#080;font-style:italic"></span>		<span style="color:#a2f;font-weight:bold">val</span> m2 = priorityQueue.remove()  <span style="color:#080;font-style:italic">// 次小值
+</span><span style="color:#080;font-style:italic"></span>		<span style="color:#080;font-style:italic">// update code and children code buffer  
+</span><span style="color:#080;font-style:italic"></span>		queue.add(m1)  
+		<span style="color:#a2f;font-weight:bold">while</span> (queue.isNotEmpty()) {  
+			<span style="color:#a2f;font-weight:bold">val</span> top = queue.poll()  
+			top.codeBuffer<span style="color:#666">?.</span>append(<span style="color:#b44">&#39;0&#39;</span>)  
+			<span style="color:#a2f;font-weight:bold">if</span> (!top.isLeafNode()) {  
+				queue.add(top.left<span style="color:#666">!!</span>)  
+				queue.add(top.right<span style="color:#666">!!</span>)  
+			} 
+		} 
+		queue.add(m2)  
+		<span style="color:#a2f;font-weight:bold">while</span> (queue.isNotEmpty()) {  
+			<span style="color:#a2f;font-weight:bold">val</span> top = queue.poll()  
+			top.codeBuffer<span style="color:#666">?.</span>append(<span style="color:#b44">&#39;1&#39;</span>)  
+			<span style="color:#a2f;font-weight:bold">if</span> (!top.isLeafNode()) {  
+			queue.add(top.left<span style="color:#666">!!</span>)  
+			queue.add(top.right<span style="color:#666">!!</span>)  
+			} 
+		} 
+		<span style="color:#080;font-style:italic">// 将新构造的节点放入优先队列
+</span><span style="color:#080;font-style:italic"></span>		priorityQueue.add(HuffmanNode(m1, m2, m1.weight + m2.weight, <span style="color:#a2f;font-weight:bold">null</span>, StringBuilder()))  
+	}  
+	<span style="color:#a2f;font-weight:bold">return</span> priorityQueue.remove()  
+}
+</code></pre></div><h2 id="附录c哈夫曼编码">附录C——哈夫曼编码 <a href="#%e9%99%84%e5%bd%95c%e5%93%88%e5%a4%ab%e6%9b%bc%e7%bc%96%e7%a0%81" class="anchor">🔗</a></h2><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#a2f;font-weight:bold">fun</span> <span style="color:#00a000">huffmanEncoding</span>(tree: HuffmanNode&lt;Char&gt;, originData: String): String {  
+	<span style="color:#a2f;font-weight:bold">val</span> encodingSet = HashMap&lt;Char, String&gt;()  
+	<span style="color:#a2f;font-weight:bold">val</span> stack = ArrayDeque&lt;HuffmanNode&lt;Char&gt;&gt;()  
+	stack.push(tree)  
+	<span style="color:#080;font-style:italic">// 采用深度优先遍历，缓存好所有叶子节点的编码值  
+</span><span style="color:#080;font-style:italic"></span>	<span style="color:#a2f;font-weight:bold">while</span> (stack.isNotEmpty()) {  
+		<span style="color:#a2f;font-weight:bold">val</span> top = stack.pop()  
+		<span style="color:#a2f;font-weight:bold">if</span> (top.isLeafNode()) {  
+			encodingSet[top.<span style="color:#a2f;font-weight:bold">data</span><span style="color:#666">!!</span>] = top.code()  
+		} <span style="color:#a2f;font-weight:bold">else</span> {  
+			stack.push(top.right<span style="color:#666">!!</span>)  
+			stack.push(top.left<span style="color:#666">!!</span>)  
+		} 
+	} 
+	<span style="color:#a2f;font-weight:bold">val</span> builder = StringBuilder()  
+	originData.forEach {  
+		builder.append(encodingSet[<span style="color:#a2f;font-weight:bold">it</span>])  
+	}  
+	<span style="color:#a2f;font-weight:bold">return</span> builder.toString()  
+}
+</code></pre></div><h2 id="附录d哈夫曼解码">附录D——哈夫曼解码 <a href="#%e9%99%84%e5%bd%95d%e5%93%88%e5%a4%ab%e6%9b%bc%e8%a7%a3%e7%a0%81" class="anchor">🔗</a></h2><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-kotlin" data-lang="kotlin"><span style="color:#a2f;font-weight:bold">fun</span> <span style="color:#00a000">huffmanDecoding</span>(tree: HuffmanNode&lt;Char&gt;, encodeSeq: String): String {  
+	<span style="color:#a2f;font-weight:bold">val</span> builder = StringBuilder()  
+	<span style="color:#a2f;font-weight:bold">var</span> idx = <span style="color:#666">0</span>  
+	<span style="color:#a2f;font-weight:bold">var</span> p = tree  
+	<span style="color:#a2f;font-weight:bold">while</span> (<span style="color:#a2f;font-weight:bold">true</span>) {  
+		<span style="color:#a2f;font-weight:bold">if</span> (idx <span style="color:#666">&gt;=</span> encodeSeq.length) {  
+			<span style="color:#a2f;font-weight:bold">break</span>  
+		}  
+		p = <span style="color:#a2f;font-weight:bold">if</span> (encodeSeq[idx] <span style="color:#666">==</span> <span style="color:#b44">&#39;0&#39;</span>) {  
+			p.left<span style="color:#666">!!</span>  
+		} <span style="color:#a2f;font-weight:bold">else</span> {  
+			p.right<span style="color:#666">!!</span>  
+		}  
+		<span style="color:#a2f;font-weight:bold">if</span> (p.isLeafNode()) {  
+			builder.append(p.<span style="color:#a2f;font-weight:bold">data</span>)  
+			p = tree  
+		}  
+		idx <span style="color:#666">+=</span> <span style="color:#666">1</span>  
+	}  
+	<span style="color:#a2f;font-weight:bold">return</span> builder.toString()  
+}</code></pre></div>
+    </div>
+
+    
+        <div class="tags">
+            
+                <a href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84">数据结构</a>
+            
+                <a href="/tags/%E7%AE%97%E6%B3%95">算法</a>
+            
+        </div>
+    
+    
+    
+  <div id="comment">
+    
+    
+  </div>
+
+
+</section>
+
+
+    </main>
+    
+    <footer id="footer">
+    
+
+    <div class="copyright">
+    
+        版权声明：署名-非商业使用-相同方式共享 3.0 国际(BY-NC-SA 3.0)
+    
+    </div>
+
+    
+      <div class="powerby">
+        Powered by <a href='http://www.gohugo.io/'>Hugo</a> Theme By <a href='https://github.com/nodejh/hugo-theme-cactus-plus'>nodejh</a>
+      </div>
+    
+</footer>
+
+
+
+  </body>
+</html>

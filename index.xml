@@ -6,7 +6,16 @@
     <description>Recent content on manan&#39;s blog 🍷</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 24 Sep 2021 17:07:35 +0800</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 31 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>哈夫曼树与哈夫曼编码</title>
+      <link>/posts/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E4%B8%8E%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/</link>
+      <pubDate>Sun, 31 Oct 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E4%B8%8E%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/</guid>
+      <description>概述 🔗哈夫曼树(Huffman Tree)也是一种树，与其他树不同的是哈夫曼树的构造方式。在哈夫曼树的构造过程中有一个参考指标——带权路径长度</description>
+    </item>
+    
     <item>
       <title>8086寻址方式</title>
       <link>/posts/8086%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F/</link>
