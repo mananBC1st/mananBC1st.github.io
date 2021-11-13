@@ -8,6 +8,15 @@
     <language>zh-cn</language>
     <lastBuildDate>Sat, 13 Nov 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/java/index.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Java Swing类库汇总</title>
+      <link>/posts/java-swing%E7%B1%BB%E5%BA%93%E6%B1%87%E6%80%BB/</link>
+      <pubDate>Sat, 13 Nov 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/java-swing%E7%B1%BB%E5%BA%93%E6%B1%87%E6%80%BB/</guid>
+      <description>Swing类库汇总 🔗 🌸Look And Feel 外观 BeautyEye L&amp;amp;F（国人开发） 🏠 HomePage: http://docs.52im.net/extend/docs/src/beautyeye3/ 🛒 Github: https://github.com/JackJiang2011/beautyeye 📦 Maven Repository: ❎ Flat L&amp;amp;F 🏠 HomePage: https://www.formdev.com/flatlaf/ 🛒 Github: https://github.com/JFormDesigner/FlatLaf 📦 Maven Repository: ✅ Dark L&amp;amp;F 🏠 HomePage: https://weisj.github.io/darklaf-docs/ 🛒 Github: https://github.com/bulenkov/Darcula 📦 Maven Repository: ✅ Substance L&amp;amp;F 🏠</description>
+    </item>
+    
+    <item>
       <title>将Java编译为本地代码</title>
       <link>/posts/%E5%B0%86java%E7%BC%96%E8%AF%91%E4%B8%BA%E6%9C%AC%E5%9C%B0%E4%BB%A3%E7%A0%81/</link>
       <pubDate>Sat, 13 Nov 2021 00:00:00 +0000</pubDate>
