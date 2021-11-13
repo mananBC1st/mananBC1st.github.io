@@ -6,7 +6,16 @@
     <description>Recent content in 微机原理 on manan&#39;s blog 🍷</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
-    <lastBuildDate>Fri, 24 Sep 2021 17:07:35 +0800</lastBuildDate><atom:link href="/tags/%E5%BE%AE%E6%9C%BA%E5%8E%9F%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 15 Oct 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/%E5%BE%AE%E6%9C%BA%E5%8E%9F%E7%90%86/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>8086字符串操作</title>
+      <link>/posts/8086%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/</link>
+      <pubDate>Fri, 15 Oct 2021 00:00:00 +0000</pubDate>
+      
+      <guid>/posts/8086%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/</guid>
+      <description>概述 🔗8086关于字符串的五种操作指令： MOVS (MOVE BYTE OR WORD STRING) CMPS (COMPARE BYTE OR WORD STRING) SCAS (SCAN BYTE OR WORD STRING) LODS (LOAD BYTE OR WORD STRING) STOS (STORE BYTE OR WORD STRING) 从指令的全称中可以看到，8086对于字符</description>
+    </item>
+    
     <item>
       <title>8086寻址方式</title>
       <link>/posts/8086%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F/</link>
