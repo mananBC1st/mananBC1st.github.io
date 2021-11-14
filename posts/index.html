@@ -55,6 +55,39 @@
 	
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/javascript-zx%E7%94%A8js%E5%86%99shell%E8%84%9A%E6%9C%AC/" rel="bookmark">
+			JavaScript ZX——用JS写Shell脚本
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Manan</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2021-11-14T00:00:00Z">2021-11-14</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		ZX库简介 zx是Google推出的一个运行在Node.js环境下的方便开发人员编写命令行脚本程序的类库。
+命令脚本程序是基于特定操作系统，方便完成的一系列批处理工作的脚本程序。在Unix-like的操作系统，通常是使用shell脚本。在Windows系统中使用的则是bat脚本。
+这类批处理脚本都有一个共同的特点——语法晦涩不好编写。对于开发人员来说，掌握shell编程的收益并不大。好在Google推出了一款可以在Node运行时环境中进行shell编程的工具类库zx
+zx的Github项目地址为https://github.com/google/zx，此项目在笔者写下这篇文章时就已经有23k左右的star了，可见这个库确实解决了开发人员的一个痛点。
+ZX库的安装 安装ZX之前，需要确保本机具有Node的运行时环境。如果没有安装，可以去NodeJS官网下载，地址为：https://nodejs.org/en/。
+NodeJS的安装完毕后，你就可以使用npm（Node Package Manager）来安装zx了。
+sudo npm install -g zx 使用ZX写一段shell脚本 zx提供了许多封装好的函数方便你进行shell编程。
+例如：question函数，对readline进行了封装，可以更方便的接收shell的输入。同时zx还提供了fetch函数，可以更好的进行网络数据的请求。
+在zx中以$符号开头的代表这是一个shell命令，它会立即执行并返回一个Promise，这个Promise被定义为
+class ProcessPromise&lt;T&gt; extends Promise&lt;T&gt; { readonly stdin: Writable readonly stdout: Readable readonly stderr: Readable readonly exitCode: Promise&lt;number&gt; pipe(dest): ProcessPromise&lt;T&gt; kill(signal = &#39;SIGTERM&#39;): Promise&lt;void&gt; } ProcessPromise的返回值为：
+class ProcessOutput { readonly stdout: string readonly stderr: string readonly exitCode: number toString(): string } 其中如果shell命令执行成功，那么exitCode字段将被设置为0。同时shell命令执行后的输出将会被保存在stdout中。如果执行失败，那么exitCode将为一个非零的整数，命令的输出将会被保存在stderr中。
+同时你也可以对shell命令执行后的输出进行重定向：
+$`git pull`.pipe(streamVar) Demo：自动提交当前代码
+#!/usr/bin/env zx  // 注意$返回的是一个Promise let { exitCode } = await $&#34;git add .
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/javascript-zx%E7%94%A8js%E5%86%99shell%E8%84%9A%E6%9C%AC/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/swing%E7%B1%BB%E5%BA%93%E6%B1%87%E6%80%BB/" rel="bookmark">
 			Java Swing类库汇总
 			</a>
@@ -308,33 +341,6 @@ import java.util.ArrayList; import java.util.List; public final class Combinatio
 	<div class="list__footer clearfix">
 		<a class="list__footer-readmore btn" href="/posts/leetcode15/">Read more…</a>
 	</div>
-</article><article class="list__item post">
-	
-	<header class="list__header">
-		<h2 class="list__title post__title">
-			<a href="/posts/javavolatile/" rel="bookmark">
-			Java volatile关键字作用
-			</a>
-		</h2>
-		<div class="list__meta meta"><div class="meta__item-author meta__item">
-	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Manan</span>
-</div>
-<div class="meta__item-datetime meta__item">
-	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2021-09-06T00:00:00Z">2021-09-06</time></div></div>
-	</header>
-	<div class="content list__excerpt post__content clearfix">
-		概述 volatile是java中的一个关键字，用于修饰变量。被此关键修饰的变量可以禁止对此变量操作的指令进行重排，还有保持内存的可见性。 简言之它的作用就是：
-  禁止指令重排
-  保持内存的可见性
-  禁止指令重排 CPU在执行代码时，为了提高执行效率，有时会将代码乱序执行。但是乱序也不是随随便便的乱序，而是在一定规则下，对指令进行重排然后执行。指令重排在单线程下没有什么问题，但是在多线程环境下容易造成并发安全问题。
-保持内存的可见性 何谓之内存的可见性，其实笔者在Java线程安全问题一文中对此问题进行过阐述。线程是一种资源，线程在执行代码时有自己的工作内存（线程执行的堆栈）。一般来说，一些共享变量存在于堆内存中，线程对于共享变量的操作实际上对自己工作内存中共享变量的副本进行操作，线程并不会直接操作堆内存的中的共享变量。
-这里我们可以通过字节码进行验证，首先我们的java源代码是对变量a进行一个自增操作 =&gt; a++，而其对应的字节码为：
-getstatic #2 iconst_1 iadd putstatic #2 return 从字节码层面可以体现出工作内存与主存。但是，Java内存可见性的控制并不是在字节码层面，而是在JVM层面。即使你对变量a使用volatile修饰，那么编译之后的字节码也没有变化。
-JVM定义了对于内存的8种操作：
-这些操作是JVM层面的操作，在Java源代码中并不能感受到。线程在所操作的共享变量，其实是存在于自己线程栈中的变量副本。在多线程并发的情况下，如果有其他线程修改了主存中的值，那么其他线程无法感知这种修改。因为线程在通过READ-LOAD操作拷贝完副本之后，之后线程对于数据的操作都是对于副本进行的。这也就是内存可见性的问题的来源，简言之就是线程之间无法感知对于主存共享变量的修改。
-volatile关键字就是解决了这样的问题，使得线程对于主存具有一定的可见性。其解决方案是对于volatile标注的变量，每次在使用之前都要重新从主存中加载，同时每次对于变量完成修改后，要及时的将变量写回主存。
-通过这样的操作，每个线程就能感知到内存中变量的变化，并及时更新自己副本的值。不过需要注意的是，volatile关键字并不能保障并发的安全性。尽管每次在使用之前都会更新值，但是这并没有解决变量访问的有序性。所以在高并发场景下依然会出现问题。
-	</div>
 </article>
 </main>
 
@@ -358,11 +364,11 @@ volatile关键字就是解决了这样的问题，使得线程对于主存具有
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/javascript-zx%E7%94%A8js%E5%86%99shell%E8%84%9A%E6%9C%AC/">JavaScript ZX——用JS写Shell脚本</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/swing%E7%B1%BB%E5%BA%93%E6%B1%87%E6%80%BB/">Java Swing类库汇总</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%B0%86java%E7%BC%96%E8%AF%91%E4%B8%BA%E6%9C%AC%E5%9C%B0%E4%BB%A3%E7%A0%81/">将Java编译为本地代码</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/">哈夫曼树与哈夫曼编码</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/8086%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/">8086字符串操作</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/8086%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F/">8086寻址方式</a></li>
 		</ul>
 	</div>
 </div>
@@ -370,6 +376,7 @@ volatile关键字就是解决了这样的问题，使得线程对于主存具有
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="Java">Java (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/javascript/" title="JavaScript">JavaScript (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/leetcode/" title="leetcode">leetcode (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BE%AE%E6%9C%BA%E5%8E%9F%E7%90%86/" title="微机原理">微机原理 (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="数据结构">数据结构 (1)</a>

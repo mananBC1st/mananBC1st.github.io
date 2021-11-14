@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>JavaScript ZX——用JS写Shell脚本 - Manan&#39;s site</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="JavaScript ZX——用JS写Shell脚本" />
+<meta property="og:description" content="ZX库简介 zx是Google推出的一个运行在Node.js环境下的方便开发人员编写命令行脚本程序的类库。
+命令脚本程序是基于特定操作系统，方便完成的一系列批处理工作的脚本程序。在Unix-like的操作系统，通常是使用shell脚本。在Windows系统中使用的则是bat脚本。
+这类批处理脚本都有一个共同的特点——语法晦涩不好编写。对于开发人员来说，掌握shell编程的收益并不大。好在Google推出了一款可以在Node运行时环境中进行shell编程的工具类库zx
+zx的Github项目地址为https://github.com/google/zx，此项目在笔者写下这篇文章时就已经有23k左右的star了，可见这个库确实解决了开发人员的一个痛点。
+ZX库的安装 安装ZX之前，需要确保本机具有Node的运行时环境。如果没有安装，可以去NodeJS官网下载，地址为：https://nodejs.org/en/。
+NodeJS的安装完毕后，你就可以使用npm（Node Package Manager）来安装zx了。
+sudo npm install -g zx 使用ZX写一段shell脚本 zx提供了许多封装好的函数方便你进行shell编程。
+例如：question函数，对readline进行了封装，可以更方便的接收shell的输入。同时zx还提供了fetch函数，可以更好的进行网络数据的请求。
+在zx中以$符号开头的代表这是一个shell命令，它会立即执行并返回一个Promise，这个Promise被定义为
+class ProcessPromise&lt;T&gt; extends Promise&lt;T&gt; { readonly stdin: Writable readonly stdout: Readable readonly stderr: Readable readonly exitCode: Promise&lt;number&gt; pipe(dest): ProcessPromise&lt;T&gt; kill(signal = &#39;SIGTERM&#39;): Promise&lt;void&gt; } ProcessPromise的返回值为：
+class ProcessOutput { readonly stdout: string readonly stderr: string readonly exitCode: number toString(): string } 其中如果shell命令执行成功，那么exitCode字段将被设置为0。同时shell命令执行后的输出将会被保存在stdout中。如果执行失败，那么exitCode将为一个非零的整数，命令的输出将会被保存在stderr中。
+同时你也可以对shell命令执行后的输出进行重定向：
+$`git pull`.pipe(streamVar) Demo：自动提交当前代码
+#!/usr/bin/env zx  // 注意$返回的是一个Promise let { exitCode } = await $&#34;git add ." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/javascript-zx%E7%94%A8js%E5%86%99shell%E8%84%9A%E6%9C%AC/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-11-14T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-11-14T00:00:00+00:00" />
+
+
+		<meta itemprop="name" content="JavaScript ZX——用JS写Shell脚本">
+<meta itemprop="description" content="ZX库简介 zx是Google推出的一个运行在Node.js环境下的方便开发人员编写命令行脚本程序的类库。
+命令脚本程序是基于特定操作系统，方便完成的一系列批处理工作的脚本程序。在Unix-like的操作系统，通常是使用shell脚本。在Windows系统中使用的则是bat脚本。
+这类批处理脚本都有一个共同的特点——语法晦涩不好编写。对于开发人员来说，掌握shell编程的收益并不大。好在Google推出了一款可以在Node运行时环境中进行shell编程的工具类库zx
+zx的Github项目地址为https://github.com/google/zx，此项目在笔者写下这篇文章时就已经有23k左右的star了，可见这个库确实解决了开发人员的一个痛点。
+ZX库的安装 安装ZX之前，需要确保本机具有Node的运行时环境。如果没有安装，可以去NodeJS官网下载，地址为：https://nodejs.org/en/。
+NodeJS的安装完毕后，你就可以使用npm（Node Package Manager）来安装zx了。
+sudo npm install -g zx 使用ZX写一段shell脚本 zx提供了许多封装好的函数方便你进行shell编程。
+例如：question函数，对readline进行了封装，可以更方便的接收shell的输入。同时zx还提供了fetch函数，可以更好的进行网络数据的请求。
+在zx中以$符号开头的代表这是一个shell命令，它会立即执行并返回一个Promise，这个Promise被定义为
+class ProcessPromise&lt;T&gt; extends Promise&lt;T&gt; { readonly stdin: Writable readonly stdout: Readable readonly stderr: Readable readonly exitCode: Promise&lt;number&gt; pipe(dest): ProcessPromise&lt;T&gt; kill(signal = &#39;SIGTERM&#39;): Promise&lt;void&gt; } ProcessPromise的返回值为：
+class ProcessOutput { readonly stdout: string readonly stderr: string readonly exitCode: number toString(): string } 其中如果shell命令执行成功，那么exitCode字段将被设置为0。同时shell命令执行后的输出将会被保存在stdout中。如果执行失败，那么exitCode将为一个非零的整数，命令的输出将会被保存在stderr中。
+同时你也可以对shell命令执行后的输出进行重定向：
+$`git pull`.pipe(streamVar) Demo：自动提交当前代码
+#!/usr/bin/env zx  // 注意$返回的是一个Promise let { exitCode } = await $&#34;git add ."><meta itemprop="datePublished" content="2021-11-14T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-11-14T00:00:00+00:00" />
+<meta itemprop="wordCount" content="113">
+<meta itemprop="keywords" content="JavaScript," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/custom.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Manan&#39;s site" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/avatar.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Manan&#39;s site</div>
+					<div class="logo__tagline">computer science &amp; philosophy</div>
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">JavaScript ZX——用JS写Shell脚本</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Manan</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2021-11-14T00:00:00Z">2021-11-14</time></div></div>
+		</header>
+		
+<div class="post__toc toc">
+	<div class="toc__title">Page content</div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
+  <ul>
+    <li><a href="#zx库简介">ZX库简介</a></li>
+    <li><a href="#zx库的安装">ZX库的安装</a></li>
+    <li><a href="#使用zx写一段shell脚本">使用ZX写一段shell脚本</a></li>
+  </ul>
+</nav>
+	</div>
+</div><div class="content post__content clearfix">
+			<h2 id="zx库简介">ZX库简介</h2>
+<p><code>zx</code>是Google推出的一个运行在<code>Node.js</code>环境下的方便开发人员编写命令行脚本程序的类库。</p>
+<p>命令脚本程序是基于特定操作系统，方便完成的一系列批处理工作的脚本程序。在Unix-like的操作系统，通常是使用shell脚本。在Windows系统中使用的则是bat脚本。</p>
+<p>这类批处理脚本都有一个共同的特点——语法晦涩不好编写。对于开发人员来说，掌握shell编程的收益并不大。好在Google推出了一款可以在Node运行时环境中进行shell编程的工具类库<code>zx</code></p>
+<p><code>zx</code>的Github项目地址为<a href="https://github.com/google/zx">https://github.com/google/zx</a>，此项目在笔者写下这篇文章时就已经有23k左右的star了，可见这个库确实解决了开发人员的一个痛点。</p>
+<h2 id="zx库的安装">ZX库的安装</h2>
+<p>安装ZX之前，需要确保本机具有Node的运行时环境。如果没有安装，可以去NodeJS官网下载，地址为：<a href="https://nodejs.org/en/">https://nodejs.org/en/</a>。</p>
+<p>NodeJS的安装完毕后，你就可以使用npm（Node Package Manager）来安装zx了。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">sudo npm install -g zx
+</code></pre></div><h2 id="使用zx写一段shell脚本">使用ZX写一段shell脚本</h2>
+<p>zx提供了许多封装好的函数方便你进行shell编程。</p>
+<p>例如：<code>question</code>函数，对<code>readline</code>进行了封装，可以更方便的接收shell的输入。同时zx还提供了<code>fetch</code>函数，可以更好的进行网络数据的请求。</p>
+<p>在zx中以<code>$</code>符号开头的代表这是一个shell命令，它会立即执行并返回一个Promise，这个Promise被定义为</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProcessPromise</span>&lt;<span style="color:#f92672">T</span>&gt; <span style="color:#66d9ef">extends</span> <span style="color:#a6e22e">Promise</span>&lt;<span style="color:#f92672">T</span>&gt; {
+  <span style="color:#66d9ef">readonly</span> <span style="color:#a6e22e">stdin</span>: <span style="color:#66d9ef">Writable</span>
+  <span style="color:#66d9ef">readonly</span> <span style="color:#a6e22e">stdout</span>: <span style="color:#66d9ef">Readable</span>
+  <span style="color:#66d9ef">readonly</span> <span style="color:#a6e22e">stderr</span>: <span style="color:#66d9ef">Readable</span>
+  <span style="color:#66d9ef">readonly</span> <span style="color:#a6e22e">exitCode</span>: <span style="color:#66d9ef">Promise</span>&lt;<span style="color:#f92672">number</span>&gt;
+  <span style="color:#a6e22e">pipe</span>(<span style="color:#a6e22e">dest</span>)<span style="color:#f92672">:</span> <span style="color:#a6e22e">ProcessPromise</span>&lt;<span style="color:#f92672">T</span>&gt;
+  <span style="color:#a6e22e">kill</span>(<span style="color:#a6e22e">signal</span> <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;SIGTERM&#39;</span>)<span style="color:#f92672">:</span> <span style="color:#a6e22e">Promise</span>&lt;<span style="color:#f92672">void</span>&gt;
+}
+</code></pre></div><p><code>ProcessPromise</code>的返回值为：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-typescript" data-lang="typescript"><span style="color:#66d9ef">class</span> <span style="color:#a6e22e">ProcessOutput</span> {
+  <span style="color:#66d9ef">readonly</span> <span style="color:#a6e22e">stdout</span>: <span style="color:#66d9ef">string</span>
+  <span style="color:#66d9ef">readonly</span> <span style="color:#a6e22e">stderr</span>: <span style="color:#66d9ef">string</span>
+  <span style="color:#66d9ef">readonly</span> <span style="color:#a6e22e">exitCode</span>: <span style="color:#66d9ef">number</span>
+  <span style="color:#a6e22e">toString</span>()<span style="color:#f92672">:</span> <span style="color:#66d9ef">string</span>
+}
+</code></pre></div><p>其中如果shell命令执行成功，那么<code>exitCode</code>字段将被设置为0。同时shell命令执行后的输出将会被保存在<code>stdout</code>中。如果执行失败，那么<code>exitCode</code>将为一个非零的整数，命令的输出将会被保存在<code>stderr</code>中。</p>
+<p>同时你也可以对shell命令执行后的输出进行重定向：</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-javascript" data-lang="javascript"><span style="color:#a6e22e">$</span><span style="color:#e6db74">`git pull`</span>.<span style="color:#a6e22e">pipe</span>(<span style="color:#a6e22e">streamVar</span>)
+</code></pre></div><p>Demo：自动提交当前代码</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-js" data-lang="js"><span style="color:#75715e">#!/usr/bin/env zx
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">// 注意$返回的是一个Promise
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">let</span> { <span style="color:#a6e22e">exitCode</span> } <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">$</span><span style="color:#e6db74">&#34;git add .&#34;</span>
+
+<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">exitCode</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
+	<span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">exit</span>(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+}
+
+<span style="color:#66d9ef">let</span> { <span style="color:#a6e22e">exitCode</span> } <span style="color:#f92672">=</span> <span style="color:#66d9ef">await</span> <span style="color:#a6e22e">$</span><span style="color:#e6db74">&#34;git commit -m \&#34;update\&#34;&#34;</span>
+
+<span style="color:#66d9ef">if</span> (<span style="color:#a6e22e">exitCode</span> <span style="color:#f92672">!=</span> <span style="color:#ae81ff">0</span>) {
+	<span style="color:#a6e22e">process</span>.<span style="color:#a6e22e">exit</span>(<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>)
+}
+</code></pre></div><p>写好脚本之后，脚本需要被zx执行，而不是node。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">zx ./script.js
+</code></pre></div><p>也可以在文件开头指明执行当前脚本的程序</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell"><span style="color:#75715e">#!/usr/bin/env zx
+</span><span style="color:#75715e"></span>
+//script.js
+</code></pre></div><p>然后给当前文件赋予可执行权限后，便可以单独运行此文件</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-shell" data-lang="shell">chmod +x ./script.js
+</code></pre></div><p>关于zx库的更多用法，可以在Github上进行查看<a href="https://github.com/google/zx">https://github.com/google/zx</a>。</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/javascript/" rel="tag">JavaScript</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/swing%E7%B1%BB%E5%BA%93%E6%B1%87%E6%80%BB/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">Java Swing类库汇总</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2021 版权声明：署名-非商业使用-相同方式共享 3.0 国际(BY-NC-SA 3.0).
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+<script src="/js/custom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>
