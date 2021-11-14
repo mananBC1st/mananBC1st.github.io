@@ -1,93 +1,84 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-  <head>
-    <title>8086寻址方式 | manan&#39;s blog 🍷</title>
-
-    <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">    
-<meta name="viewport" content="width=device-width,minimum-scale=1">
-<meta name="description" content="概述 🔗一条汇编指令包含了操作码和操作数两部分，而操作数又分为目的操作数（DST）和源操作数（SRC）两种。汇编指令就是操作码与操作数的结合，">
-<meta name="generator" content="Hugo 0.89.0-DEV" />
-
-
-  <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
-
-
-<link rel="stylesheet" href="/css/style.css">
-
-
-
-<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
-
- 
-    
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>8086寻址方式 - Manan&#39;s site</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="8086寻址方式" />
+<meta property="og:description" content="概述 一条汇编指令包含了操作码和操作数两部分，而操作数又分为目的操作数（DST）和源操作数（SRC）两种。汇编指令就是操作码与操作数的结合，有的操作码需要两个操作数（即DST和SRC）有的只需要一个操作数（例如PUSH），还有的不需要操作数（例如CLI）。
+这种差异性便是寻址方式的不同造成的，所谓寻址便是确定如何寻找操作数的过程。
+不管指令需要结合多少个操作数，指令执行过程中数据的流向是唯一的，那就是从SRC -&gt; DST。并且在数据传递的过程中必须保障SRC和DST长度大小明确且一致。
+指令系统的寻址主要包括两类：
+ 数据的寻址方式：寻找指令所操作数据的方式 转移地址的寻址方式：寻找转移指令所需的程序地址  数据的八种寻址方式：
+ 立即数寻址 寄存器寻址 存储器寻址  直接寻址 寄存器间接寻址 寄存器相对寻址 基址变址寻址 基址变址寻址且相对寻址   隐含寻址  立即数寻址 MOV AX, 100H ; 十六进制立即数 MOV BX, 1010 ; 十进制立即数 MOV AX, 12Q ; 八进制立即数 MOV AX, 0101B ; 二进制立即数 立即数只能作为源操作数（SRC）使用，无法作为目的操作数。立即数所占据的内存大小由目的操作数决定。且立即数本身长度不得超出目的操作数长度。
+MOV AL, 10H ; 10H占据一个Byte的空间 MOV AX, 10H ; 10H占据一个Word的空间  MOV AL, 1010H ; ❌ 1010H占据一个Word的空间无法放入一个Byte的寄存器中 MOV 1010H, AX ; ❌ 立即数无法作为DST 注：CS寄存器在立即数寻址过程中无法作为目的操作数使用。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/8086%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-09-24T17:07:35+08:00" />
+<meta property="article:modified_time" content="2021-09-24T17:07:35+08:00" />
 
 
+		<meta itemprop="name" content="8086寻址方式">
+<meta itemprop="description" content="概述 一条汇编指令包含了操作码和操作数两部分，而操作数又分为目的操作数（DST）和源操作数（SRC）两种。汇编指令就是操作码与操作数的结合，有的操作码需要两个操作数（即DST和SRC）有的只需要一个操作数（例如PUSH），还有的不需要操作数（例如CLI）。
+这种差异性便是寻址方式的不同造成的，所谓寻址便是确定如何寻找操作数的过程。
+不管指令需要结合多少个操作数，指令执行过程中数据的流向是唯一的，那就是从SRC -&gt; DST。并且在数据传递的过程中必须保障SRC和DST长度大小明确且一致。
+指令系统的寻址主要包括两类：
+ 数据的寻址方式：寻找指令所操作数据的方式 转移地址的寻址方式：寻找转移指令所需的程序地址  数据的八种寻址方式：
+ 立即数寻址 寄存器寻址 存储器寻址  直接寻址 寄存器间接寻址 寄存器相对寻址 基址变址寻址 基址变址寻址且相对寻址   隐含寻址  立即数寻址 MOV AX, 100H ; 十六进制立即数 MOV BX, 1010 ; 十进制立即数 MOV AX, 12Q ; 八进制立即数 MOV AX, 0101B ; 二进制立即数 立即数只能作为源操作数（SRC）使用，无法作为目的操作数。立即数所占据的内存大小由目的操作数决定。且立即数本身长度不得超出目的操作数长度。
+MOV AL, 10H ; 10H占据一个Byte的空间 MOV AX, 10H ; 10H占据一个Word的空间  MOV AL, 1010H ; ❌ 1010H占据一个Word的空间无法放入一个Byte的寄存器中 MOV 1010H, AX ; ❌ 立即数无法作为DST 注：CS寄存器在立即数寻址过程中无法作为目的操作数使用。"><meta itemprop="datePublished" content="2021-09-24T17:07:35+08:00" />
+<meta itemprop="dateModified" content="2021-09-24T17:07:35+08:00" />
+<meta itemprop="wordCount" content="215">
+<meta itemprop="keywords" content="微机原理," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
 
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
-    onload="renderMathInElement(document.body);"></script>
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/custom.css">
 
-
-
-
-  </head>
-
-  <body>
-    <nav class="navigation">
-	
-		<a href="/"> <span class="arrow">←</span>首页</a>
-	
-	<a href="/posts">归档</a>
-	<a href="/tags">标签</a>
-	<a href="/about">关于</a>
-
-	
-		<a href="https://www.zhihu.com/people/manan333">知乎</a>
-	
-		<a href="https://space.bilibili.com/199622112">B站</a>
-	
-
-	
-	  <a class="button" href="/index.xml">订阅</a>
-	
-</nav>
-
-
-    <main class="main">
-      
-
-<section id="single">
-    <h1 class="title">8086寻址方式</h1>
-
-    <div class="tip">
-        <time datetime="2021-09-24 17:07:35 &#43;0800 CST">2021年09月24日</time>
-        <span class="split">
-          ·
-        </span>
-        <span>
-          1484字
-        </span>
-        <span class="split">
-          ·
-        </span>
-        <span>
-          3分钟
-        </span>
-    </div>
-
-    
-    
-        
-  
-    <aside class="toc">
-      <details>
-          <summary>Table of Contents
-          </summary>
-          <div>
-              <nav id="TableOfContents">
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Manan&#39;s site" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/avatar.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Manan&#39;s site</div>
+					<div class="logo__tagline">computer science &amp; philosophy</div>
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">8086寻址方式</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Manan</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2021-09-24T17:07:35&#43;08:00">2021-09-24</time></div></div>
+		</header>
+		
+<div class="post__toc toc">
+	<div class="toc__title">Page content</div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
   <ul>
     <li><a href="#概述">概述</a></li>
     <li><a href="#立即数寻址">立即数寻址</a></li>
@@ -106,17 +97,10 @@
     <li><a href="#8086数据流向图">8086数据流向图</a></li>
   </ul>
 </nav>
-          </div>
-      </details>
-    </aside>
-  
-
-
-    
-
-
-    <div class="content">
-      <h2 id="概述">概述 <a href="#%e6%a6%82%e8%bf%b0" class="anchor">🔗</a></h2><p>一条汇编指令包含了<strong>操作码</strong>和<strong>操作数</strong>两部分，而操作数又分为目的操作数（DST）和源操作数（SRC）两种。汇编指令就是操作码与操作数的结合，有的操作码需要两个操作数（即DST和SRC）有的只需要一个操作数（例如PUSH），还有的不需要操作数（例如CLI）。</p>
+	</div>
+</div><div class="content post__content clearfix">
+			<h2 id="概述">概述</h2>
+<p>一条汇编指令包含了<strong>操作码</strong>和<strong>操作数</strong>两部分，而操作数又分为目的操作数（DST）和源操作数（SRC）两种。汇编指令就是操作码与操作数的结合，有的操作码需要两个操作数（即DST和SRC）有的只需要一个操作数（例如PUSH），还有的不需要操作数（例如CLI）。</p>
 <p>这种差异性便是寻址方式的不同造成的，所谓<strong>寻址便是确定如何寻找操作数的过程</strong>。</p>
 <p>不管指令需要结合多少个操作数，指令执行过程中数据的流向是唯一的，那就是从<code>SRC -&gt; DST</code>。并且在数据传递的过程中必须保障<code>SRC</code>和<code>DST</code>长度大小明确且一致。</p>
 <p>指令系统的寻址主要包括两类：</p>
@@ -139,109 +123,122 @@
 </li>
 <li>隐含寻址</li>
 </ol>
-<h2 id="立即数寻址">立即数寻址 <a href="#%e7%ab%8b%e5%8d%b3%e6%95%b0%e5%af%bb%e5%9d%80" class="anchor">🔗</a></h2><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#00a000">MOV</span> <span style="color:#800">AX</span>, <span style="color:#666">100</span><span style="color:#800">H</span>  <span style="color:#080;font-style:italic">; 十六进制立即数
-</span><span style="color:#080;font-style:italic"></span><span style="color:#800">MOV</span> <span style="color:#800">BX</span>, <span style="color:#666">1010</span>  <span style="color:#080;font-style:italic">; 十进制立即数
-</span><span style="color:#080;font-style:italic"></span><span style="color:#800">MOV</span> <span style="color:#800">AX</span>, <span style="color:#666">12</span><span style="color:#800">Q</span>   <span style="color:#080;font-style:italic">; 八进制立即数
-</span><span style="color:#080;font-style:italic"></span><span style="color:#800">MOV</span> <span style="color:#800">AX</span>, <span style="color:#666">0101</span><span style="color:#800">B</span> <span style="color:#080;font-style:italic">; 二进制立即数
+<h2 id="立即数寻址">立即数寻址</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">MOV</span> <span style="color:#66d9ef">AX</span>, <span style="color:#ae81ff">100</span><span style="color:#66d9ef">H</span>  <span style="color:#75715e">; 十六进制立即数
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">MOV</span> <span style="color:#66d9ef">BX</span>, <span style="color:#ae81ff">1010</span>  <span style="color:#75715e">; 十进制立即数
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">MOV</span> <span style="color:#66d9ef">AX</span>, <span style="color:#ae81ff">12</span><span style="color:#66d9ef">Q</span>   <span style="color:#75715e">; 八进制立即数
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">MOV</span> <span style="color:#66d9ef">AX</span>, <span style="color:#ae81ff">0101</span><span style="color:#66d9ef">B</span> <span style="color:#75715e">; 二进制立即数
 </span></code></pre></div><p><strong>立即数只能作为源操作数（SRC）使用，无法作为目的操作数</strong>。立即数所占据的内存大小由目的操作数决定。且立即数本身长度不得超出目的操作数长度。</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#00a000">MOV</span> <span style="color:#800">AL</span>, <span style="color:#666">10</span><span style="color:#800">H</span>   <span style="color:#080;font-style:italic">; 10H占据一个Byte的空间
-</span><span style="color:#080;font-style:italic"></span><span style="color:#800">MOV</span> <span style="color:#800">AX</span>, <span style="color:#666">10</span><span style="color:#800">H</span>   <span style="color:#080;font-style:italic">; 10H占据一个Word的空间
-</span><span style="color:#080;font-style:italic"></span>
-<span style="color:#00a000">MOV</span> <span style="color:#800">AL</span>, <span style="color:#666">1010</span><span style="color:#800">H</span> <span style="color:#080;font-style:italic">; ❌ 1010H占据一个Word的空间无法放入一个Byte的寄存器中
-</span><span style="color:#080;font-style:italic"></span><span style="color:#800">MOV</span> <span style="color:#666">1010</span><span style="color:#800">H</span>, <span style="color:#800">AX</span> <span style="color:#080;font-style:italic">; ❌ 立即数无法作为DST
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">MOV</span> <span style="color:#66d9ef">AL</span>, <span style="color:#ae81ff">10</span><span style="color:#66d9ef">H</span>   <span style="color:#75715e">; 10H占据一个Byte的空间
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">MOV</span> <span style="color:#66d9ef">AX</span>, <span style="color:#ae81ff">10</span><span style="color:#66d9ef">H</span>   <span style="color:#75715e">; 10H占据一个Word的空间
+</span><span style="color:#75715e"></span>
+<span style="color:#a6e22e">MOV</span> <span style="color:#66d9ef">AL</span>, <span style="color:#ae81ff">1010</span><span style="color:#66d9ef">H</span> <span style="color:#75715e">; ❌ 1010H占据一个Word的空间无法放入一个Byte的寄存器中
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">MOV</span> <span style="color:#ae81ff">1010</span><span style="color:#66d9ef">H</span>, <span style="color:#66d9ef">AX</span> <span style="color:#75715e">; ❌ 立即数无法作为DST
 </span></code></pre></div><p>注：CS寄存器在立即数寻址过程中无法作为目的操作数使用。</p>
-<h2 id="寄存器寻址">寄存器寻址 <a href="#%e5%af%84%e5%ad%98%e5%99%a8%e5%af%bb%e5%9d%80" class="anchor">🔗</a></h2><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#00a000">MOV</span> <span style="color:#800">AX</span>, <span style="color:#800">BX</span>   <span style="color:#080;font-style:italic">; 将BX的内容转移到AX中
-</span><span style="color:#080;font-style:italic"></span><span style="color:#800">ADD</span> <span style="color:#800">AX</span>, <span style="color:#800">BX</span>   <span style="color:#080;font-style:italic">; 将AX和BX中的内容相加结果存储在AX中
-</span><span style="color:#080;font-style:italic"></span>
-<span style="color:#00a000">MOV</span> <span style="color:#800">AX</span>, <span style="color:#800">AL</span>   <span style="color:#080;font-style:italic">; ❌不推荐使用，长度不一致
-</span><span style="color:#080;font-style:italic"></span><span style="color:#800">MOV</span> <span style="color:#800">AL</span>, <span style="color:#800">AX</span>   <span style="color:#080;font-style:italic">; ❌不推荐使用
-</span></code></pre></div><h2 id="存储器寻址">存储器寻址 <a href="#%e5%ad%98%e5%82%a8%e5%99%a8%e5%af%bb%e5%9d%80" class="anchor">🔗</a></h2><p>存储器寻址是指操作数存放于存储器中，寻找这类操作数可以通过一下五类寻址方式找到。</p>
+<h2 id="寄存器寻址">寄存器寻址</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">MOV</span> <span style="color:#66d9ef">AX</span>, <span style="color:#66d9ef">BX</span>   <span style="color:#75715e">; 将BX的内容转移到AX中
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">ADD</span> <span style="color:#66d9ef">AX</span>, <span style="color:#66d9ef">BX</span>   <span style="color:#75715e">; 将AX和BX中的内容相加结果存储在AX中
+</span><span style="color:#75715e"></span>
+<span style="color:#a6e22e">MOV</span> <span style="color:#66d9ef">AX</span>, <span style="color:#66d9ef">AL</span>   <span style="color:#75715e">; ❌不推荐使用，长度不一致
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">MOV</span> <span style="color:#66d9ef">AL</span>, <span style="color:#66d9ef">AX</span>   <span style="color:#75715e">; ❌不推荐使用
+</span></code></pre></div><h2 id="存储器寻址">存储器寻址</h2>
+<p>存储器寻址是指操作数存放于存储器中，寻找这类操作数可以通过一下五类寻址方式找到。</p>
 <p>8086CPU具有20根地址线，内存地址的确定是通过<code>段地址+偏移地址</code>实现的。当前数据段的段地址存放于<code>DS</code>寄存器中。寻址时一般只提供偏移地址即可。</p>
-<h3 id="1直接寻址">1.直接寻址 <a href="#1%e7%9b%b4%e6%8e%a5%e5%af%bb%e5%9d%80" class="anchor">🔗</a></h3><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#080;font-style:italic">; 存储器 ----&gt; 寄存器
-</span><span style="color:#080;font-style:italic"></span><span style="color:#00a000">MOV</span> <span style="color:#800">AX</span>, [<span style="color:#666">1000</span><span style="color:#800">H</span>]  <span style="color:#080;font-style:italic">; 内存（DS：1000H)开始寻找一个字的数据传输到AX寄存器中。
-</span><span style="color:#080;font-style:italic"></span>
-<span style="color:#080;font-style:italic">; 寄存器 ----&gt; 存储器
-</span><span style="color:#080;font-style:italic"></span><span style="color:#00a000">MOV</span> [<span style="color:#666">1000</span><span style="color:#800">H</span>], <span style="color:#800">AX</span>  <span style="color:#080;font-style:italic">; 将AX寄存器中的数据传送到内存（DS：1000H）处
-</span><span style="color:#080;font-style:italic"></span>
-<span style="color:#080;font-style:italic">; 存储器 ---/--&gt; 存储器
-</span><span style="color:#080;font-style:italic"></span><span style="color:#00a000">MOV</span> [<span style="color:#666">1000</span><span style="color:#800">H</span>], [<span style="color:#666">0010</span><span style="color:#800">H</span>] <span style="color:#080;font-style:italic">; ❌
-</span></code></pre></div><p><p class="markdown-image">
-  <img src="https://cdn.jsdelivr.net/gh/huobingnan/my_image_hosting@master/%e5%ad%98%e5%82%a8%e5%99%a8%e7%9b%b4%e6%8e%a5%e5%af%bb%e5%9d%80.rslv1h4gd9s.png" alt="存储器直接寻址"  />
-</p></p>
+<h3 id="1直接寻址">1.直接寻址</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#75715e">; 存储器 ----&gt; 寄存器
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">MOV</span> <span style="color:#66d9ef">AX</span>, [<span style="color:#ae81ff">1000</span><span style="color:#66d9ef">H</span>]  <span style="color:#75715e">; 内存（DS：1000H)开始寻找一个字的数据传输到AX寄存器中。
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">; 寄存器 ----&gt; 存储器
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">MOV</span> [<span style="color:#ae81ff">1000</span><span style="color:#66d9ef">H</span>], <span style="color:#66d9ef">AX</span>  <span style="color:#75715e">; 将AX寄存器中的数据传送到内存（DS：1000H）处
+</span><span style="color:#75715e"></span>
+<span style="color:#75715e">; 存储器 ---/--&gt; 存储器
+</span><span style="color:#75715e"></span><span style="color:#a6e22e">MOV</span> [<span style="color:#ae81ff">1000</span><span style="color:#66d9ef">H</span>], [<span style="color:#ae81ff">0010</span><span style="color:#66d9ef">H</span>] <span style="color:#75715e">; ❌
+</span></code></pre></div><p><img src="https://cdn.jsdelivr.net/gh/huobingnan/my_image_hosting@master/%E5%AD%98%E5%82%A8%E5%99%A8%E7%9B%B4%E6%8E%A5%E5%AF%BB%E5%9D%80.rslv1h4gd9s.png" alt="存储器直接寻址"></p>
 <p>若不使用DS寄存器中的数据作为段地址，也可以使用ES寄存器作为数据段的段地址。</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#00a000">MOV</span> <span style="color:#800">AX</span>, <span style="color:#800">ES</span>:[<span style="color:#666">1000</span><span style="color:#800">H</span>]
-</code></pre></div><h3 id="2-寄存器间接寻址">2. 寄存器间接寻址 <a href="#2-%e5%af%84%e5%ad%98%e5%99%a8%e9%97%b4%e6%8e%a5%e5%af%bb%e5%9d%80" class="anchor">🔗</a></h3><p>寄存器寻址与直接寻址很相似，数据依然保存在存储器单元中，只不过存储单元的偏移地址存放于寄存器中，所以被称为<code>寄存器间接寻址</code>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">MOV</span> <span style="color:#66d9ef">AX</span>, <span style="color:#66d9ef">ES</span>:[<span style="color:#ae81ff">1000</span><span style="color:#66d9ef">H</span>]
+</code></pre></div><h3 id="2-寄存器间接寻址">2. 寄存器间接寻址</h3>
+<p>寄存器寻址与直接寻址很相似，数据依然保存在存储器单元中，只不过存储单元的偏移地址存放于寄存器中，所以被称为<code>寄存器间接寻址</code>。</p>
 <p><strong>并不是所有的寄存器都可以用来进行寻址</strong>，能够参与间接寻址的寄存器只有：<code>BX</code>, <code>SI</code>, <code>DI</code>, <code>BP</code>，其中<code>BX</code>, <code>SI</code>, <code>DI</code>默认的段地址为<code>DS</code>指向的数据段，<code>BP</code>默认的段地址为<code>SS</code>指向的堆栈段。</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#00a000">MOV</span> <span style="color:#800">AX</span>, [<span style="color:#800">BX</span>] <span style="color:#080;font-style:italic">; 实际操作数地址 =&gt; DS:BX
-</span><span style="color:#080;font-style:italic"></span>
-<span style="color:#00a000">MOV</span> <span style="color:#800">AX</span>, [<span style="color:#800">BP</span>] <span style="color:#080;font-style:italic">; 实际操作数地址 =&gt; SS:BP
-</span><span style="color:#080;font-style:italic"></span>
-<span style="color:#00a000">MOV</span> [<span style="color:#800">BX</span>], <span style="color:#800">AX</span> <span style="color:#080;font-style:italic">; 将AX中的数据 =&gt; DS:BX
-</span><span style="color:#080;font-style:italic"></span>
-<span style="color:#00a000">MOV</span> [<span style="color:#800">BP</span>], <span style="color:#800">AX</span> <span style="color:#080;font-style:italic">; 将AX中的数据 =&gt; SS:BP
-</span></code></pre></div><h3 id="3寄存器相对寻址伪指令写法">3.寄存器相对寻址(伪指令写法) <a href="#3%e5%af%84%e5%ad%98%e5%99%a8%e7%9b%b8%e5%af%b9%e5%af%bb%e5%9d%80%e4%bc%aa%e6%8c%87%e4%bb%a4%e5%86%99%e6%b3%95" class="anchor">🔗</a></h3><p>寄存器相对寻址是在寄存器间接寻址的基础之上进行，其形式为：<code>MOV DST [REG] + DISP</code>，其中<code>[REG] + DISP</code>的这种形式称为寄存器相对寻址，操作数在存储器中的偏移地址为<strong>寄存器的值 + DISP</strong>。</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#00a000">MOV</span> <span style="color:#800">AX</span>, [<span style="color:#800">BX</span>] <span style="">+</span> <span style="color:#666">02</span><span style="color:#800">H</span>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">MOV</span> <span style="color:#66d9ef">AX</span>, [<span style="color:#66d9ef">BX</span>] <span style="color:#75715e">; 实际操作数地址 =&gt; DS:BX
+</span><span style="color:#75715e"></span>
+<span style="color:#a6e22e">MOV</span> <span style="color:#66d9ef">AX</span>, [<span style="color:#66d9ef">BP</span>] <span style="color:#75715e">; 实际操作数地址 =&gt; SS:BP
+</span><span style="color:#75715e"></span>
+<span style="color:#a6e22e">MOV</span> [<span style="color:#66d9ef">BX</span>], <span style="color:#66d9ef">AX</span> <span style="color:#75715e">; 将AX中的数据 =&gt; DS:BX
+</span><span style="color:#75715e"></span>
+<span style="color:#a6e22e">MOV</span> [<span style="color:#66d9ef">BP</span>], <span style="color:#66d9ef">AX</span> <span style="color:#75715e">; 将AX中的数据 =&gt; SS:BP
+</span></code></pre></div><h3 id="3寄存器相对寻址伪指令写法">3.寄存器相对寻址(伪指令写法)</h3>
+<p>寄存器相对寻址是在寄存器间接寻址的基础之上进行，其形式为：<code>MOV DST [REG] + DISP</code>，其中<code>[REG] + DISP</code>的这种形式称为寄存器相对寻址，操作数在存储器中的偏移地址为<strong>寄存器的值 + DISP</strong>。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">MOV</span> <span style="color:#66d9ef">AX</span>, [<span style="color:#66d9ef">BX</span>] <span style="color:#960050;background-color:#1e0010">+</span> <span style="color:#ae81ff">02</span><span style="color:#66d9ef">H</span>
 
-<span style="color:#00a000">MOV</span> [<span style="color:#800">BX</span>] <span style="">+</span> <span style="color:#666">02</span><span style="color:#800">H</span>, <span style="color:#800">AX</span>
+<span style="color:#a6e22e">MOV</span> [<span style="color:#66d9ef">BX</span>] <span style="color:#960050;background-color:#1e0010">+</span> <span style="color:#ae81ff">02</span><span style="color:#66d9ef">H</span>, <span style="color:#66d9ef">AX</span>
 
-<span style="color:#00a000">MOV</span> [<span style="color:#800">BP</span>] <span style="">+</span> <span style="color:#666">03</span><span style="color:#800">H</span>, <span style="color:#800">AL</span>
+<span style="color:#a6e22e">MOV</span> [<span style="color:#66d9ef">BP</span>] <span style="color:#960050;background-color:#1e0010">+</span> <span style="color:#ae81ff">03</span><span style="color:#66d9ef">H</span>, <span style="color:#66d9ef">AL</span>
 
-<span style="color:#00a000">MOV</span> <span style="color:#800">AL</span>, [<span style="color:#800">BP</span>] <span style="">+</span> <span style="color:#666">03</span><span style="color:#800">H</span>
-</code></pre></div><h3 id="4基址变址寻址">4.基址变址寻址 <a href="#4%e5%9f%ba%e5%9d%80%e5%8f%98%e5%9d%80%e5%af%bb%e5%9d%80" class="anchor">🔗</a></h3><p>基址变址寻址，包括后面的基址变址且相对寻址，其数据段地址由基址寄存器决定，即<code>BX</code>, <code>SI</code>, <code>DI</code>作为基址寄存器时，数据在<code>DS</code>指定的的数据段中，<code>BP</code>作为基址寄存器时，数据在<code>SS</code>指向的堆栈段。</p>
-<div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#00a000">MOV</span> <span style="color:#800">AX</span>, [<span style="color:#800">BX</span>][<span style="color:#800">SI</span>]
+<span style="color:#a6e22e">MOV</span> <span style="color:#66d9ef">AL</span>, [<span style="color:#66d9ef">BP</span>] <span style="color:#960050;background-color:#1e0010">+</span> <span style="color:#ae81ff">03</span><span style="color:#66d9ef">H</span>
+</code></pre></div><h3 id="4基址变址寻址">4.基址变址寻址</h3>
+<p>基址变址寻址，包括后面的基址变址且相对寻址，其数据段地址由基址寄存器决定，即<code>BX</code>, <code>SI</code>, <code>DI</code>作为基址寄存器时，数据在<code>DS</code>指定的的数据段中，<code>BP</code>作为基址寄存器时，数据在<code>SS</code>指向的堆栈段。</p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">MOV</span> <span style="color:#66d9ef">AX</span>, [<span style="color:#66d9ef">BX</span>][<span style="color:#66d9ef">SI</span>]
 
-<span style="color:#00a000">MOV</span> [<span style="color:#800">BX</span>][<span style="color:#800">SI</span>], <span style="color:#800">AL</span>
-</code></pre></div><h3 id="5基址变址且相对寻址">5.基址变址且相对寻址 <a href="#5%e5%9f%ba%e5%9d%80%e5%8f%98%e5%9d%80%e4%b8%94%e7%9b%b8%e5%af%b9%e5%af%bb%e5%9d%80" class="anchor">🔗</a></h3><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#00a000">MOV</span> <span style="color:#800">AX</span> [<span style="color:#800">BX</span>][<span style="color:#800">SI</span>] <span style="">+</span> <span style="color:#666">12</span><span style="color:#800">H</span>
+<span style="color:#a6e22e">MOV</span> [<span style="color:#66d9ef">BX</span>][<span style="color:#66d9ef">SI</span>], <span style="color:#66d9ef">AL</span>
+</code></pre></div><h3 id="5基址变址且相对寻址">5.基址变址且相对寻址</h3>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-asm" data-lang="asm"><span style="color:#a6e22e">MOV</span> <span style="color:#66d9ef">AX</span> [<span style="color:#66d9ef">BX</span>][<span style="color:#66d9ef">SI</span>] <span style="color:#960050;background-color:#1e0010">+</span> <span style="color:#ae81ff">12</span><span style="color:#66d9ef">H</span>
 
-<span style="color:#00a000">MOV</span> [<span style="color:#800">BX</span>][<span style="color:#800">SI</span>] <span style="">+</span> <span style="color:#666">12</span><span style="color:#800">H</span> <span style="color:#800">AL</span>
-</code></pre></div><h2 id="隐含寻址">隐含寻址 <a href="#%e9%9a%90%e5%90%ab%e5%af%bb%e5%9d%80" class="anchor">🔗</a></h2><p>有些指令无需指明操作数，或者只有一个操作数。这类指是隐含了操作数，这类寻址的方式称为隐含寻址。</p>
+<span style="color:#a6e22e">MOV</span> [<span style="color:#66d9ef">BX</span>][<span style="color:#66d9ef">SI</span>] <span style="color:#960050;background-color:#1e0010">+</span> <span style="color:#ae81ff">12</span><span style="color:#66d9ef">H</span> <span style="color:#66d9ef">AL</span>
+</code></pre></div><h2 id="隐含寻址">隐含寻址</h2>
+<p>有些指令无需指明操作数，或者只有一个操作数。这类指是隐含了操作数，这类寻址的方式称为隐含寻址。</p>
 <p>类似的指令有：<code>CLI</code>, <code>MUL</code>, <code>PUSH</code>。</p>
-<h2 id="8086寄存器概览">8086寄存器概览 <a href="#8086%e5%af%84%e5%ad%98%e5%99%a8%e6%a6%82%e8%a7%88" class="anchor">🔗</a></h2><p><p class="markdown-image">
-  <img src="https://cdn.jsdelivr.net/gh/huobingnan/my_image_hosting@master/8086%e5%af%84%e5%ad%98%e5%99%a8.1wv5519yo7wg.png" alt="8086寄存器"  />
-</p></p>
-<h2 id="8086数据流向图">8086数据流向图 <a href="#8086%e6%95%b0%e6%8d%ae%e6%b5%81%e5%90%91%e5%9b%be" class="anchor">🔗</a></h2><p><p class="markdown-image">
-  <img src="https://cdn.jsdelivr.net/gh/huobingnan/my_image_hosting@master/8086%e6%95%b0%e6%8d%ae%e6%b5%81%e5%90%91.5afys86z22k0.png" alt="8086数据流向"  />
-</p></p>
+<h2 id="8086寄存器概览">8086寄存器概览</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/huobingnan/my_image_hosting@master/8086%E5%AF%84%E5%AD%98%E5%99%A8.1wv5519yo7wg.png" alt="8086寄存器"></p>
+<h2 id="8086数据流向图">8086数据流向图</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/huobingnan/my_image_hosting@master/8086%E6%95%B0%E6%8D%AE%E6%B5%81%E5%90%91.5afys86z22k0.png" alt="8086数据流向"></p>
 
-    </div>
-
-    
-        <div class="tags">
-            
-                <a href="/tags/%E5%BE%AE%E6%9C%BA%E5%8E%9F%E7%90%86">微机原理</a>
-            
-        </div>
-    
-    
-    
-  <div id="comment">
-    
-    
-  </div>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E5%BE%AE%E6%9C%BA%E5%8E%9F%E7%90%86/" rel="tag">微机原理</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
 
 
-</section>
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E5%90%8E%E7%BC%80%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E%E5%9F%BA%E4%BA%8E%E6%A0%88vm/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">后缀表达式与基于栈VM</p>
+		</a>
+	</div>
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/8086%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">8086字符串操作</p>
+		</a>
+	</div>
+</nav>
 
 
-    </main>
-    
-    <footer id="footer">
-    
-
-    <div class="copyright">
-    
-        版权声明：署名-非商业使用-相同方式共享 3.0 国际(BY-NC-SA 3.0)
-    
-    </div>
-
-    
-      <div class="powerby">
-        Powered by <a href='http://www.gohugo.io/'>Hugo</a> Theme By <a href='https://github.com/nodejh/hugo-theme-cactus-plus'>nodejh</a>
-      </div>
-    
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2021 版权声明：署名-非商业使用-相同方式共享 3.0 国际(BY-NC-SA 3.0).
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
 </footer>
-
-
-
-  </body>
+	</div>
+<script async defer src="/js/menu.js"></script>
+<script src="/js/custom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
 </html>

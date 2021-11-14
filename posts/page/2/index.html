@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Posts - Manan&#39;s site</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="Posts" />
+<meta property="og:description" content="马南的个人站点" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="/posts/" />
+
+
+		<meta itemprop="name" content="Posts">
+<meta itemprop="description" content="马南的个人站点">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/custom.css">
+	<link rel="alternate" type="application/rss+xml" href="/posts/index.xml" title="Manan's site">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Manan&#39;s site" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/avatar.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Manan&#39;s site</div>
+					<div class="logo__tagline">computer science &amp; philosophy</div>
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main list" role="main">
+	<header class="main__header">
+		<h1 class="main__title">Posts</h1>
+	</header><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/javathreadpoolexecutor/" rel="bookmark">
+			Java线程池内部原理
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Manan</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2021-09-06T00:00:00Z">2021-09-06</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		概述 ThreadPoolExecutor是Java语言对于线程池的实现。池化技术是一种复用资源，减少开销的技术。线程是操作系统的资源，线程的创建与调度由操作系统负责，线程的创建与调度都要耗费大量的资源，其中线程创建需要占用一定的内存，而线程的调度需要不断的切换线程上下文造成一定的开销。同时线程执行完毕之后就会被操作系统回收，这样在高并发情况下就会造成系统频繁创建线程。
+为此线程池技术为了解决上述问题，使线程在使用完毕后不回收而是重复利用。如果线程能够复用，那么我们就可以使用固定数量的线程来解决并发问题，这样一来不仅节约了系统资源，而且也会减少线程上下文切换的开销。
+参数 ThreadPoolExecutor的构造函数有7个，它们分别是：
+ corePoolSize（int）：线程池的核心线程数量 maximumPoolSize（int）：线程池最大线程数量 keepAliveTime（long）：保持线程存活的时间 unit（TimeUnit）：线程存活时间单位 workQueue（BlockingQueue）：工作队列，用于临时存放提交的任务 threadFactory（ThreadFactory）：线程工厂，用于创建线程 handler（RejectedExecutionHandler）：任务拒绝处理器，当线程池无法再接受新的任务时，会交给它处理  一般情况下，我们只使用前五个参数，剩余两个我们使用默认参数即可。
+任务提交逻辑 其实，线程池创建参数都与线程池的任务提交逻辑密切相关。根据源码描述可以得知：当提交一个新任务时（执行线程池的execute方法）会经过三个步骤的处理。
+ 当任务数量小于corePoolSize时，线程池会创建一个新的线程（创建新线程由传入参数threadFactory完成）来处理任务，哪怕线程池中有空闲线程，依然会选择创建新线程来处理。 当任务数量大于corePoolSize时，线程池会将新任务压入工作队列（参数中传递的workQueue）等待调度。 当新提交的任务无法压入工作队列时，会检查当前任务数量是否大于maximumPoolSize。如果小于maximunPoolSize则会新建线程来处理任务（这时我们的keepAliveTime参数就起作用了，它主要作用于这种情况下创建的线程，如果任务数量减小，这些线程闲置了，那么在超过keepAliveTime时间后就会被回收）。如果大于了maximumPoolSize就会交由任务拒绝处理器handler处理。  线程池状态 正如线程有不同的状态一样，线程池也拥有不同的运行状态。源码中提出，线程池有五种状态，分别为：
+ RUNNING：运行状态，不断接收任务并处理它们。 SHUTDOWN：关闭状态，不接收新任务，但是会处理工作队列中排队的任务。 STOP：停止状态，不接收新任务，清空工作队列且不会处理工作队列的任务。 TIDYING：待终止状态，此状态下，任务队列和线程池都为空。 TERMINATED：终止状态，线程池关闭。  如何让线程不被销毁 文章开头说到，线程在执行完毕之后会被操作系统回收销毁，那么线程池时如何保障线程不被销毁？首先看一个测试用例：
+public static void testThreadState() { Thread thread = new Thread(() -&gt; System.out.println(&#34;Hello world&#34;)); // 创建一个线程  System.out.println(thread.getState()); // 此时线程的状态为NEW  thread.start(); // 启动线程，状态为RUNNING  System.out.println(thread.getState()); try { thread.join(); System.out.println(thread.getState()); // 线程运行结束，状态为TERMINATED  thread.start(); // 此时再启动线程会发生什么呢？  } catch (InterruptedException e) { e.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/javathreadpoolexecutor/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/leetcode12/" rel="bookmark">
+			leetcode12
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Manan</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2021-09-06T00:00:00Z">2021-09-06</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		题目描述 题目链接：https://leetcode-cn.com/problems/integer-to-roman/
+思路 首先罗马数字是一种数字符号表现形式，罗马数字对于数的表示法依然采用了十进制的形式，这一点很重要，尽管会有单独的符号来表示5，50， 500等，但是这些字符仅仅是符号表示的辅助符号。
+数位表示符:
+   个位 十位 百位 千位     I X C M    辅助表示符：
+   个位 十位 百位     V L D    罗马数字表示规则如下：
+  若当前数位上的数字小于4，直接用当前数位表示符表示。
+  若当前数位上的数字等于4, 用当前数位表示符 + 当前数位辅助表示符进行表示。
+  若当前数位上的数字大于等于5， 用当前数位辅助表示符 + 当前数位表示符进行表示。
+  若当前数位上的数字等于9，用当前数位表示符 + 下一数位表示符进行表示。
+  Java AC代码 var stack = new Stack&lt;Character&gt;(); // 1 10 100 1000 var bitSymbol = new char[] {&#39;I&#39;, &#39;X&#39;, &#39;C&#39;, &#39;M&#39;}; // 5 50 500 var assistantBitSymbol = new char[] {&#39;V&#39;, &#39;L&#39;, &#39;D&#39;}; var bit = 0; for(;;) { var bitNumber = num % 10; var symbol = bitSymbol[bit]; if (bitNumber &lt; 4) { for (int i = 0; i &lt; bitNumber; ++i) { stack.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/leetcode12/">Read more…</a>
+	</div>
+</article>
+</main>
+
+<div class="pagination">
+	<a class="pagination__item pagination__item--prev btn" href="/posts/">«</a>
+	<span class="pagination__item pagination__item--current">2/2</span>
+</div>
+
+			</div>
+			
+<aside class="sidebar"><div class="widget-search widget">
+	<form class="widget-search__form" role="search" method="get" action="https://google.com/search">
+		<label>
+			<input class="widget-search__field" type="search" placeholder="SEARCH…" value="" name="q" aria-label="SEARCH…">
+		</label>
+		<input class="widget-search__submit" type="submit" value="Search">
+		<input type="hidden" name="sitesearch" value="/" />
+	</form>
+</div>
+<div class="widget-recent widget">
+	<h4 class="widget__title">Recent Posts</h4>
+	<div class="widget__content">
+		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/swing%E7%B1%BB%E5%BA%93%E6%B1%87%E6%80%BB/">Java Swing类库汇总</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%B0%86java%E7%BC%96%E8%AF%91%E4%B8%BA%E6%9C%AC%E5%9C%B0%E4%BB%A3%E7%A0%81/">将Java编译为本地代码</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/">哈夫曼树与哈夫曼编码</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/8086%E5%AD%97%E7%AC%A6%E4%B8%B2%E6%93%8D%E4%BD%9C/">8086字符串操作</a></li>
+			<li class="widget__item"><a class="widget__link" href="/posts/8086%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F/">8086寻址方式</a></li>
+		</ul>
+	</div>
+</div>
+<div class="widget-taglist widget">
+	<h4 class="widget__title">Tags</h4>
+	<div class="widget__content">
+		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="Java">Java (4)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/leetcode/" title="leetcode">leetcode (3)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BE%AE%E6%9C%BA%E5%8E%9F%E7%90%86/" title="微机原理">微机原理 (2)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="数据结构">数据结构 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" title="杂七杂八">杂七杂八 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%AE%97%E6%B3%95/" title="算法">算法 (5)</a>
+	</div>
+</div>
+</aside>
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2021 版权声明：署名-非商业使用-相同方式共享 3.0 国际(BY-NC-SA 3.0).
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+<script src="/js/custom.js"></script></body>
+</html>

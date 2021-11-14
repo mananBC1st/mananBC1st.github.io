@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>杂七杂八 on manan&#39;s blog 🍷</title>
+    <title>杂七杂八 on Manan&#39;s site</title>
     <link>/tags/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/</link>
-    <description>Recent content in 杂七杂八 on manan&#39;s blog 🍷</description>
+    <description>Recent content in 杂七杂八 on Manan&#39;s site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Sun, 19 Sep 2021 16:02:13 +0800</lastBuildDate><atom:link href="/tags/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/index.xml" rel="self" type="application/rss+xml" />
@@ -13,7 +13,18 @@
       <pubDate>Sun, 19 Sep 2021 16:02:13 +0800</pubDate>
       
       <guid>/posts/%E5%90%8E%E7%BC%80%E8%A1%A8%E8%BE%BE%E5%BC%8F%E4%B8%8E%E5%9F%BA%E4%BA%8E%E6%A0%88vm/</guid>
-      <description>后缀表达式 🔗算术运算表达式有三种形式，分别为“中缀表达式”，“后缀表达式”和“前缀表达式”。 中缀表达式是让数据结合在算符的两侧，例如a * (b +</description>
+      <description>后缀表达式 算术运算表达式有三种形式，分别为“中缀表达式”，“后缀表达式”和“前缀表达式”。
+中缀表达式是让数据结合在算符的两侧，例如a * (b + c) - d。这种表达式也是我们使用最多，最符合人类思考方式的算术运算表达形式。
+前缀表达式与后缀表达式类似，后缀表达式是将算符置于数据之后，例如a b c + * d -。前缀表达式是将运算符置于数据之前，例如+ * a b c - d。
+最常使用的中缀表达式可以通过一定的算法转换为后缀或者前缀表达式。
+通过观察不难发现，后缀表达式在计算时是有序的，所谓有序就是我们只需遍历整个表达式就能得到表达式的结果，无需考虑运算符之间的优先级顺序（中缀表达式显然需要考虑算符之间的优先级顺序，而后缀表达式是已经按照运算符顺序进行排好序的表达式序列）。
+后缀表达式的计算  算法准备    后缀表达式
+  数据栈
+   算法阐述    遍历后缀表达式字符串
+  如果字符串是数字，转换为数字并压入数据栈
+  如果是支持的算符，根据算符的数据结合性（一元算符结合一个数据，二元算符结合两个数据，不考虑算符的左结合和右结合）从栈中弹出指定数量的数据
+  将弹出的数据按照算符计算规则进行计算，并重新压入栈
+   Java代码实现  ArrayDeque&amp;lt;Double&amp;gt; operatorNumberStack = new ArrayDeque&amp;lt;&amp;gt;(); for (String token : tokenStream) { if (isSupportedOperator(token.charAt(0))) { double a, b = 0.</description>
     </item>
     
   </channel>

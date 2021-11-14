@@ -1,114 +1,103 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
-  <head>
-    <title>leetcode12 | manan&#39;s blog 🍷</title>
-
-    <meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">    
-<meta name="viewport" content="width=device-width,minimum-scale=1">
-<meta name="description" content="题目描述 🔗题目链接：https://leetcode-cn.com/problems/integer-to-roman/ 思路 🔗首先罗马数字是">
-<meta name="generator" content="Hugo 0.89.0-DEV" />
-
-
-  <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
-
-
-<link rel="stylesheet" href="/css/style.css">
-
-
-
-<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
-
- 
-    
-
-
-
-  
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.css" integrity="sha384-RZU/ijkSsFbcmivfdRBQDtwuwVqK7GMOw6IMvKyeWL2K5UAlyp6WonmB8m7Jd0Hn" crossorigin="anonymous">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/katex.min.js" integrity="sha384-pK1WpvzWVBQiP0/GjnvRxV4mOb0oxFuyRxJlk6vVw146n3egcN5C925NCP7a7BY8" crossorigin="anonymous"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.13/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
-    onload="renderMathInElement(document.body);"></script>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>leetcode12 - Manan&#39;s site</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="leetcode12" />
+<meta property="og:description" content="题目描述 题目链接：https://leetcode-cn.com/problems/integer-to-roman/
+思路 首先罗马数字是一种数字符号表现形式，罗马数字对于数的表示法依然采用了十进制的形式，这一点很重要，尽管会有单独的符号来表示5，50， 500等，但是这些字符仅仅是符号表示的辅助符号。
+数位表示符:
+   个位 十位 百位 千位     I X C M    辅助表示符：
+   个位 十位 百位     V L D    罗马数字表示规则如下：
+  若当前数位上的数字小于4，直接用当前数位表示符表示。
+  若当前数位上的数字等于4, 用当前数位表示符 &#43; 当前数位辅助表示符进行表示。
+  若当前数位上的数字大于等于5， 用当前数位辅助表示符 &#43; 当前数位表示符进行表示。
+  若当前数位上的数字等于9，用当前数位表示符 &#43; 下一数位表示符进行表示。
+  Java AC代码 var stack = new Stack&lt;Character&gt;(); // 1 10 100 1000 var bitSymbol = new char[] {&#39;I&#39;, &#39;X&#39;, &#39;C&#39;, &#39;M&#39;}; // 5 50 500 var assistantBitSymbol = new char[] {&#39;V&#39;, &#39;L&#39;, &#39;D&#39;}; var bit = 0; for(;;) { var bitNumber = num % 10; var symbol = bitSymbol[bit]; if (bitNumber &lt; 4) { for (int i = 0; i &lt; bitNumber; &#43;&#43;i) { stack." />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/leetcode12/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-09-06T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-09-06T00:00:00+00:00" />
 
 
+		<meta itemprop="name" content="leetcode12">
+<meta itemprop="description" content="题目描述 题目链接：https://leetcode-cn.com/problems/integer-to-roman/
+思路 首先罗马数字是一种数字符号表现形式，罗马数字对于数的表示法依然采用了十进制的形式，这一点很重要，尽管会有单独的符号来表示5，50， 500等，但是这些字符仅仅是符号表示的辅助符号。
+数位表示符:
+   个位 十位 百位 千位     I X C M    辅助表示符：
+   个位 十位 百位     V L D    罗马数字表示规则如下：
+  若当前数位上的数字小于4，直接用当前数位表示符表示。
+  若当前数位上的数字等于4, 用当前数位表示符 &#43; 当前数位辅助表示符进行表示。
+  若当前数位上的数字大于等于5， 用当前数位辅助表示符 &#43; 当前数位表示符进行表示。
+  若当前数位上的数字等于9，用当前数位表示符 &#43; 下一数位表示符进行表示。
+  Java AC代码 var stack = new Stack&lt;Character&gt;(); // 1 10 100 1000 var bitSymbol = new char[] {&#39;I&#39;, &#39;X&#39;, &#39;C&#39;, &#39;M&#39;}; // 5 50 500 var assistantBitSymbol = new char[] {&#39;V&#39;, &#39;L&#39;, &#39;D&#39;}; var bit = 0; for(;;) { var bitNumber = num % 10; var symbol = bitSymbol[bit]; if (bitNumber &lt; 4) { for (int i = 0; i &lt; bitNumber; &#43;&#43;i) { stack."><meta itemprop="datePublished" content="2021-09-06T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-09-06T00:00:00+00:00" />
+<meta itemprop="wordCount" content="167">
+<meta itemprop="keywords" content="leetcode," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
 
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/custom.css">
 
-  </head>
-
-  <body>
-    <nav class="navigation">
-	
-		<a href="/"> <span class="arrow">←</span>首页</a>
-	
-	<a href="/posts">归档</a>
-	<a href="/tags">标签</a>
-	<a href="/about">关于</a>
-
-	
-		<a href="https://www.zhihu.com/people/manan333">知乎</a>
-	
-		<a href="https://space.bilibili.com/199622112">B站</a>
-	
-
-	
-	  <a class="button" href="/index.xml">订阅</a>
-	
-</nav>
-
-
-    <main class="main">
-      
-
-<section id="single">
-    <h1 class="title">leetcode12</h1>
-
-    <div class="tip">
-        <time datetime="2021-09-06 00:00:00 &#43;0000 UTC">2021年09月06日</time>
-        <span class="split">
-          ·
-        </span>
-        <span>
-          469字
-        </span>
-        <span class="split">
-          ·
-        </span>
-        <span>
-          1分钟
-        </span>
-    </div>
-
-    
-    
-        
-  
-    <aside class="toc">
-      <details>
-          <summary>Table of Contents
-          </summary>
-          <div>
-              <nav id="TableOfContents">
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Manan&#39;s site" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/avatar.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Manan&#39;s site</div>
+					<div class="logo__tagline">computer science &amp; philosophy</div>
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">leetcode12</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Manan</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2021-09-06T00:00:00Z">2021-09-06</time></div></div>
+		</header>
+		
+<div class="post__toc toc">
+	<div class="toc__title">Page content</div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
   <ul>
     <li><a href="#题目描述">题目描述</a></li>
     <li><a href="#思路">思路</a></li>
     <li><a href="#java-ac代码">Java AC代码</a></li>
   </ul>
 </nav>
-          </div>
-      </details>
-    </aside>
-  
-
-
-    
-
-
-    <div class="content">
-      <h2 id="题目描述">题目描述 <a href="#%e9%a2%98%e7%9b%ae%e6%8f%8f%e8%bf%b0" class="anchor">🔗</a></h2><p><p class="markdown-image">
-  <img src="https://cdn.jsdelivr.net/gh/huobingnan/my_image_hosting@master/%e6%95%b4%e6%95%b0%e8%bd%ac%e7%bd%97%e9%a9%ac%e6%95%b0%e5%ad%97LC.3hc13n2x83k0.png" alt="整数转罗马数字LC"  />
-</p></p>
-<p>题目链接：<a href="https://leetcode-cn.com/problems/integer-to-roman/" target="_blank" rel="noopener">https://leetcode-cn.com/problems/integer-to-roman/</a></p>
-<h2 id="思路">思路 <a href="#%e6%80%9d%e8%b7%af" class="anchor">🔗</a></h2><p>首先罗马数字是一种数字符号表现形式，罗马数字对于数的表示法依然采用了十进制的形式，这一点很重要，尽管会有单独的符号来表示5，50， 500等，但是这些字符仅仅是符号表示的辅助符号。</p>
+	</div>
+</div><div class="content post__content clearfix">
+			<h2 id="题目描述">题目描述</h2>
+<p><img src="https://cdn.jsdelivr.net/gh/huobingnan/my_image_hosting@master/%E6%95%B4%E6%95%B0%E8%BD%AC%E7%BD%97%E9%A9%AC%E6%95%B0%E5%AD%97LC.3hc13n2x83k0.png" alt="整数转罗马数字LC"></p>
+<p>题目链接：<a href="https://leetcode-cn.com/problems/integer-to-roman/">https://leetcode-cn.com/problems/integer-to-roman/</a></p>
+<h2 id="思路">思路</h2>
+<p>首先罗马数字是一种数字符号表现形式，罗马数字对于数的表示法依然采用了十进制的形式，这一点很重要，尽管会有单独的符号来表示5，50， 500等，但是这些字符仅仅是符号表示的辅助符号。</p>
 <p>数位表示符:</p>
 <table>
 <thead>
@@ -160,81 +149,84 @@
 <p>若<strong>当前数位上的数字</strong>等于9，用当前数位表示符 + 下一数位表示符进行表示。</p>
 </li>
 </ol>
-<h2 id="java-ac代码">Java AC代码 <a href="#java-ac%e4%bb%a3%e7%a0%81" class="anchor">🔗</a></h2><div class="highlight"><pre tabindex="0" style="background-color:#f8f8f8;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">var stack <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> Stack<span style="color:#666">&lt;</span>Character<span style="color:#666">&gt;();</span>
-<span style="color:#080;font-style:italic">// 1 10 100 1000
-</span><span style="color:#080;font-style:italic"></span>var bitSymbol <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> <span style="color:#0b0;font-weight:bold">char</span><span style="color:#666">[]</span> <span style="color:#666">{</span><span style="color:#b44">&#39;I&#39;</span><span style="color:#666">,</span> <span style="color:#b44">&#39;X&#39;</span><span style="color:#666">,</span> <span style="color:#b44">&#39;C&#39;</span><span style="color:#666">,</span> <span style="color:#b44">&#39;M&#39;</span><span style="color:#666">};</span>
-<span style="color:#080;font-style:italic">// 5 50 500
-</span><span style="color:#080;font-style:italic"></span>var assistantBitSymbol <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> <span style="color:#0b0;font-weight:bold">char</span><span style="color:#666">[]</span> <span style="color:#666">{</span><span style="color:#b44">&#39;V&#39;</span><span style="color:#666">,</span> <span style="color:#b44">&#39;L&#39;</span><span style="color:#666">,</span> <span style="color:#b44">&#39;D&#39;</span><span style="color:#666">};</span>
+<h2 id="java-ac代码">Java AC代码</h2>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-java" data-lang="java">var stack <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> Stack<span style="color:#f92672">&lt;</span>Character<span style="color:#f92672">&gt;();</span>
+<span style="color:#75715e">// 1 10 100 1000
+</span><span style="color:#75715e"></span>var bitSymbol <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">[]</span> <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;I&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;X&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;C&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;M&#39;</span><span style="color:#f92672">};</span>
+<span style="color:#75715e">// 5 50 500
+</span><span style="color:#75715e"></span>var assistantBitSymbol <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> <span style="color:#66d9ef">char</span><span style="color:#f92672">[]</span> <span style="color:#f92672">{</span><span style="color:#e6db74">&#39;V&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;L&#39;</span><span style="color:#f92672">,</span> <span style="color:#e6db74">&#39;D&#39;</span><span style="color:#f92672">};</span>
 
-var bit <span style="color:#666">=</span> 0<span style="color:#666">;</span>
-<span style="color:#a2f;font-weight:bold">for</span><span style="color:#666">(;;)</span> <span style="color:#666">{</span>
-    var bitNumber <span style="color:#666">=</span> num <span style="color:#666">%</span> 10<span style="color:#666">;</span>
-    var symbol <span style="color:#666">=</span> bitSymbol<span style="color:#666">[</span>bit<span style="color:#666">];</span>
+var bit <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span>
+<span style="color:#66d9ef">for</span><span style="color:#f92672">(;;)</span> <span style="color:#f92672">{</span>
+    var bitNumber <span style="color:#f92672">=</span> num <span style="color:#f92672">%</span> 10<span style="color:#f92672">;</span>
+    var symbol <span style="color:#f92672">=</span> bitSymbol<span style="color:#f92672">[</span>bit<span style="color:#f92672">];</span>
 
-    <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>bitNumber <span style="color:#666">&lt;</span> 4<span style="color:#666">)</span> <span style="color:#666">{</span>
-        <span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> 0<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> bitNumber<span style="color:#666">;</span> <span style="color:#666">++</span>i<span style="color:#666">)</span> <span style="color:#666">{</span> stack<span style="color:#666">.</span><span style="color:#b44">push</span><span style="color:#666">(</span>symbol<span style="color:#666">);</span> <span style="color:#666">}</span>
-    <span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>bitNumber <span style="color:#666">==</span> 4<span style="color:#666">)</span> <span style="color:#666">{</span>
-        stack<span style="color:#666">.</span><span style="color:#b44">push</span><span style="color:#666">(</span>assistantBitSymbol<span style="color:#666">[</span>bit<span style="color:#666">]);</span>
-        stack<span style="color:#666">.</span><span style="color:#b44">push</span><span style="color:#666">(</span>symbol<span style="color:#666">);</span>
-    <span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>bitNumber <span style="color:#666">&lt;</span> 9<span style="color:#666">)</span> <span style="color:#666">{</span>
-        <span style="color:#a2f;font-weight:bold">for</span> <span style="color:#666">(</span><span style="color:#0b0;font-weight:bold">int</span> i <span style="color:#666">=</span> 0<span style="color:#666">;</span> i <span style="color:#666">&lt;</span> bitNumber <span style="color:#666">-</span> 5<span style="color:#666">;</span> <span style="color:#666">++</span>i<span style="color:#666">)</span> <span style="color:#666">{</span>
-            stack<span style="color:#666">.</span><span style="color:#b44">push</span><span style="color:#666">(</span>symbol<span style="color:#666">);</span>
-        <span style="color:#666">}</span>
-        stack<span style="color:#666">.</span><span style="color:#b44">push</span><span style="color:#666">(</span>assistantBitSymbol<span style="color:#666">[</span>bit<span style="color:#666">]);</span>
-    <span style="color:#666">}</span> <span style="color:#a2f;font-weight:bold">else</span> <span style="color:#666">{</span>
-        stack<span style="color:#666">.</span><span style="color:#b44">push</span><span style="color:#666">(</span>bitSymbol<span style="color:#666">[</span>bit <span style="color:#666">+</span> 1<span style="color:#666">]);</span>
-        stack<span style="color:#666">.</span><span style="color:#b44">push</span><span style="color:#666">(</span>symbol<span style="color:#666">);</span>
-    <span style="color:#666">}</span>
-    bit<span style="color:#666">++;</span>
-    <span style="color:#a2f;font-weight:bold">if</span> <span style="color:#666">(</span>num <span style="color:#666">/</span> 10 <span style="color:#666">!=</span> 0<span style="color:#666">)</span> <span style="color:#666">{</span>
-        num <span style="color:#666">/=</span> 10<span style="color:#666">;</span>
-    <span style="color:#666">}</span><span style="color:#a2f;font-weight:bold">else</span> <span style="color:#666">{</span>
-        <span style="color:#a2f;font-weight:bold">break</span><span style="color:#666">;</span>
-    <span style="color:#666">}</span>
-<span style="color:#666">}</span>
-var stringBuilder <span style="color:#666">=</span> <span style="color:#a2f;font-weight:bold">new</span> StringBuilder<span style="color:#666">();</span>
-<span style="color:#a2f;font-weight:bold">while</span> <span style="color:#666">(!</span>stack<span style="color:#666">.</span><span style="color:#b44">isEmpty</span><span style="color:#666">())</span> <span style="color:#666">{</span> stringBuilder<span style="color:#666">.</span><span style="color:#b44">append</span><span style="color:#666">(</span>stack<span style="color:#666">.</span><span style="color:#b44">pop</span><span style="color:#666">());</span> <span style="color:#666">}</span>
-<span style="color:#a2f;font-weight:bold">return</span> stringBuilder<span style="color:#666">.</span><span style="color:#b44">toString</span><span style="color:#666">();</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>bitNumber <span style="color:#f92672">&lt;</span> 4<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> bitNumber<span style="color:#f92672">;</span> <span style="color:#f92672">++</span>i<span style="color:#f92672">)</span> <span style="color:#f92672">{</span> stack<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>symbol<span style="color:#f92672">);</span> <span style="color:#f92672">}</span>
+    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>bitNumber <span style="color:#f92672">==</span> 4<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        stack<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>assistantBitSymbol<span style="color:#f92672">[</span>bit<span style="color:#f92672">]);</span>
+        stack<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>symbol<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>bitNumber <span style="color:#f92672">&lt;</span> 9<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">for</span> <span style="color:#f92672">(</span><span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> 0<span style="color:#f92672">;</span> i <span style="color:#f92672">&lt;</span> bitNumber <span style="color:#f92672">-</span> 5<span style="color:#f92672">;</span> <span style="color:#f92672">++</span>i<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+            stack<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>symbol<span style="color:#f92672">);</span>
+        <span style="color:#f92672">}</span>
+        stack<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>assistantBitSymbol<span style="color:#f92672">[</span>bit<span style="color:#f92672">]);</span>
+    <span style="color:#f92672">}</span> <span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+        stack<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>bitSymbol<span style="color:#f92672">[</span>bit <span style="color:#f92672">+</span> 1<span style="color:#f92672">]);</span>
+        stack<span style="color:#f92672">.</span><span style="color:#a6e22e">push</span><span style="color:#f92672">(</span>symbol<span style="color:#f92672">);</span>
+    <span style="color:#f92672">}</span>
+    bit<span style="color:#f92672">++;</span>
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">(</span>num <span style="color:#f92672">/</span> 10 <span style="color:#f92672">!=</span> 0<span style="color:#f92672">)</span> <span style="color:#f92672">{</span>
+        num <span style="color:#f92672">/=</span> 10<span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span><span style="color:#66d9ef">else</span> <span style="color:#f92672">{</span>
+        <span style="color:#66d9ef">break</span><span style="color:#f92672">;</span>
+    <span style="color:#f92672">}</span>
+<span style="color:#f92672">}</span>
+var stringBuilder <span style="color:#f92672">=</span> <span style="color:#66d9ef">new</span> StringBuilder<span style="color:#f92672">();</span>
+<span style="color:#66d9ef">while</span> <span style="color:#f92672">(!</span>stack<span style="color:#f92672">.</span><span style="color:#a6e22e">isEmpty</span><span style="color:#f92672">())</span> <span style="color:#f92672">{</span> stringBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">append</span><span style="color:#f92672">(</span>stack<span style="color:#f92672">.</span><span style="color:#a6e22e">pop</span><span style="color:#f92672">());</span> <span style="color:#f92672">}</span>
+<span style="color:#66d9ef">return</span> stringBuilder<span style="color:#f92672">.</span><span style="color:#a6e22e">toString</span><span style="color:#f92672">();</span>
 </code></pre></div>
-    </div>
-
-    
-        <div class="tags">
-            
-                <a href="/tags/leetcode">leetcode</a>
-            
-        </div>
-    
-    
-    
-  <div id="comment">
-    
-    
-  </div>
-
-
-</section>
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/leetcode/" rel="tag">leetcode</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
 
 
-    </main>
-    
-    <footer id="footer">
-    
+<nav class="pager flex">
+	<div class="pager__item pager__item--next">
+		<a class="pager__link" href="/posts/javathreadpoolexecutor/" rel="next">
+			<span class="pager__subtitle">Next&thinsp;»</span>
+			<p class="pager__title">Java线程池内部原理</p>
+		</a>
+	</div>
+</nav>
 
-    <div class="copyright">
-    
-        版权声明：署名-非商业使用-相同方式共享 3.0 国际(BY-NC-SA 3.0)
-    
-    </div>
 
-    
-      <div class="powerby">
-        Powered by <a href='http://www.gohugo.io/'>Hugo</a> Theme By <a href='https://github.com/nodejh/hugo-theme-cactus-plus'>nodejh</a>
-      </div>
-    
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2021 版权声明：署名-非商业使用-相同方式共享 3.0 国际(BY-NC-SA 3.0).
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
 </footer>
-
-
-
-  </body>
+	</div>
+<script async defer src="/js/menu.js"></script>
+<script src="/js/custom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
 </html>

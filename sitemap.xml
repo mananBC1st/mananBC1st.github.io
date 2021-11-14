@@ -5,7 +5,7 @@
     <loc>/tags/java/</loc>
     <lastmod>2021-11-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/java-swing%E7%B1%BB%E5%BA%93%E6%B1%87%E6%80%BB/</loc>
+    <loc>/posts/swing%E7%B1%BB%E5%BA%93%E6%B1%87%E6%80%BB/</loc>
     <lastmod>2021-11-13T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/</loc>
@@ -20,7 +20,7 @@
     <loc>/posts/%E5%B0%86java%E7%BC%96%E8%AF%91%E4%B8%BA%E6%9C%AC%E5%9C%B0%E4%BB%A3%E7%A0%81/</loc>
     <lastmod>2021-11-13T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/%E5%93%88%E5%A4%AB%E6%9B%BC%E6%A0%91%E4%B8%8E%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/</loc>
+    <loc>/posts/%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/</loc>
     <lastmod>2021-10-31T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/</loc>
@@ -47,19 +47,19 @@
     <loc>/tags/leetcode/</loc>
     <lastmod>2021-09-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/leetcode18%E5%8F%8A%E5%85%B3%E4%BA%8E%E7%AE%97%E6%B3%95%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E7%B4%A2/</loc>
+    <loc>/posts/leetcode18/</loc>
     <lastmod>2021-09-10T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/%E7%BB%84%E5%90%88%E7%AE%97%E6%B3%95java%E5%AE%9E%E7%8E%B0/</loc>
+    <loc>/posts/%E9%80%9A%E7%94%A8%E7%BB%84%E5%90%88%E7%AE%97%E6%B3%95java%E5%AE%9E%E7%8E%B0/</loc>
     <lastmod>2021-09-07T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/posts/leetcode15/</loc>
     <lastmod>2021-09-06T19:47:21+08:00</lastmod>
   </url><url>
-    <loc>/posts/java-volatile%E5%85%B3%E9%94%AE%E5%AD%97%E4%BD%9C%E7%94%A8/</loc>
+    <loc>/posts/javavolatile/</loc>
     <lastmod>2021-09-06T00:00:00+00:00</lastmod>
   </url><url>
-    <loc>/posts/java%E7%BA%BF%E7%A8%8B%E6%B1%A0%E5%86%85%E9%83%A8%E5%8E%9F%E7%90%86/</loc>
+    <loc>/posts/javathreadpoolexecutor/</loc>
     <lastmod>2021-09-06T00:00:00+00:00</lastmod>
   </url><url>
     <loc>/posts/leetcode12/</loc>

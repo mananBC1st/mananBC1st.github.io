@@ -1,19 +1,30 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>leetcode on manan&#39;s blog 🍷</title>
+    <title>leetcode on Manan&#39;s site</title>
     <link>/tags/leetcode/</link>
-    <description>Recent content in leetcode on manan&#39;s blog 🍷</description>
+    <description>Recent content in leetcode on Manan&#39;s site</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>zh-cn</language>
     <lastBuildDate>Fri, 10 Sep 2021 00:00:00 +0000</lastBuildDate><atom:link href="/tags/leetcode/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Leetcode18及关于算法的一些思索</title>
-      <link>/posts/leetcode18%E5%8F%8A%E5%85%B3%E4%BA%8E%E7%AE%97%E6%B3%95%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E7%B4%A2/</link>
+      <link>/posts/leetcode18/</link>
       <pubDate>Fri, 10 Sep 2021 00:00:00 +0000</pubDate>
       
-      <guid>/posts/leetcode18%E5%8F%8A%E5%85%B3%E4%BA%8E%E7%AE%97%E6%B3%95%E7%9A%84%E4%B8%80%E4%BA%9B%E6%80%9D%E7%B4%A2/</guid>
-      <description>题目描述 🔗给你一个由n个整数组成的数组nums，和一个目标值target。请你找出并返回满足下述全部条件且不重复的四元组[nums[a], nums[b],</description>
+      <guid>/posts/leetcode18/</guid>
+      <description>题目描述 给你一个由n个整数组成的数组nums，和一个目标值target。请你找出并返回满足下述全部条件且不重复的四元组[nums[a], nums[b], nums[c], nums[d]]:
+  0 &amp;lt;= a, b, c, d &amp;lt;= n
+  a, b, c, d互不相同
+  nums[a] + nums[b] + nums[c] + nums[d] == target
+  你可以按 任意顺序 返回答案。
+题目链接：https://leetcode-cn.com/problems/4sum/
+思路分析 本题与leetcode15题三数之和十分相似，对于三数之和问题，我也在之前的文章中进行了叙述https://mananbc1st.github.io/posts/leetcode15/，其主体算法思想为排序+贪心的策略（三指针求解）。
+那么对于四数之和可以看作是三数之和问题的推广，理解了其求解的方式，你可以写出N数之和的算法。
+如何从已知的三数之和问题为条件去求解四数之和乃至N数之和的问题呢？
+主要思想还是讲问题分解为可以求解的子问题，也就是问题归约法
+具体的实现逻辑为：递归 + 回溯。
+Java AC代码 private final List&amp;lt;List&amp;lt;Integer&amp;gt;&amp;gt; res = new ArrayList&amp;lt;&amp;gt;(); private void doSearchOpt(int[] nums, int start, int target, List&amp;lt;Integer&amp;gt; container) { if (container.size() == 1) { // 只要将问题递归至三数之和问题，就达到了算法的递归基  // 因为三数之和问题有解  for (int i = start; i &amp;lt; nums.</description>
     </item>
     
     <item>
@@ -22,7 +33,17 @@
       <pubDate>Mon, 06 Sep 2021 19:47:21 +0800</pubDate>
       
       <guid>/posts/leetcode15/</guid>
-      <description>题目描述 🔗给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有和为 0 且不重复的三元组 注意</description>
+      <description>题目描述 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有和为 0 且不重复的三元组
+注意：答案中不可以包含重复的三元组
+题目链接：https://leetcode-cn.com/problems/3sum/
+思路阐述 显然此题可以通过暴力求解的方式，使用三个循环依次遍历数组求解。
+暴力的方式不是最优的方式，更为简单直观的方式是：排序 + 三指针。
+题目给出的数组是无序的，无序数组的可操作性比较低，因为元素的随机排列使得算法求解失去目的性。在求解之前需要对无序的数组进行排序，然后采用固定一个指针，剩下的两个指针需要根据当前的结果选择贪心的策略进行移动。
+首先最外层循环变量front是我们需要固定下来的指针。一旦front固定下来，只需考虑front之后的子序列。
+在子序列中，一个指针定义为mid位于子序列的最开头，另一个指针定义为rear位于子序列的最末尾。mid指针需要位于rear指针的左侧。因为整个序列有序，所以子序列也有序（假设序列递增）
+所以由当前三个指针front, mid和rear便可以确定序列中的三个数的组合。
+ $ nums[front] + nums[mid] + nums[rear] == 0 $ $ nums[front] + nums[mid] + nums[rear] &amp;lt; 0 $ $ nums[front] + nums[mid] + nums[rear] &amp;gt; 0 $  case 1: 符合题目要求的情况 case 2: 需要将mid指针向后移动（序列递增）找到一个更大的数。 case 3: 需要将rear指针向前移（序列递增）找一个更小的数。
+题目要求，不可以出现重复的元组组合，所以需要进行去重操作。</description>
     </item>
     
     <item>
@@ -31,7 +52,16 @@
       <pubDate>Mon, 06 Sep 2021 00:00:00 +0000</pubDate>
       
       <guid>/posts/leetcode12/</guid>
-      <description>题目描述 🔗题目链接：https://leetcode-cn.com/problems/integer-to-roman/ 思路 🔗首先罗马数字是</description>
+      <description>题目描述 题目链接：https://leetcode-cn.com/problems/integer-to-roman/
+思路 首先罗马数字是一种数字符号表现形式，罗马数字对于数的表示法依然采用了十进制的形式，这一点很重要，尽管会有单独的符号来表示5，50， 500等，但是这些字符仅仅是符号表示的辅助符号。
+数位表示符:
+   个位 十位 百位 千位     I X C M    辅助表示符：
+   个位 十位 百位     V L D    罗马数字表示规则如下：
+  若当前数位上的数字小于4，直接用当前数位表示符表示。
+  若当前数位上的数字等于4, 用当前数位表示符 + 当前数位辅助表示符进行表示。
+  若当前数位上的数字大于等于5， 用当前数位辅助表示符 + 当前数位表示符进行表示。
+  若当前数位上的数字等于9，用当前数位表示符 + 下一数位表示符进行表示。
+  Java AC代码 var stack = new Stack&amp;lt;Character&amp;gt;(); // 1 10 100 1000 var bitSymbol = new char[] {&amp;#39;I&amp;#39;, &amp;#39;X&amp;#39;, &amp;#39;C&amp;#39;, &amp;#39;M&amp;#39;}; // 5 50 500 var assistantBitSymbol = new char[] {&amp;#39;V&amp;#39;, &amp;#39;L&amp;#39;, &amp;#39;D&amp;#39;}; var bit = 0; for(;;) { var bitNumber = num % 10; var symbol = bitSymbol[bit]; if (bitNumber &amp;lt; 4) { for (int i = 0; i &amp;lt; bitNumber; ++i) { stack.</description>
     </item>
     
   </channel>
