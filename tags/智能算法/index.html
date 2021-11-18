@@ -4,16 +4,16 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Categories - Manan&#39;s site</title>
+	<title>智能算法 - Manan&#39;s site</title>
 	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
 	<meta name="description" content="">
-		<meta property="og:title" content="Categories" />
+		<meta property="og:title" content="智能算法" />
 <meta property="og:description" content="马南的个人站点" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="/categories/" />
+<meta property="og:url" content="/tags/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%95/" />
 
 
-		<meta itemprop="name" content="Categories">
+		<meta itemprop="name" content="智能算法">
 <meta itemprop="description" content="马南的个人站点">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link rel="dns-prefetch" href="//fonts.googleapis.com">
@@ -22,7 +22,7 @@
 
 	<link rel="stylesheet" href="/css/style.css">
 	<link rel="stylesheet" href="/css/custom.css">
-	<link rel="alternate" type="application/rss+xml" href="/categories/index.xml" title="Manan's site">
+	<link rel="alternate" type="application/rss+xml" href="/tags/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%95/index.xml" title="Manan's site">
 
 	<link rel="shortcut icon" href="/favicon.ico">
 		
@@ -50,8 +50,32 @@
 			
 <main class="main list" role="main">
 	<header class="main__header">
-		<h1 class="main__title">Categories</h1>
+		<h1 class="main__title">智能算法</h1>
+	</header><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
+			<a href="/posts/%E5%8D%9A%E5%BC%88%E6%A0%91%E7%9A%84%E5%90%AF%E5%8F%91%E5%BC%8F%E6%90%9C%E7%B4%A2/" rel="bookmark">
+			博弈树的启发式搜索
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Manan</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2021-11-15T00:00:00Z">2021-11-15</time></div></div>
 	</header>
+	<div class="content list__excerpt post__content clearfix">
+		概述 博弈树是一种基于与或图的启发式搜索算法。博弈主要分为两类，一是机遇性博弈，还有就是完备性博弈。机遇性博弈中参与博弈的玩家之间信息是不完备的，并且博弈中事件的发生具有概率性，日常中大部分的博弈都是机遇性博弈。完备性博弈是指参与博弈的玩家之间都掌握着博弈对手的完整信息，基于已掌握的信息对博弈进程进行推演。完备性博弈是一种理想的博弈，通常出现在棋牌类的游戏中。
+对于一种博弈的游戏，参与者可能会有多个。基于与或图的博弈树启发式搜索只能应用于双人完备信息博弈。这种搜索算法也称为Max-Min搜索（极大极小搜索）。
+与或图也称为与或树，是一种特殊的树结构。与或树是多叉树，每个节点的类型要么是与节点，要么是或节点。通常可以将与或树应用于问题求解上，对于一个问题可以将其归约为许多子问题的求解。这样的一个问题归约的过程就可以用与或树进行表示。其中原命题为与或树的跟节点，分解出的子命题为与或树的孩子节点。如果分解出子命题中一个命题有解就可以导致原命题有解，就把原命题所在节点命名为或节点，反之若需要所有子命题都有解才能导致原命题有解，那么这个节点就是与节点。
+极大极小搜索 双人完备信息博弈中，假设博弈一方是MAX，另一方是MIN。对于MAX来说自己可选的行动方案都是或的关系，因为主动权掌握在MAX手中。而对手MIN所作出的所有决策在MAX看来都是与的关系，因为当主动权掌握在MIN手中后，MAX不得不考虑到MIN所有可能的决策结果，这样MAX才能作出对于自己最有利的决策。
+基于如上的假设与考量结合双人完备信息博弈游戏的特点，可以总结出博弈树有如下特征：
+  博弈过程必须有立场，要么站在MAX的立场上，要么站在MIN的立场上。
+  博弈树中与节点与或节点是逐层交替出现的，其中根节点是或极点。或节点代表MAX所面临的博弈状态（MIN决策之后的博弈状态），与节点代表MIN所面临的博弈状态（MAX决策之后的博弈状态）。
+  
+	</div>
+</article>
 </main>
 
 
