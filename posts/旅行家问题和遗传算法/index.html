@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>旅行家问题和遗传算法 - Manan&#39;s site</title>
+	<script>(function(d,e){d[e]=d[e].replace("no-js","js");})(document.documentElement,"className");</script>
+	<meta name="description" content="">
+		<meta property="og:title" content="旅行家问题和遗传算法" />
+<meta property="og:description" content="旅行家问题 旅行家问题（Travelling salesman problem 以下简称TSP）是一个NP难题，其内容为给定一系列城市，每个城市只访问一遍，然后回到起点城市，在所有可能的路径中长度求解最短的一条。
+可以看出旅行家问题是组合问题与最短路径问题的结合，最短路径问题的求解算法有很多，常规的有“迪杰斯特拉算法”和“弗洛伊德算法“。但这些算法都无法完美的应用于旅行家问题，针对此问题较为有效的算法有”遗传算法“、”粒子群算法“、”蚁群算法“这类智能群算法。
+本文将用”遗传算法”来求解旅行家问题。
+遗传算法 遗传算法的发展 1965年，Holland首次提出了人工遗传操作的重要性，并把这些应用于自然系统和人工系统中。
+1967年，Bagley在他的论文中首次提出了遗传算法这一 术语，并讨论了遗传算法在自动博弈中的应用。
+1970年，Cavicchio把遗传算法应用于模式识别中。第 一个把遗传算法应用于函数优化的是Hollstien。
+1975年是遗传算法研究的历史上十分重要的一年。这一 年，Holland出版了他的著名专著《自然系统和人工系 统的适应性》该书系统地阐述了遗传算法的基本理论和 方法，并提出了对遗传算法的理论研究和发展极为重要 的模式理论(schemata theory)，该理论首次确认了 结构重组遗传操作对于获得隐并行性的重要性。
+遗传算法的基本思想 遗传算法的基本思想是将问题的解编码为染色体，这是十分重要的环节，在算法中便是一个按照特定方式编码的串。
+将问题的解编码之后，按照自然进化论的观点，生成一定数目的个体（染色体），然后按照自然选择，染色体交叉，染色体变异的流程不断地繁衍迭代。
+种群经过不断地繁衍发展，最终最适应环境的一些个体会保留下来，这些最适应环境地个体也将是在遗传算法背景下待求解问题的最优解。
+遗传算法的要素 通过上述对遗传算法的思想的阐述，可以得知遗传算法包含许多要素，其中最重要的便是染色体即问题的解。
+ 染色体：编码之后的问题的解 种群：一定数目个体（染色体）组成的集合 自然选择算子：对种群中适应度较高的个体筛选的算法 染色体交叉算子：染色体之间进行交叉的方式 染色体变异算子：染色体变异的方式 PM：代表种群中染色体变异的概率 PC：代表种群中染色体之间交叉的概率 N：种群的规模，在不断迭代中种群的规模一般保持不变  在用遗传算法求解问题时，这些要是都是必备的。但是针对于不同的问题要素的表现形式有所不同。例如染色体的编码方式就有二进制编码和真值编码两类，对于不同的问题要选择合适的要素形式。
+遗传算法对TSP的建模 染色体编码方式 针对TSP的描述，需要先将城市编号，如1, 2, ... n。TSP的解途径各个城市的顺序也就是路径可以表示为：1 -&gt; 3 -&gt; ... n，因此可以采用真值编码的方式对路径进行编码。
+染色体表示为：1.3.2.5.6.4其中.为分隔符。
+除此之外也可以选择二进制编码，将城市编号转变为特定长度的二进制数字。这种编码方式在染色体交叉和变异中会比较方便，但是针对于问题规模，编码的长度需要改变，同时染色体交叉过程中容易产生不合理的解（交叉过程中产生了一个不存在的城市编号）。
+染色体交叉算子定义 交叉算子多种多样，分别适用于不同的问题。其中常见的算子有：
+ Partial Mapped Crossover （PMC） Order Crossover （OX) Position Based Crossover（PBC） Order Based Crossover （OBX） Cycle Crossover（CX） Subtour Exchange Crossover  除此之外，还有针对于TSP优化的交叉算子”贪心交叉算子“等等，本文采用Order Crossover作为交叉算子。" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="/posts/%E6%97%85%E8%A1%8C%E5%AE%B6%E9%97%AE%E9%A2%98%E5%92%8C%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/" /><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-12-04T00:00:00+00:00" />
+<meta property="article:modified_time" content="2021-12-04T00:00:00+00:00" />
+
+
+		<meta itemprop="name" content="旅行家问题和遗传算法">
+<meta itemprop="description" content="旅行家问题 旅行家问题（Travelling salesman problem 以下简称TSP）是一个NP难题，其内容为给定一系列城市，每个城市只访问一遍，然后回到起点城市，在所有可能的路径中长度求解最短的一条。
+可以看出旅行家问题是组合问题与最短路径问题的结合，最短路径问题的求解算法有很多，常规的有“迪杰斯特拉算法”和“弗洛伊德算法“。但这些算法都无法完美的应用于旅行家问题，针对此问题较为有效的算法有”遗传算法“、”粒子群算法“、”蚁群算法“这类智能群算法。
+本文将用”遗传算法”来求解旅行家问题。
+遗传算法 遗传算法的发展 1965年，Holland首次提出了人工遗传操作的重要性，并把这些应用于自然系统和人工系统中。
+1967年，Bagley在他的论文中首次提出了遗传算法这一 术语，并讨论了遗传算法在自动博弈中的应用。
+1970年，Cavicchio把遗传算法应用于模式识别中。第 一个把遗传算法应用于函数优化的是Hollstien。
+1975年是遗传算法研究的历史上十分重要的一年。这一 年，Holland出版了他的著名专著《自然系统和人工系 统的适应性》该书系统地阐述了遗传算法的基本理论和 方法，并提出了对遗传算法的理论研究和发展极为重要 的模式理论(schemata theory)，该理论首次确认了 结构重组遗传操作对于获得隐并行性的重要性。
+遗传算法的基本思想 遗传算法的基本思想是将问题的解编码为染色体，这是十分重要的环节，在算法中便是一个按照特定方式编码的串。
+将问题的解编码之后，按照自然进化论的观点，生成一定数目的个体（染色体），然后按照自然选择，染色体交叉，染色体变异的流程不断地繁衍迭代。
+种群经过不断地繁衍发展，最终最适应环境的一些个体会保留下来，这些最适应环境地个体也将是在遗传算法背景下待求解问题的最优解。
+遗传算法的要素 通过上述对遗传算法的思想的阐述，可以得知遗传算法包含许多要素，其中最重要的便是染色体即问题的解。
+ 染色体：编码之后的问题的解 种群：一定数目个体（染色体）组成的集合 自然选择算子：对种群中适应度较高的个体筛选的算法 染色体交叉算子：染色体之间进行交叉的方式 染色体变异算子：染色体变异的方式 PM：代表种群中染色体变异的概率 PC：代表种群中染色体之间交叉的概率 N：种群的规模，在不断迭代中种群的规模一般保持不变  在用遗传算法求解问题时，这些要是都是必备的。但是针对于不同的问题要素的表现形式有所不同。例如染色体的编码方式就有二进制编码和真值编码两类，对于不同的问题要选择合适的要素形式。
+遗传算法对TSP的建模 染色体编码方式 针对TSP的描述，需要先将城市编号，如1, 2, ... n。TSP的解途径各个城市的顺序也就是路径可以表示为：1 -&gt; 3 -&gt; ... n，因此可以采用真值编码的方式对路径进行编码。
+染色体表示为：1.3.2.5.6.4其中.为分隔符。
+除此之外也可以选择二进制编码，将城市编号转变为特定长度的二进制数字。这种编码方式在染色体交叉和变异中会比较方便，但是针对于问题规模，编码的长度需要改变，同时染色体交叉过程中容易产生不合理的解（交叉过程中产生了一个不存在的城市编号）。
+染色体交叉算子定义 交叉算子多种多样，分别适用于不同的问题。其中常见的算子有：
+ Partial Mapped Crossover （PMC） Order Crossover （OX) Position Based Crossover（PBC） Order Based Crossover （OBX） Cycle Crossover（CX） Subtour Exchange Crossover  除此之外，还有针对于TSP优化的交叉算子”贪心交叉算子“等等，本文采用Order Crossover作为交叉算子。"><meta itemprop="datePublished" content="2021-12-04T00:00:00+00:00" />
+<meta itemprop="dateModified" content="2021-12-04T00:00:00+00:00" />
+<meta itemprop="wordCount" content="90">
+<meta itemprop="keywords" content="智能算法," />
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link rel="dns-prefetch" href="//fonts.googleapis.com">
+	<link rel="dns-prefetch" href="//fonts.gstatic.com">
+	<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700">
+
+	<link rel="stylesheet" href="/css/style.css">
+	<link rel="stylesheet" href="/css/custom.css">
+
+	<link rel="shortcut icon" href="/favicon.ico">
+		
+</head>
+<body class="body">
+	<div class="container container--outer">
+		<header class="header">
+	<div class="container header__container">
+		
+	<div class="logo logo--mixed">
+		<a class="logo__link" href="/" title="Manan&#39;s site" rel="home">
+			<div class="logo__item logo__imagebox">
+					<img class="logo__img" src="/images/avatar.png">
+				</div><div class="logo__item logo__text">
+					<div class="logo__title">Manan&#39;s site</div>
+					<div class="logo__tagline">computer science &amp; philosophy</div>
+				</div>
+		</a>
+	</div>
+		<div class="divider"></div>
+	</div>
+</header>
+		<div class="wrapper flex">
+			<div class="primary">
+			
+<main class="main" role="main">
+	<article class="post">
+		<header class="post__header">
+			<h1 class="post__title">旅行家问题和遗传算法</h1>
+			<div class="post__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Manan</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2021-12-04T00:00:00Z">2021-12-04</time></div></div>
+		</header>
+		
+<div class="post__toc toc">
+	<div class="toc__title">Page content</div>
+	<div class="toc__menu">
+		<nav id="TableOfContents">
+  <ul>
+    <li><a href="#旅行家问题">旅行家问题</a></li>
+    <li><a href="#遗传算法">遗传算法</a>
+      <ul>
+        <li><a href="#遗传算法的发展">遗传算法的发展</a></li>
+        <li><a href="#遗传算法的基本思想">遗传算法的基本思想</a></li>
+        <li><a href="#遗传算法的要素">遗传算法的要素</a></li>
+      </ul>
+    </li>
+    <li><a href="#遗传算法对tsp的建模">遗传算法对TSP的建模</a>
+      <ul>
+        <li><a href="#染色体编码方式">染色体编码方式</a></li>
+        <li><a href="#染色体交叉算子定义">染色体交叉算子定义</a></li>
+        <li><a href="#染色体变异算子定义">染色体变异算子定义</a></li>
+        <li><a href="#选择算子定义">选择算子定义</a></li>
+        <li><a href="#结果展示与总结">结果展示与总结</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+	</div>
+</div><div class="content post__content clearfix">
+			<h2 id="旅行家问题">旅行家问题</h2>
+<p>旅行家问题（Travelling salesman problem 以下简称TSP）是一个NP难题，其内容为给定一系列城市，每个城市只访问一遍，然后回到起点城市，在所有可能的路径中长度求解最短的一条。</p>
+<p>可以看出旅行家问题是组合问题与最短路径问题的结合，最短路径问题的求解算法有很多，常规的有“迪杰斯特拉算法”和“弗洛伊德算法“。但这些算法都无法完美的应用于旅行家问题，针对此问题较为有效的算法有”遗传算法“、”粒子群算法“、”蚁群算法“这类智能群算法。</p>
+<p>本文将用”遗传算法”来求解旅行家问题。</p>
+<h2 id="遗传算法">遗传算法</h2>
+<h3 id="遗传算法的发展">遗传算法的发展</h3>
+<p>1965年，Holland首次提出了人工遗传操作的重要性，并把这些应用于自然系统和人工系统中。</p>
+<p>1967年，Bagley在他的论文中首次提出了遗传算法这一 术语，并讨论了遗传算法在自动博弈中的应用。</p>
+<p>1970年，Cavicchio把遗传算法应用于模式识别中。第 一个把遗传算法应用于函数优化的是Hollstien。</p>
+<p>1975年是遗传算法研究的历史上十分重要的一年。这一 年，Holland出版了他的著名专著《自然系统和人工系 统的适应性》该书系统地阐述了遗传算法的基本理论和 方法，并提出了对遗传算法的理论研究和发展极为重要 的模式理论(schemata theory)，该理论首次确认了 结构重组遗传操作对于获得隐并行性的重要性。</p>
+<h3 id="遗传算法的基本思想">遗传算法的基本思想</h3>
+<p>遗传算法的基本思想是将问题的解编码为染色体，这是十分重要的环节，在算法中便是一个按照特定方式编码的串。</p>
+<p>将问题的解编码之后，按照自然进化论的观点，生成一定数目的个体（染色体），然后按照自然选择，染色体交叉，染色体变异的流程不断地繁衍迭代。</p>
+<p>种群经过不断地繁衍发展，最终最适应环境的一些个体会保留下来，这些最适应环境地个体也将是在遗传算法背景下待求解问题的最优解。</p>
+<p><img src="https://cdn.jsdelivr.net/gh/huobingnan/my_image_hosting@master/%E7%AE%80%E5%8D%95%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95%E7%A8%8B%E5%BA%8F%E6%A1%86%E5%9B%BE.309t8m7xoum0.png" alt="简单遗传算法程序框图"></p>
+<h3 id="遗传算法的要素">遗传算法的要素</h3>
+<p>通过上述对遗传算法的思想的阐述，可以得知遗传算法包含许多要素，其中最重要的便是染色体即问题的解。</p>
+<ol>
+<li><strong>染色体</strong>：编码之后的问题的解</li>
+<li><strong>种群</strong>：一定数目个体（染色体）组成的集合</li>
+<li><strong>自然选择算子</strong>：对种群中适应度较高的个体筛选的算法</li>
+<li><strong>染色体交叉算子</strong>：染色体之间进行交叉的方式</li>
+<li><strong>染色体变异算子</strong>：染色体变异的方式</li>
+<li><strong>PM</strong>：代表种群中染色体变异的概率</li>
+<li><strong>PC</strong>：代表种群中染色体之间交叉的概率</li>
+<li><strong>N</strong>：种群的规模，在不断迭代中种群的规模一般保持不变</li>
+</ol>
+<p>在用遗传算法求解问题时，这些要是都是必备的。但是针对于不同的问题要素的表现形式有所不同。例如染色体的编码方式就有<strong>二进制编码</strong>和<strong>真值编码</strong>两类，对于不同的问题要选择合适的要素形式。</p>
+<h2 id="遗传算法对tsp的建模">遗传算法对TSP的建模</h2>
+<h3 id="染色体编码方式">染色体编码方式</h3>
+<p>针对TSP的描述，需要先将城市编号，如<code>1, 2, ... n</code>。TSP的解途径各个城市的顺序也就是路径可以表示为：<code>1 -&gt; 3  -&gt; ... n</code>，因此可以采用<strong>真值编码</strong>的方式对路径进行编码。</p>
+<p>染色体表示为：<code>1.3.2.5.6.4</code>其中<code>.</code>为分隔符。</p>
+<p>除此之外也可以选择二进制编码，将城市编号转变为特定长度的二进制数字。这种编码方式在染色体交叉和变异中会比较方便，但是针对于问题规模，编码的长度需要改变，同时染色体交叉过程中容易产生不合理的解（交叉过程中产生了一个不存在的城市编号）。</p>
+<h3 id="染色体交叉算子定义">染色体交叉算子定义</h3>
+<p>交叉算子多种多样，分别适用于不同的问题。其中常见的算子有：</p>
+<ol>
+<li>Partial Mapped Crossover （PMC）</li>
+<li>Order Crossover （OX)</li>
+<li>Position Based Crossover（PBC）</li>
+<li>Order Based Crossover （OBX）</li>
+<li>Cycle Crossover（CX）</li>
+<li>Subtour Exchange Crossover</li>
+</ol>
+<p>除此之外，还有针对于TSP优化的交叉算子”贪心交叉算子“等等，本文采用Order Crossover作为交叉算子。</p>
+<p>Order Crossover是一种顺序交叉的算子，其大致思路为：</p>
+<ul>
+<li>从父代1中选取一段基因</li>
+<li>作为子代1的基因（位置与父代对应）</li>
+<li>将子代1在父代2中的基因片段剔除</li>
+<li>剩余的基因按位置先后顺序移动至子代1的基因片段中</li>
+<li>子代2的生成算法与子代1相同</li>
+</ul>
+<p><img src="https://cdn.jsdelivr.net/gh/huobingnan/my_image_hosting@master/%E6%97%85%E8%A1%8C%E5%95%86%E9%97%AE%E9%97%AE%E9%A2%98-Order-Crossover.tc8megiok4w.png" alt="旅行商问问题-Order-Crossover"></p>
+<h3 id="染色体变异算子定义">染色体变异算子定义</h3>
+<p>本文中染色体变异算子采用特定点交换的算法，在一条染色体中随机选择两个位点，然后将这两个位点的基因进行交换。</p>
+<h3 id="选择算子定义">选择算子定义</h3>
+<p>选择算子在求解中也十分重要，目前常用的选择算子有“轮盘赌算法”，“锦标赛算法”，“最优保存策略算法”，“确定式采样算法”等。</p>
+<p>本文所用的算子为“最优保存策略算法”，其思路十分简洁，只选取特定个数的最优个体保存至下一代种群，保存下来的个体会按照概率进行染色体的交叉和变异。</p>
+<p>这种选择算子在设计上十分简洁，且在效果上容易达到收敛，但是这种算子容易陷入局部最优解。</p>
+<h3 id="结果展示与总结">结果展示与总结</h3>
+<p><img src="https://cdn.jsdelivr.net/gh/huobingnan/my_image_hosting@master/%E6%97%85%E8%A1%8C%E5%95%86%E9%97%AE%E9%A2%98-%E7%BB%93%E6%9E%9C%E5%B1%95%E7%A4%BA1.32hqllw6whg.png" alt="旅行商问题-结果展示1"></p>
+<p><img src="https://cdn.jsdelivr.net/gh/huobingnan/my_image_hosting@master/%E6%97%85%E8%A1%8C%E5%AE%B6%E9%97%AE%E9%A2%98-%E7%BB%93%E6%9E%9C%E5%B1%95%E7%A4%BA2.41fg1mnqms60.png" alt="旅行家问题-结果展示2"></p>
+<p>最终在对于31个城市规模下的旅行商问题求解中，种群规模N设置为120，变异概率PM设置为0.10， 交叉概率PC设置为0.75，迭代次数设置为300。遗传算法结果最终缀收敛到<strong>16917</strong>，与该问题规模下的最优解<strong>15377</strong>还有一定差距。</p>
+<p>从每一代最优解的变化图中可以看出，算法最终在170代左右趋于收敛。在采用最优保存策略算法作为选择算子的情况下，问题容易较快收敛而达不到最优的解。但在不断地实验中，可以看出问题不会发散，即问题的解总是趋于收敛的。</p>
+<p>除了算子的选择之外，还需考虑在给定算子搭配使用的情况下，如何确定种群规模，变异概率，交叉概率等参数也十分关键。</p>
+
+		</div>
+		<footer class="post__footer">
+			
+<div class="post__tags tags clearfix">
+	<svg class="tags__badge icon icon-tag" width="16" height="16" viewBox="0 0 32 32"><path d="M32 19c0 1-1 2-1 2L21 31s-1 1-2 1-2-1-2-1L2 16c-1-1-1.4-2-1.4-2S0 12.5 0 11V3C0 1.5.8.8.8.8S1.5 0 3 0h8c1.5 0 3 .6 3 .6S15 1 16 2l15 15s1 1 1 2zM7 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/></svg>
+	<ul class="tags__list">
+		<li class="tags__item">
+			<a class="tags__link btn" href="/tags/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%95/" rel="tag">智能算法</a>
+		</li>
+	</ul>
+</div>
+		</footer>
+	</article>
+</main>
+
+
+<nav class="pager flex">
+	<div class="pager__item pager__item--prev">
+		<a class="pager__link" href="/posts/%E5%8D%9A%E5%BC%88%E6%A0%91%E7%9A%84%E5%90%AF%E5%8F%91%E5%BC%8F%E6%90%9C%E7%B4%A2/" rel="prev">
+			<span class="pager__subtitle">«&thinsp;Previous</span>
+			<p class="pager__title">博弈树的启发式搜索</p>
+		</a>
+	</div>
+</nav>
+
+
+			</div>
+			
+		</div>
+		<footer class="footer">
+	<div class="container footer__container flex">
+		
+		<div class="footer__copyright">
+			&copy; 2021 版权声明：署名-非商业使用-相同方式共享 3.0 国际(BY-NC-SA 3.0).
+			<span class="footer__copyright-credits">Generated with <a href="https://gohugo.io/" rel="nofollow noopener" target="_blank">Hugo</a> and <a href="https://github.com/Vimux/Mainroad/" rel="nofollow noopener" target="_blank">Mainroad</a> theme.</span>
+		</div>
+	</div>
+</footer>
+	</div>
+<script async defer src="/js/menu.js"></script>
+<script src="/js/custom.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.6/MathJax.js?config=TeX-AMS-MML_HTMLorMML" async></script>
+</body>
+</html>

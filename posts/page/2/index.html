@@ -55,6 +55,29 @@
 	
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/%E9%80%9A%E7%94%A8%E7%BB%84%E5%90%88%E7%AE%97%E6%B3%95java%E5%AE%9E%E7%8E%B0/" rel="bookmark">
+			组合算法(Java实现)
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Manan</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2021-09-07T00:00:00Z">2021-09-07</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		组合算法 排列组合是一个重要的数学概念，组合通常用来枚举从一个集合中选择特定个数元素的所有结果。
+实现与思路阐述 实现方式：递归 + 回溯法。
+时间复杂度: O(n ^ x)，其中x代表选择元素的个数。
+import java.util.ArrayList; import java.util.List; public final class CombinationAlgorithm&lt;ElementType&gt; { private final List&lt;List&lt;ElementType&gt;&gt; res = new ArrayList&lt;&gt;(); private void doSelect(List&lt;ElementType&gt; collection, int start, int selectionNumber, List&lt;ElementType&gt; container) { if (selectionNumber == 0) { res.add(new ArrayList&lt;&gt;(container)); return; } for (int i = start, len = collection.size(); i &lt; len; ++i) { container.add(collection.get(i)); doSelect(collection, i + 1, selectionNumber - 1, container); // 回溯  container.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/%E9%80%9A%E7%94%A8%E7%BB%84%E5%90%88%E7%AE%97%E6%B3%95java%E5%AE%9E%E7%8E%B0/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/leetcode15/" rel="bookmark">
 			Leetcode15
 			</a>
@@ -187,11 +210,11 @@ public static void testThreadState() { Thread thread = new Thread(() -&gt; Syste
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/%E6%97%85%E8%A1%8C%E5%AE%B6%E9%97%AE%E9%A2%98%E5%92%8C%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/">旅行家问题和遗传算法</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%8D%9A%E5%BC%88%E6%A0%91%E7%9A%84%E5%90%AF%E5%8F%91%E5%BC%8F%E6%90%9C%E7%B4%A2/">博弈树的启发式搜索</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/javascript-zx%E7%94%A8js%E5%86%99shell%E8%84%9A%E6%9C%AC/">JavaScript ZX——用JS写Shell脚本</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/swing%E7%B1%BB%E5%BA%93%E6%B1%87%E6%80%BB/">Java Swing类库汇总</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%B0%86java%E7%BC%96%E8%AF%91%E4%B8%BA%E6%9C%AC%E5%9C%B0%E4%BB%A3%E7%A0%81/">将Java编译为本地代码</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/%E5%93%88%E5%A4%AB%E6%9B%BC%E7%BC%96%E7%A0%81/">哈夫曼树与哈夫曼编码</a></li>
 		</ul>
 	</div>
 </div>
@@ -203,7 +226,7 @@ public static void testThreadState() { Thread thread = new Thread(() -&gt; Syste
 		<a class="widget-taglist__link widget__link btn" href="/tags/leetcode/" title="leetcode">leetcode (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BE%AE%E6%9C%BA%E5%8E%9F%E7%90%86/" title="微机原理">微机原理 (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="数据结构">数据结构 (1)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%95/" title="智能算法">智能算法 (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%99%BA%E8%83%BD%E7%AE%97%E6%B3%95/" title="智能算法">智能算法 (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%9D%82%E4%B8%83%E6%9D%82%E5%85%AB/" title="杂七杂八">杂七杂八 (1)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E7%AE%97%E6%B3%95/" title="算法">算法 (5)</a>
 	</div>
