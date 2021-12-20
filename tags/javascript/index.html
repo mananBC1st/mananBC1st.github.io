@@ -55,6 +55,33 @@
 	
 	<header class="list__header">
 		<h2 class="list__title post__title">
+			<a href="/posts/javascript%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%B5%85%E6%8B%B7%E8%B4%9D%E4%B8%8E%E6%B7%B1%E6%8B%B7%E8%B4%9D/" rel="bookmark">
+			JavaScript对象的浅拷贝与深拷贝
+			</a>
+		</h2>
+		<div class="list__meta meta"><div class="meta__item-author meta__item">
+	<svg class="meta__icon icon icon-author" width="16" height="16" viewBox="0 0 12 16"><path d="M6 1c2.2 0 3.5 2 3.5 4.5C9.5 7 8.9 8.2 8 9c2.9.8 4 2.5 4 5v1H0v-1c0-2.5 1.1-4.2 4-5-.9-.8-1.5-2-1.5-3.5C2.5 3 3.8 1 6 1z"/></svg><span class="meta__text">Manan</span>
+</div>
+<div class="meta__item-datetime meta__item">
+	<svg class="meta__icon icon icon-time" width="16" height="14" viewBox="0 0 30 28"><path d="M15 0C7 0 1 6 1 14s6 14 14 14 14-6 14-14S23 0 15 0zm0 25C9 25 4 20 4 14S9 3 15 3s11 5 11 11-5 11-11 11zm1-18h-2v8.4l6.8 4.4L22 18l-6-3.8V7z"/></svg><time class="meta__text" datetime="2021-12-12T00:00:00Z">2021-12-12</time></div></div>
+	</header>
+	<div class="content list__excerpt post__content clearfix">
+		概述 在JavaScript中对象的类型可以分为值类型和引用类型两种，值类型有：number，string，boolean，null，undefined，symbol等。引用类型有：object，function等。
+JavaScript的对象为引用类型，所以对象变量作为右值赋值的操作实际上是引用的拷贝操作，即两个变量引用同一块内存区域。值类型的变量在作为右值赋值给一个左值变量时是对内存区域的拷贝。由此也就引出了JavaScript中对象的拷贝问题。
+浅拷贝是指只拷贝对象中值类型变量，引用类型的变量依然采用引用拷贝。深拷贝是讲变量所有的内容重新拷贝一份到新的内存区域中，无论是值类型还是引用类型。
+浅拷贝 JavaScript对象的浅拷贝实现有多种方式，常用的有
+ 迭代对象 Object.assign 对象展开  1. 迭代对象 function shadowCopy(src) { const dst = new src.constructor(); for (const [prop, val] of Object.entries(src)) { dst[prop] = val; } return dst; } 这里采用构造函数去实例化对象，而不是采用对象字面量{}来创建的原因是保留对象的原型链信息。
+2. Object.assign function shadowCopy(src) { const dst = new src.constructor(); return Object.assign(dst, src); } 3. 对象展开 function shadowCopy(src) { return { ...src }; } 深拷贝 在有浅拷贝作为前置知识的情况下，深拷贝很容易实现。
+深拷贝主要要解决问题时完成对对象中引用类型属性的复制，当属性为值类型时，直接执行对象的浅拷贝，当遇到一个引用类型的属性时，可以递归按照之前设计的对象浅拷贝逻辑进行。
+function doDeepCopy(src, dst) { for (const [prop, val] of Object.
+	</div>
+	<div class="list__footer clearfix">
+		<a class="list__footer-readmore btn" href="/posts/javascript%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%B5%85%E6%8B%B7%E8%B4%9D%E4%B8%8E%E6%B7%B1%E6%8B%B7%E8%B4%9D/">Read more…</a>
+	</div>
+</article><article class="list__item post">
+	
+	<header class="list__header">
+		<h2 class="list__title post__title">
 			<a href="/posts/javascript-zx%E7%94%A8js%E5%86%99shell%E8%84%9A%E6%9C%AC/" rel="bookmark">
 			JavaScript ZX——用JS写Shell脚本
 			</a>
@@ -103,11 +130,11 @@ $`git pull`.pipe(streamVar) Demo：自动提交当前代码
 	<h4 class="widget__title">Recent Posts</h4>
 	<div class="widget__content">
 		<ul class="widget__list">
+			<li class="widget__item"><a class="widget__link" href="/posts/javascript%E5%AF%B9%E8%B1%A1%E7%9A%84%E6%B5%85%E6%8B%B7%E8%B4%9D%E4%B8%8E%E6%B7%B1%E6%8B%B7%E8%B4%9D/">JavaScript对象的浅拷贝与深拷贝</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E6%97%85%E8%A1%8C%E5%AE%B6%E9%97%AE%E9%A2%98%E5%92%8C%E9%81%97%E4%BC%A0%E7%AE%97%E6%B3%95/">旅行家问题和遗传算法</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/%E5%8D%9A%E5%BC%88%E6%A0%91%E7%9A%84%E5%90%AF%E5%8F%91%E5%BC%8F%E6%90%9C%E7%B4%A2/">博弈树的启发式搜索</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/javascript-zx%E7%94%A8js%E5%86%99shell%E8%84%9A%E6%9C%AC/">JavaScript ZX——用JS写Shell脚本</a></li>
 			<li class="widget__item"><a class="widget__link" href="/posts/swing%E7%B1%BB%E5%BA%93%E6%B1%87%E6%80%BB/">Java Swing类库汇总</a></li>
-			<li class="widget__item"><a class="widget__link" href="/posts/%E5%B0%86java%E7%BC%96%E8%AF%91%E4%B8%BA%E6%9C%AC%E5%9C%B0%E4%BB%A3%E7%A0%81/">将Java编译为本地代码</a></li>
 		</ul>
 	</div>
 </div>
@@ -115,7 +142,7 @@ $`git pull`.pipe(streamVar) Demo：自动提交当前代码
 	<h4 class="widget__title">Tags</h4>
 	<div class="widget__content">
 		<a class="widget-taglist__link widget__link btn" href="/tags/java/" title="Java">Java (4)</a>
-		<a class="widget-taglist__link widget__link btn" href="/tags/javascript/" title="JavaScript">JavaScript (1)</a>
+		<a class="widget-taglist__link widget__link btn" href="/tags/javascript/" title="JavaScript">JavaScript (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/leetcode/" title="leetcode">leetcode (3)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E5%BE%AE%E6%9C%BA%E5%8E%9F%E7%90%86/" title="微机原理">微机原理 (2)</a>
 		<a class="widget-taglist__link widget__link btn" href="/tags/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/" title="数据结构">数据结构 (1)</a>
